@@ -11,7 +11,7 @@ function Feed() {
 				<Flex flexDirection={"column"} alignItems={"center"}>
 					<Avatar size='md' name='Mark Zuckerberg' src='/zuck-avatar.png' />
 					<Box w='1px' h={"full"} bg='gray.light' my={2}></Box>
-					<Box position={"relative"} w={"full"}>
+					<Box position={"relative"} w={"full"} cursor={'pointer'}>
 						<Avatar
 							size='xs'
 							name='John doe'
