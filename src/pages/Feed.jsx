@@ -5,13 +5,17 @@ import StoryFeed from '../components/StoryFeed';
 import { Avatar, Box, Flex,  Menu, MenuButton, MenuItem, MenuList, Portal, Text, VStack ,Image} from '@chakra-ui/react';
 function Feed() {
   const [liked,setliked] =useState(false)
+
+ 
   return (<>
 	<StoryFeed/>
     <Flex gap={3} mb={4} py={5}>
 				<Flex flexDirection={"column"} alignItems={"center"}>
 					<Avatar size='md' name='Mark Zuckerberg' src='/zuck-avatar.png' />
 					<Box w='1px' h={"full"} bg='gray.light' my={2}></Box>
-					<Box position={"relative"} w={"full"} cursor={'pointer'}>
+					<Box position={"relative"} w={"full"} cursor={'pointer'
+
+					}>
 						<Avatar
 							size='xs'
 							name='John doe'

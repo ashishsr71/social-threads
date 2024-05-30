@@ -2,13 +2,13 @@ import { Box, HStack, VStack, Avatar, Text,Icon } from '@chakra-ui/react';
 import { FaPlus } from 'react-icons/fa';
 export default function StoryFeed(){
       const stories = [
-            { name: 'Alice', src: 'https://via.placeholder.com/150' },
-            { name: 'Bob', src: 'https://via.placeholder.com/150' },
-            { name: 'Charlie', src: 'https://via.placeholder.com/150' },
-            { name: 'Dave', src: 'https://via.placeholder.com/150' },
-            { name: 'Eve', src: 'https://via.placeholder.com/150' },
-            { name: 'Eve', src: 'https://via.placeholder.com/150' },
-            { name: 'Eve', src: 'https://via.placeholder.com/150' },
+            { name: 'Alice', src: 'https://via.placeholder.com/150' ,stori:[{src:''}]},
+            { name: 'Bob', src: 'https://via.placeholder.com/150',stori:[{src:''}] },
+            { name: 'Charlie', src: 'https://via.placeholder.com/150',stori:[{src:''}] },
+            { name: 'Dave', src: 'https://via.placeholder.com/150' ,stori:[{src:''}]},
+            { name: 'Eve', src: 'https://via.placeholder.com/150',stori:[{src:''}] },
+            { name: 'Eve', src: 'https://via.placeholder.com/150' ,stori:[{src:''}]},
+            { name: 'Eve', src: 'https://via.placeholder.com/150' ,stori:[{src:''}]},
           ];
           function handleAddStory(){}
       return (
@@ -33,14 +33,14 @@ export default function StoryFeed(){
           <Text>Add Story</Text>
         </VStack>
               {stories.map((story, index) => (
-                <VStack key={index}>
+                <VStack key={index} >
                      <Box
               borderRadius="full"
               border="2px solid"
               borderColor="pink.500"
               p="2px"
             >
-              <Avatar size="xl" src={story.src} />
+              <Avatar size="xl" src={story.src} onClick={()=>{console.log("hii")}} />
             </Box>
                   <Text>{story.name}</Text>
                 </VStack>
