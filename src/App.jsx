@@ -1,7 +1,4 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import { Button } from '@chakra-ui/button'
+
 import { createBrowserRouter,createRoutesFromElements,Route,RouterProvider } from 'react-router-dom'
 import Feed from './pages/Feed'
 import Login from './pages/Login';
@@ -11,7 +8,10 @@ import { Container } from '@chakra-ui/react'
 import Userpage from './pages/userpage'
 import Postpage from './pages/Postpage'
 import Header from './components/Header'
+import Upload from './pages/Upload'
 
+
+// component starts here
 function App() {
  const router= createBrowserRouter((createRoutesFromElements(
   <Route path='/' element={<Navbar/>}>
@@ -20,6 +20,7 @@ function App() {
   <Route path='/login' element={<Login/>}/>
   <Route path='/:username' element={<Userpage/>}/>
   <Route path='/:username/post/:id' element={<Postpage/>}/>
+  <Route path='/upload' element={<Upload/>}/>
  </Route>)))
 
   return (

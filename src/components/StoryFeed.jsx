@@ -1,6 +1,20 @@
 import { Box, HStack, VStack, Avatar, Text,Icon } from '@chakra-ui/react';
+
+
+
 import { FaPlus } from 'react-icons/fa';
+import Edit from './Edit';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+
+
+
+
+// component starts here
 export default function StoryFeed(){
+  const [isOpen,setModal] =useState(false);
+  const storie= useSelector(state=>state.story.stories);
+  console.log(storie);
       const stories = [
             { name: 'Alice', src: 'https://via.placeholder.com/150' ,stori:[{src:''}]},
             { name: 'Bob', src: 'https://via.placeholder.com/150',stori:[{src:''}] },
@@ -10,8 +24,12 @@ export default function StoryFeed(){
             { name: 'Eve', src: 'https://via.placeholder.com/150' ,stori:[{src:''}]},
             { name: 'Eve', src: 'https://via.placeholder.com/150' ,stori:[{src:''}]},
           ];
-          function handleAddStory(){}
+          function handleAddStory(){
+            setModal(!isOpen);
+          }
       return (
+        <>
+         <Edit isOpen={isOpen} onClose={setModal}/>
             <Box overflowX="scroll" p={4} borderWidth="1px" borderRadius="lg">
             <HStack spacing={4}>
             <VStack onClick={handleAddStory} cursor="pointer">
@@ -32,7 +50,7 @@ export default function StoryFeed(){
           </Box>
           <Text>Add Story</Text>
         </VStack>
-              {stories.map((story, index) => (
+              {storie.map((story, index) => (
                 <VStack key={index} >
                      <Box
               borderRadius="full"
@@ -40,12 +58,14 @@ export default function StoryFeed(){
               borderColor="pink.500"
               p="2px"
             >
-              <Avatar size="xl" src={story.src} onClick={()=>{console.log("hii")}} />
+             
+              <Avatar size="xl" src={story.userimg} onClick={()=>{console.log("hii")}} />
             </Box>
-                  <Text>{story.name}</Text>
+                  <Text>{story.userid}</Text>
                 </VStack>
               ))}
             </HStack>
           </Box>
+          </>
       )
 }
