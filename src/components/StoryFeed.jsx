@@ -14,16 +14,8 @@ import { useSelector } from 'react-redux';
 export default function StoryFeed(){
   const [isOpen,setModal] =useState(false);
   const storie= useSelector(state=>state.story.stories);
-  console.log(storie);
-      const stories = [
-            { name: 'Alice', src: 'https://via.placeholder.com/150' ,stori:[{src:''}]},
-            { name: 'Bob', src: 'https://via.placeholder.com/150',stori:[{src:''}] },
-            { name: 'Charlie', src: 'https://via.placeholder.com/150',stori:[{src:''}] },
-            { name: 'Dave', src: 'https://via.placeholder.com/150' ,stori:[{src:''}]},
-            { name: 'Eve', src: 'https://via.placeholder.com/150',stori:[{src:''}] },
-            { name: 'Eve', src: 'https://via.placeholder.com/150' ,stori:[{src:''}]},
-            { name: 'Eve', src: 'https://via.placeholder.com/150' ,stori:[{src:''}]},
-          ];
+
+     
           function handleAddStory(){
             setModal(!isOpen);
           }
