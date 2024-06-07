@@ -1,4 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjYxZjI0ZTlmZjkzZjdjYTk5Yzg2MjIiLCJpYXQiOjE3MTc3ODEyMTUsImV4cCI6MTcxNzg2NzYxNX0.RhoMQaezDBYeWGDe24ArjCSeNtX1eGQ2234E8SYWnSA"
+export const storythunk= createAsyncThunk('story/thunk',async()=>{
+    const response= await axios.get("http://localhost:4000/user/getStory",{ 'headers': { token}});
+    // console.log(response.data)
+    return response.data;
+})
+
+
+
 
 
 const initialState={
@@ -14,7 +25,9 @@ const storySlice= createSlice({
     initialState,
     reducers:{},
     extraReducers:(builders)=>{
-
+      builders.addCase(storythunk.fulfilled,(state,action)=>{
+         state.stories=[...action.payload];
+      })
     }
     
 });

@@ -4,21 +4,29 @@ import { Box, HStack, VStack, Avatar, Text,Icon } from '@chakra-ui/react';
 
 import { FaPlus } from 'react-icons/fa';
 import Edit from './Edit';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-
-
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { storythunk } from '../Slices/storyslice';
+import StoryOpen from './StoryOpen';
 
 
 // component starts here
 export default function StoryFeed(){
-  const [isOpen,setModal] =useState(false);
-  const storie= useSelector(state=>state.story.stories);
 
+  const [isOpen,setModal] =useState(false);
+  const [status,setStatus]=useState({open:false,current:0});
+  const storie= useSelector(state=>state.story.stories);
+  console.log(storie);
+  const dispatch=useDispatch();
+useEffect(()=>{
+dispatch(storythunk());
+
+},[])
      
           function handleAddStory(){
             setModal(!isOpen);
           }
+
       return (
         <>
          <Edit isOpen={isOpen} onClose={setModal}/>
@@ -42,7 +50,8 @@ export default function StoryFeed(){
           </Box>
           <Text>Add Story</Text>
         </VStack>
-              {storie.map((story, index) => (
+              {storie?.map((story, index) => (
+                <>
                 <VStack key={index} >
                      <Box
               borderRadius="full"
@@ -51,13 +60,15 @@ export default function StoryFeed(){
               p="2px"
             >
              
-              <Avatar size="xl" src={story.userimg} onClick={()=>{console.log("hii")}} />
+              <Avatar size="xl" src={story.video?.secure_url} onClick={()=>{setStatus({open:!status.open,current:index})}} />
             </Box>
-                  <Text>{story.userid}</Text>
+                  <Text>{story.userId}</Text>
                 </VStack>
+                 </>
               ))}
             </HStack>
           </Box>
+        {status.open && <StoryOpen setStatus={setStatus} status={status}/>}
           </>
       )
-}
+};
