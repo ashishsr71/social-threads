@@ -3,11 +3,22 @@ import { BsThreeDots } from "react-icons/bs";
 import Actions from '../components/Actions';
 import StoryFeed from '../components/StoryFeed';
 import { Avatar, Box, Flex,  Menu, MenuButton, MenuItem, MenuList, Portal, Text, VStack ,Image} from '@chakra-ui/react';
+import { logout } from '../Slices/Auith';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+
+
+
+
+// components starts here
 function Feed() {
   const [liked,setliked] =useState(false)
-
+ const user= useSelector(state=>state.auth.userId)
+  const dispatch= useDispatch();
  
   return (<>
+  {!user && <Navigate to='/login'/>}
+  <button onClick={()=>{dispatch(logout())}}>logout</button>
 	<StoryFeed/>
     <Flex gap={3} mb={4} py={5}>
 				<Flex flexDirection={"column"} alignItems={"center"}>

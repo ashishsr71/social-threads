@@ -14,14 +14,48 @@ import {
   useColorModeValue,
   Link,
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink ,Navigate, useNavigate} from 'react-router-dom'
+import { useForm } from "react-hook-form";
+import { signupThunk } from '../Slices/Auith';
+import { useDispatch, useSelector } from 'react-redux';
+
+
+
+
 
 // component starts here
 function Signup() {
   const [showPassword, setShowPassword] = useState(false)
+const dispatch= useDispatch();
+const navigate=useNavigate()
+const user= useSelector(state=>state.auth);
+
+useEffect(()=>{
+if(user.userId && user.token !==''){
+  navigate('/')
+}
+},[user]);
+
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+
+  function onSubmit(data){
+  const obj={...data,username:data.firstName};
+  dispatch(signupThunk(obj));
+  };
+
+  
+
   return (
+    
     <Flex
     minH={'100vh'}
     align={'center'}
@@ -36,34 +70,48 @@ function Signup() {
           to enjoy all of our cool features ✌️
         </Text>
       </Stack>
+      <form onSubmit={handleSubmit(onSubmit)} >
       <Box
         rounded={'lg'}
         bg={useColorModeValue('white', 'gray.700')}
         boxShadow={'lg'}
         p={8}>
+          
         <Stack spacing={4}>
           <HStack>
             <Box>
-              <FormControl id="firstName" isRequired>
-                <FormLabel>First Name</FormLabel>
-                <Input type="text" />
+              <FormControl  >
+                <FormLabel htmlFor='firstName'>First Name</FormLabel>
+                <Input  {...register("firstName",{required:true,pattern:{message:'enter user name'}})} />
+                {errors.firstName && <p style={{color:'red'}}>enter user name</p>}
               </FormControl>
+             
             </Box>
             <Box>
+            
               <FormControl id="lastName">
                 <FormLabel>Last Name</FormLabel>
-                <Input type="text" />
+                <Input {...register("lastName",{required:true,pattern:{message:'last name'}})}/>
+                {errors.email && (
+          <p role="alert" style={{color:'red'}}>invalid email</p>
+        )}
               </FormControl>
             </Box>
           </HStack>
-          <FormControl id="email" isRequired>
+          <FormControl id="email" >
             <FormLabel>Email address</FormLabel>
-            <Input type="email" />
+            <Input  {...register("email", { required: true,    pattern: {
+            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            message: 'Invalid email address',
+          }, })}/>
+               {errors.email && (
+          <p role="alert" style={{color:'red'}}>invalid email</p>
+        )}
           </FormControl>
-          <FormControl id="password" isRequired>
+          <FormControl id="password" >
             <FormLabel>Password</FormLabel>
             <InputGroup>
-              <Input type={showPassword ? 'text' : 'password'} />
+              <Input type={showPassword ? 'text' : 'password'}  {...register("password",{required:true,pattern:{message:' enter password'}})} />
               <InputRightElement h={'full'}>
                 <Button
                   variant={'ghost'}
@@ -72,9 +120,13 @@ function Signup() {
                 </Button>
               </InputRightElement>
             </InputGroup>
+            {errors.password && (
+          <p role="alert" style={{color:'red'}}>enter passowrd</p>
+        )}
           </FormControl>
           <Stack spacing={10} pt={2}>
             <Button
+            type='submit'
               loadingText="Submitting"
               size="lg"
               bg={'blue.400'}
@@ -84,14 +136,16 @@ function Signup() {
               }}>
               Sign up
             </Button>
+           
           </Stack>
+         
           <Stack pt={6}>
             <Text align={'center'}>
               Already a user? <RouterLink to={'/login'}><Link color={'blue.400'}>Login</Link></RouterLink>
             </Text>
           </Stack>
         </Stack>
-      </Box>
+      </Box> </form>
     </Stack>
   </Flex>
   )

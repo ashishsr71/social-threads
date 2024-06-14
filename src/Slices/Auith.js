@@ -6,14 +6,16 @@ import axios from "axios";
 
 
 export const loginThunk=createAsyncThunk('login/thunk',async(data)=>{
-const response= await axios.post("http://localhost:4000/user/login",data);
+    console.log(import.meta.env.API)
+const response= await axios.post(`${import.meta.env.VITE_API}/user/login`,data);
 console.log(response.data)
 return response.data;
 });
 
 
  export const signupThunk=createAsyncThunk('signup/thunk',async(data)=>{
-    const response= await axios.post("http://localhost:4000/user/signup",data);
+ 
+    const response= await axios.post(`${import.meta.env.VITE_API}/user/signup`,data);
     console.log(response.data)
     return response.data;
 });
@@ -37,17 +39,27 @@ const user={userId:null,
 const AuthSlice=createSlice({
     name:'auth',
     initialState:user,
-    reducers:{},
+    reducers:{
+        logout:(state,action)=>{return {userId:null,
+            token:'',pending:false,
+            error:''
+        };
+       
+      
+        }
+    },
     extraReducers:(builders)=>{
         builders.addCase(loginThunk.pending,(state)=>{
             state.pending=true;
         })
         .addCase(loginThunk.fulfilled,(state,action)=>{
-            state={...state,userId:action.payload?.userId,
-                pending:false,token:action.payload.token
+            localStorage.setItem('token',action.payload?.token);
+            return {...state,userId:action.payload?.userId,
+                pending:false,token:action.payload?.token,
+                error:''
 
             };
-            localStorage.setItem('token',action.payload.token);
+           
 
         })
         .addCase(loginThunk.rejected,(state,action)=>{
@@ -57,9 +69,12 @@ const AuthSlice=createSlice({
         .addCase(signupThunk.pending,(state,action)=>{
              state.pending=true;
         }).addCase(signupThunk.fulfilled,(state,action)=>{
-            state={...state,userId:action.payload?.userId,
-                pending:false,token:action.payload.token};
-                localStorage.setItem('token',action.payload.token);
+            localStorage.setItem('token',action.payload?.token);
+            return {...state,userId:action.payload?.userId,
+                pending:false,token:action.payload?.token,
+                error:''
+
+            };
         }).addCase(signupThunk.rejected,(state,action)=>{
             state.error=action.payload
             state.pending=false;
@@ -73,3 +88,4 @@ const AuthSlice=createSlice({
 
 
 export const authReducers=AuthSlice.reducer;
+export const logout= AuthSlice.actions.logout;

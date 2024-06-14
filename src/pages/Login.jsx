@@ -12,25 +12,33 @@ import {
   useColorModeValue,
   Link
 } from '@chakra-ui/react'
- import { Link as RouterLink } from 'react-router-dom'
+ import { Navigate, Link as RouterLink, useNavigate } from 'react-router-dom'
  import { useForm } from "react-hook-form"
 import { color } from 'framer-motion';
 import { loginThunk } from '../Slices/Auith';
-import { useDispatch } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 // component starts here
 function Login() {
 const dispatch=useDispatch();
-
+const navigate=useNavigate();
+const user=useSelector(state=>state.auth)
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm()
+  
 
-
+  useEffect(()=>{
+    console.log(user)
+    if(user.userId){
+      console.log("i am working")
+      navigate('/')
+    }
+    },[user])
 
 const onSubmit=(data)=>{
 // console.log(data.email)
@@ -42,7 +50,8 @@ dispatch(loginThunk(data));
 
 
   return (
-   
+   <>
+   {user.userId&&<Navigate to='/'/>}
     <Flex
       minH={'100vh'}
       align={'center'}
@@ -69,9 +78,9 @@ dispatch(loginThunk(data));
             value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
             message: 'Invalid email address',
           }, })} />
-              {errors.email && (
-        <p role="alert" style={{color:'red'}}>invalid email</p>
-      )}
+                {errors.email && (
+          <p role="alert" style={{color:'red'}}>invalid email</p>
+        )}
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
@@ -107,7 +116,7 @@ dispatch(loginThunk(data));
           </Stack>  </form>
         </Box>
       </Stack>
-    </Flex>)
+    </Flex></>)
 }
 
 export default Login;

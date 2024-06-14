@@ -9,17 +9,17 @@ import Userpage from './pages/userpage'
 import Postpage from './pages/Postpage'
 import Header from './components/Header'
 import Upload from './pages/Upload'
-
+import Auth from './components/Auth';
 
 // component starts here
 function App() {
  const router= createBrowserRouter((createRoutesFromElements(
   <Route path='/' element={<Navbar/>}>
-  <Route index element={<Feed/>}/>
+  <Route index element={<Auth><Feed/></Auth>}/>
   <Route path='/signup' element={<Signup/>}/>
   <Route path='/login' element={<Login/>}/>
-  <Route path='/:username' element={<Userpage/>}/>
-  <Route path='/:username/post/:id' element={<Postpage/>}/>
+  <Route path='/:username' element={<Auth><Userpage/></Auth>}/>
+  <Route path='/:username/post/:id' element={<Auth><Postpage/></Auth>}/>
   <Route path='/upload' element={<Upload/>}/>
  </Route>)))
 
