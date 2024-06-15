@@ -36,7 +36,7 @@ const user=useSelector(state=>state.auth)
     console.log(user)
     if(user.userId){
       console.log("i am working")
-      navigate('/')
+      navigate('/createpost')
     }
     },[user])
 
@@ -51,7 +51,7 @@ dispatch(loginThunk(data));
 
   return (
    <>
-   {user.userId&&<Navigate to='/'/>}
+   {/* {user.userId&&<Navigate to='/'/>} */}
     <Flex
       minH={'100vh'}
       align={'center'}

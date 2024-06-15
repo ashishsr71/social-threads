@@ -10,6 +10,7 @@ import Postpage from './pages/Postpage'
 import Header from './components/Header'
 import Upload from './pages/Upload'
 import Auth from './components/Auth';
+import CreatePost from './components/createPost';
 
 // component starts here
 function App() {
@@ -21,6 +22,7 @@ function App() {
   <Route path='/:username' element={<Auth><Userpage/></Auth>}/>
   <Route path='/:username/post/:id' element={<Auth><Postpage/></Auth>}/>
   <Route path='/upload' element={<Upload/>}/>
+  <Route path='/createpost' element={<CreatePost/>} />
  </Route>)))
 
   return (
