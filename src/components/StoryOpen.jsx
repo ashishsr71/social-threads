@@ -1,6 +1,6 @@
-import React from 'react'
-import { Box, Button, Icon,Avatar,Text } from "@chakra-ui/react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import React, { useState } from 'react'
+import { Box, Button, Icon,Avatar,Text ,ModalCloseButton, Modal} from "@chakra-ui/react";
+import { ChevronLeftIcon, ChevronRightIcon,} from "@chakra-ui/icons";
 import { useSelector } from 'react-redux';
 
 
@@ -9,9 +9,13 @@ import { useSelector } from 'react-redux';
 
 function StoryOpen({status,setStatus}) {
 const stories=useSelector(state=>state.story.stories);
+const [open,onOpen]=useState(false);
+
+
 
 
   return (
+   
     <Box position="relative" display="flex" alignItems="center" justifyContent="center" flexDirection="row" width="100%">
       
       <Button colorScheme="blue" variant="outline" p="2" mb="2">
@@ -32,6 +36,7 @@ const stories=useSelector(state=>state.story.stories);
         <Box position="absolute" top="8px" display='flex' zIndex="1">
         <Avatar size="sm" src='' />
         <Text fontSize="sm" color="white" ml="2" >ashish</Text>
+         <Button onClick={()=>{setStatus({open:false,current:0})}}>close</Button>
       </Box>
         {/* {mediaSrc.endsWith(".mp4") ? (
           <video width="100%" height="100%" controls>

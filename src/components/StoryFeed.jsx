@@ -25,7 +25,7 @@ dispatch(storythunk());
      
           function handleAddStory(){
             setModal(!isOpen);
-          }
+          };
 
       return (
         <>

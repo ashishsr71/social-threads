@@ -36,7 +36,7 @@ const user=useSelector(state=>state.auth)
     console.log(user)
     if(user.userId){
       console.log("i am working")
-      navigate('/createpost')
+      navigate('/')
     }
     },[user])
 
