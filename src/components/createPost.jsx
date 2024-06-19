@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Flex, Heading, Input, Text, Button, Textarea,useColorModeValue } from '@chakra-ui/react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { createPostThunk } from '../Slices/postSlice';
 
 
-
+// component starts here
 function CreatePost() {
     const token=useSelector(state=>state.auth.token);
     const footerBgColor = useColorModeValue('light.footerBg', 'dark.footerBg');
@@ -12,8 +13,14 @@ function CreatePost() {
     const [image,setImage]=useState(null);
     const [video,setVideo] =useState(null);
    const [error,setError]=useState(null);
+   const[media,setMedia]=useState({});
+   const dispatch= useDispatch();
 
 
+
+
+
+// above all hooks
 useEffect(()=>{
 try {
     async function uplod(){
@@ -25,7 +32,7 @@ try {
                signature=res.data.signature;
                timestamp=res.data.timestamp;
             }).catch(err=>setError(err))
-        };
+      
         const data=new FormData();
         data.append("file",image||video)
         data.append("timestamp", timestamp)
@@ -34,10 +41,11 @@ try {
        
      const {data:response} =   await axios.post("https://api.cloudinary.com/v1_1/dizyncuqs/image/upload",data);
         console.log(response)
+        setMedia(response.data);
     
-     const responses=await axios.post('http://localhost:4000/user/createpost',{media:response},{headers:{token:token}});
-     console.log(responses)
-            
+    //  const responses=await axios.post('http://localhost:4000/user/createpost',{media:response,text:text},{headers:{token:token}});
+    //  console.log(responses)
+    };
           
         
         
@@ -62,6 +70,12 @@ function handleText(e){
     console.log(e.target.value);
 setText(e.target.value);
 };
+
+// this will handle post
+function handlePost(){
+  const data= {media,text};
+dispatch(createPostThunk({data,token}));
+}
 
   
   return (
@@ -92,7 +106,7 @@ setText(e.target.value);
               </Text>
             )} */}
           </Flex>
-          <Button colorScheme="blue" mt={2}>Tweet</Button>
+          <Button colorScheme="blue" mt={2} onClick={handlePost}>Post</Button>
         </Box>
 
         {/* Tweet Feed (example) */}
@@ -102,13 +116,13 @@ setText(e.target.value);
       </Flex>
 
       {/* Footer */}
-      <Flex justify="center" align="center" bg={footerBgColor} p={4} position="sticky" bottom={0} zIndex={10}>
+      {/* <Flex justify="center" align="center" bg={footerBgColor} p={4} position="sticky" bottom={0} zIndex={10}>
         <Button variant="outline" mx={2}>Home</Button>
         <Button variant="outline" mx={2}>Explore</Button>
         <Button variant="outline" mx={2}>Notifications</Button>
         <Button variant="outline" mx={2}>Messages</Button>
         <Button variant="outline" mx={2}>Profile</Button>
-      </Flex>
+      </Flex> */}
     </Flex>
   )
 }

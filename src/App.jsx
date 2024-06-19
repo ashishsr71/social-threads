@@ -22,7 +22,7 @@ function App() {
   <Route path='/:username' element={<Auth><Userpage/></Auth>}/>
   <Route path='/:username/post/:id' element={<Auth><Postpage/></Auth>}/>
   <Route path='/upload' element={<Upload/>}/>
-  <Route path='/createpost' element={<CreatePost/>} />
+  <Route path='/createpost' element={<Auth><CreatePost/></Auth>} />
  </Route>)))
 
   return (

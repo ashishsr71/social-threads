@@ -36,7 +36,7 @@ const [open,onOpen]=useState(false);
         <Box position="absolute" top="8px" display='flex' zIndex="1">
         <Avatar size="sm" src='' />
         <Text fontSize="sm" color="white" ml="2" >ashish</Text>
-         <Button onClick={()=>{setStatus({open:false,current:0})}}>close</Button>
+         <Button onClick={()=>{setStatus({open:false,current:0})}}  p={4} ml={150} >close</Button>
       </Box>
         {/* {mediaSrc.endsWith(".mp4") ? (
           <video width="100%" height="100%" controls>
