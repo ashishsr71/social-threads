@@ -7,6 +7,20 @@ import axios from "axios";
     console.log(response);
     return response.data;
 });
+export const deletePostThunk= createAsyncThunk('delete/post',async(id)=>{
+    const response = axios.delete();
+    return response.data
+});
+
+export const likePostThunk= createAsyncThunk('like/post',async(id)=>{
+    const response = axios.put();
+    return response.data
+});
+
+export const getPostsThunk= createAsyncThunk('delete/post',async(id)=>{
+    const response = axios.get();
+    return response.data
+});
 
 
 

@@ -3,7 +3,7 @@ import { Box, Flex, Heading, Input, Text, Button, Textarea,useColorModeValue } f
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPostThunk } from '../Slices/postSlice';
-import { redirect } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 
 
 // component starts here
@@ -17,8 +17,8 @@ function CreatePost() {
    const[media,setMedia]=useState({});
    const dispatch= useDispatch();
 const [loading,setLoading]=useState(false);
-const postError=useSelector(state=>state.post.error);
-
+const postState=useSelector(state=>state.post);
+const navigate= useNavigate()
 
 
 
@@ -61,9 +61,10 @@ try {
 
 // useeffect to redirect to homepage
 useEffect(()=>{
- redirect('/')
+  if(!postState.error){}
+ 
 
-},[postError]);
+},[postState.error]);
 
 
 
@@ -91,7 +92,7 @@ function handlePost(){
 dispatch(createPostThunk({data,token}));
 
 }
-
+// if the state is loading or 
 if(loading||error){
   if(error){return <h2>something went wrong</h2>}
   return <h2>...loading</h2>
