@@ -3,6 +3,7 @@ import { Box, Flex, Heading, Input, Text, Button, Textarea,useColorModeValue } f
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPostThunk } from '../Slices/postSlice';
+import { redirect } from 'react-router-dom';
 
 
 // component starts here
@@ -15,6 +16,8 @@ function CreatePost() {
    const [error,setError]=useState(null);
    const[media,setMedia]=useState({});
    const dispatch= useDispatch();
+const [loading,setLoading]=useState(false);
+const postError=useSelector(state=>state.post.error);
 
 
 
@@ -28,7 +31,7 @@ try {
         let timestamp=0; 
         if(image || video){
            
-          await  axios.get('http://localhost:4000/getsignature',{headers:{token:token}}).then(res=>{
+          await  axios.get(`${import.meta.env.VITE_API}/getsignature`,{headers:{token:token}}).then(res=>{
                signature=res.data.signature;
                timestamp=res.data.timestamp;
             }).catch(err=>setError(err))
@@ -41,8 +44,8 @@ try {
        
      const {data:response} =   await axios.post("https://api.cloudinary.com/v1_1/dizyncuqs/image/upload",data);
         console.log(response)
-        setMedia(response.data);
-    
+        setMedia(response);
+        setLoading(false);
     //  const responses=await axios.post('http://localhost:4000/user/createpost',{media:response,text:text},{headers:{token:token}});
     //  console.log(responses)
     };
@@ -54,15 +57,25 @@ try {
 } catch (error) {
     setError(error);
 }
-
 },[video,image]);
+
+// useeffect to redirect to homepage
+useEffect(()=>{
+ redirect('/')
+
+},[postError]);
+
+
+
 
 function handleChange(e){
     setImage(e.target.files[0]);
+    setLoading(true)
 console.log(e.target.files[0])
 };
 // this funciton will handle videos
 function handleVideo(e){
+  setLoading(true)
 setVideo(e.target.files[0]);
 }
 // this will handle text for post
@@ -74,10 +87,18 @@ setText(e.target.value);
 // this will handle post
 function handlePost(){
   const data= {media,text};
+  console.log(data);
 dispatch(createPostThunk({data,token}));
+
 }
 
-  
+if(loading||error){
+  if(error){return <h2>something went wrong</h2>}
+  return <h2>...loading</h2>
+}  
+
+
+
   return (
     <Flex height="100vh" direction="column">
       {/* Main Content */}
@@ -100,11 +121,11 @@ dispatch(createPostThunk({data,token}));
                 Upload Video
               </Button>
             </label>
-            {/* {image && (
-              <Text fontSize="sm" color="gray.500">
-                {image.name}
-              </Text>
-            )} */}
+            {media && (
+           
+                <img src={`${media.secure_url}`}/>
+             
+            )}
           </Flex>
           <Button colorScheme="blue" mt={2} onClick={handlePost}>Post</Button>
         </Box>

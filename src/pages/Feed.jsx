@@ -15,6 +15,11 @@ function Feed() {
   const [liked,setliked] =useState(false)
  const user= useSelector(state=>state.auth.userId)
   const dispatch= useDispatch();
+
+
+
+
+  
  
   return (<>
   {!user && <Navigate to='/login'/>}
