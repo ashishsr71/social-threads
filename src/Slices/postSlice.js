@@ -17,8 +17,9 @@ export const likePostThunk= createAsyncThunk('like/post',async(id)=>{
     return response.data
 });
 
-export const getPostsThunk= createAsyncThunk('delete/post',async(id)=>{
-    const response = axios.get();
+export const getPostsThunk= createAsyncThunk('get/posts',async(token)=>{
+    const response = await  axios.get(`${import.meta.env.VITE_API}/user/getposts`,{headers:{token}});
+    // console.log(response.data)
     return response.data
 });
 
@@ -39,6 +40,12 @@ const postSlice= createSlice({
         })
         .addCase(createPostThunk.rejected,(state,action)=>{
             return {...state,pending:false,error:"something went wrong"}
+        }).addCase(getPostsThunk.pending,(state,action)=>{
+             console.log('getpost request pending')
+        }).addCase(getPostsThunk.fulfilled,(state,action)=>{
+            return {...state,posts:[...action.payload]}
+        }).addCase(getPostsThunk.rejected,(state,action)=>{
+            console.log('req rejected')
         })
     }
 

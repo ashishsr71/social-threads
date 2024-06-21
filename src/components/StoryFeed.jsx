@@ -30,7 +30,8 @@ dispatch(storythunk());
       return (
         <>
          <Edit isOpen={isOpen} onClose={setModal}/>
-            <Box overflowX="scroll" p={4} borderWidth="1px" borderRadius="lg">
+            <Box overflowX="scroll"
+             borderWidth="1px" borderRadius="lg">
             <HStack spacing={4}>
             <VStack onClick={handleAddStory} cursor="pointer">
           <Box

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BsThreeDots } from "react-icons/bs";
 import Actions from '../components/Actions';
 import StoryFeed from '../components/StoryFeed';
@@ -6,6 +6,7 @@ import { Avatar, Box, Flex,  Menu, MenuButton, MenuItem, MenuList, Portal, Text,
 import { logout } from '../Slices/Auith';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import { getPostsThunk } from '../Slices/postSlice';
 
 
 
@@ -13,10 +14,15 @@ import { Navigate } from 'react-router-dom';
 // components starts here
 function Feed() {
   const [liked,setliked] =useState(false)
- const user= useSelector(state=>state.auth.userId)
+ const user= useSelector(state=>state.auth.token);
+ const posts= useSelector(state=>state.post.posts);
   const dispatch= useDispatch();
 
+useEffect(()=>{
+ dispatch(getPostsThunk(user));
 
+
+},[])
 
 
   
