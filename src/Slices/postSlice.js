@@ -19,7 +19,7 @@ export const likePostThunk= createAsyncThunk('like/post',async(id)=>{
 
 export const getPostsThunk= createAsyncThunk('get/posts',async(token)=>{
     const response = await  axios.get(`${import.meta.env.VITE_API}/user/getposts`,{headers:{token}});
-    // console.log(response.data)
+    console.log(response.data)
     return response.data
 });
 
@@ -43,6 +43,7 @@ const postSlice= createSlice({
         }).addCase(getPostsThunk.pending,(state,action)=>{
              console.log('getpost request pending')
         }).addCase(getPostsThunk.fulfilled,(state,action)=>{
+            console.log('req fullfilled')
             return {...state,posts:[...action.payload]}
         }).addCase(getPostsThunk.rejected,(state,action)=>{
             console.log('req rejected')

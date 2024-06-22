@@ -1,10 +1,14 @@
-import React from 'react'
-import { Avatar, Box, Flex, Link, Menu, MenuButton, MenuItem, MenuList, Portal, Text, VStack } from '@chakra-ui/react';
+import React, { useState } from 'react'
+import { Avatar, Box, Flex, Link, Menu, MenuButton, MenuItem, MenuList, Portal, Text, VStack ,Button} from '@chakra-ui/react';
 import {BsInstagram} from "react-icons/bs"
 import {CgMoreO} from "react-icons/cg"
 
 
 function UseHeader() {
+      const [isFollowing,setisfollowing] =useState(false);
+      const handleFollow=()=>{
+            setisfollowing(true);
+      }
   return (
     <VStack gap={4} alignItems={"start"}>
   <Flex justifyContent={"space-between"} w={"full"}>
@@ -20,8 +24,22 @@ function UseHeader() {
       </Box>
       <Box >
             <Avatar name='mark jukerbak' size={"xl"}></Avatar>
+        
       </Box>
+      
       </Flex>
+      <Button
+      onClick={handleFollow}
+      colorScheme={isFollowing ? 'green' : 'blue'}
+      variant="outline"
+      size="md"
+      fontWeight="normal"
+      borderRadius="md"
+      _hover={{ bg: isFollowing ? 'green.400' : 'blue.400' }}
+      _focus={{ boxShadow: 'none' }}
+    >
+      {isFollowing ? 'Following' : 'Follow'}
+    </Button>
       <Text>Co founder of executive of facebook</Text>
       <Flex w={'full'} justifyContent={'space-between'}>
             <Flex gap={2} alignItems={'center'}>

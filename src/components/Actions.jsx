@@ -16,22 +16,25 @@ import {
 	useDisclosure,
 } from "@chakra-ui/react";
 import Reply from './Reply';
+import { useSelector } from 'react-redux';
 // component starts  here
 function Actions({post}) {
+const auth=useSelector(state=>state.auth.userId);      
 const [reply,setReply]=useState('');
-const [liking,setIsLinking]=useState(false);
-const [posts,setPosts]=useState([]);
 const [open,setOpen]=useState(false);
-const[isReplying,setIsReplying]=useState(false)
-const[liked,setIsLiked]=useState(true);
+const[isReplying,setIsReplying]=useState(false);
 const { isOpen, onOpen, onClose } = useDisclosure();
+const liked= post?.likes?.includes(auth);
 
-
+// this function handle replies
 const handleReply=()=>{
     
 
 };
-const handleLikeAndUnLike=()=>{}
+// this function handle like and unlike 
+const handleLikeAndUnLike=()=>{
+      // will dispatch a action that will like the post
+};
 const handlesvg=()=>{console.log('hi')}
 
   return (

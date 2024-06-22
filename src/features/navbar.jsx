@@ -3,16 +3,18 @@ import { Outlet } from 'react-router-dom'
 import { Flex,Button ,useColorModeValue} from '@chakra-ui/react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { logout } from '../Slices/Auith';
 
 // component starts here
 function Navbar() {
+  const dispatch= useDispatch();
   const user=useSelector(state=>state.auth);
   const footerBgColor = useColorModeValue('light.footerBg', 'dark.footerBg');
 
   return (
     <>
-    <Flex height="100vh" direction="column">
+     <button onClick={()=>{dispatch(logout())}}>logout</button>
 {<Outlet/>}
 {user.token&&
 
@@ -23,7 +25,7 @@ function Navbar() {
         <Button variant="outline" mx={2}>Messages</Button>
         <Button variant="outline" mx={2}>Profile</Button>
       </Flex>}
-      </Flex>
+   
     </>
   )
 }
