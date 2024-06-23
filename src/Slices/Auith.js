@@ -20,7 +20,14 @@ return response.data;
     return response.data;
 });
 
-
+export const refreshToken= createAsyncThunk('refresh/token',async(_,{getState,rejectWithValue})=>{
+    const { refreshToken } = getState().auth;
+    console.log(refreshToken)
+      const response = await axios.post(`${import.meta.env.VITE_API}/user/refreshtoken`, { refreshToken });
+      return response.data;
+      console.log(response);
+    
+});
 
 
 
@@ -32,7 +39,7 @@ return response.data;
 // this is initialstate
 const user={userId:null,
     token:'',pending:false,
-    error:''
+    error:'', refreshToken:null,
 };
 
 
@@ -56,7 +63,7 @@ const AuthSlice=createSlice({
             localStorage.setItem('token',action.payload?.token);
             return {...state,userId:action.payload?.userId,
                 pending:false,token:action.payload?.token,
-                error:''
+                error:'',refreshToken:action.payload?.refreshToken
 
             };
            
@@ -72,12 +79,20 @@ const AuthSlice=createSlice({
             localStorage.setItem('token',action.payload?.token);
             return {...state,userId:action.payload?.userId,
                 pending:false,token:action.payload?.token,
-                error:''
+                error:'',refreshToken:action.payload?.refreshToken
 
             };
         }).addCase(signupThunk.rejected,(state,action)=>{
             state.error=action.payload
             state.pending=false;
+        }).addCase(refreshToken.pending,(state)=>{
+               console.log('refresh pending')
+        }).addCase(refreshToken.fulfilled,(state,action)=>{
+            state.token=action.payload;
+            console.log(action.payload)
+        }).addCase(refreshToken.rejected,(state,action)=>{
+            state.error=action?.error?.message
+            console.log(action.error.message);
         })
         }
     

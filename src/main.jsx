@@ -8,6 +8,8 @@ import { extendTheme } from "@chakra-ui/theme-utils";
 import { ColorModeScript } from "@chakra-ui/color-mode";
 import store from './state/store.js';
 import { Provider } from 'react-redux';
+import setupInterceptors from './api.js';
+
 
 
 const styles={
@@ -31,6 +33,9 @@ const colors={
 }}
 
 const theme= extendTheme({config,styles,colors});
+ 
+// this set up axios interceptors
+// setupInterceptors();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
