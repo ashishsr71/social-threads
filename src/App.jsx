@@ -11,6 +11,8 @@ import Header from './components/Header'
 import Upload from './pages/Upload'
 import Auth from './components/Auth';
 import CreatePost from './components/createPost';
+import Skeletons from './components/Skeleton';
+
 
 // component starts here
 function App() {
@@ -23,6 +25,7 @@ function App() {
   <Route path='/:userid' element={<Userpage/>}/>
   <Route path='/post/:id' element={<Postpage/>}/>
   <Route path='/upload' element={<Upload/>}/>
+  <Route path="/loading" element={<Skeletons/>} />
   <Route path='/createpost' element={<Auth><CreatePost/></Auth>} />
  </Route>)))
 

@@ -18,6 +18,7 @@ import { color } from 'framer-motion';
 import { loginThunk } from '../Slices/Auith';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import Skeletons from '../components/Skeleton';
 
 // component starts here
 function Login() {
@@ -97,7 +98,7 @@ dispatch(loginThunk(data));
                 <Checkbox>Remember me</Checkbox>
                 <Text color={'blue.400'}>Forgot password?</Text>
               </Stack>
-              <Button
+             {!user.pending &&<Button
               type="submit"
                 bg={'blue.400'}
                 color={'white'}
@@ -105,8 +106,8 @@ dispatch(loginThunk(data));
                   bg: 'blue.500',
                 }}>
                 Sign in
-              </Button>
-            
+              </Button>}
+            {user.pending&& <Skeletons/>}
             </Stack>
             <Stack pt={6}>
             <Text align={'center'}>

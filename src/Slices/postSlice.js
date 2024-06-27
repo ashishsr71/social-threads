@@ -25,7 +25,7 @@ export const getPostsThunk= createAsyncThunk('get/posts',async(token,{getState,r
             return response.data;
         
 
-    //   return  rejectWithValue(response.status)
+    
     
    
 });

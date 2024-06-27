@@ -19,7 +19,10 @@ function Feed() {
   const dispatch= useDispatch();
 
 useEffect(()=>{
- dispatch(getPostsThunk(user.token));
+	if(user.token&&user.userId){
+		dispatch(getPostsThunk(user.token));
+	}
+
 
 
 },[user])
