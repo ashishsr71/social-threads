@@ -21,8 +21,8 @@ function App() {
   <Route index element={<Auth><Feed/></Auth>}/>
   <Route path='/signup' element={<Signup/>}/>
   <Route path='/login' element={<Login/>}/>
-  <Route path='/profile' element={<Userpage/>}/>
-  <Route path='/:userid' element={<Userpage/>}/>
+  <Route path='/profile' element={<Auth><Userpage/></Auth>}/>
+  <Route path='/:userid' element={<Auth><Userpage/></Auth>}/>
   <Route path='/post/:id' element={<Postpage/>}/>
   <Route path='/upload' element={<Upload/>}/>
   <Route path="/loading" element={<Skeletons/>} />

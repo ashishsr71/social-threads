@@ -2,10 +2,15 @@ import React, { useState } from 'react'
 import { Avatar, Box, Flex, Link, Menu, MenuButton, MenuItem, MenuList, Portal, Text, VStack ,Button} from '@chakra-ui/react';
 import {BsInstagram} from "react-icons/bs"
 import {CgMoreO} from "react-icons/cg"
-
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 function UseHeader() {
       const [isFollowing,setisfollowing] =useState(false);
+      const {userid}=useParams();
+      console.log(userid)
+      const user=useSelector(state=>state.auth.userId);
+      const followStat=useSelector(state=>state.follow);
       const handleFollow=()=>{
             setisfollowing(true);
       }
@@ -28,7 +33,8 @@ function UseHeader() {
       </Box>
       
       </Flex>
-      <Button
+      {!userid===
+      user&& <Button
       onClick={handleFollow}
       colorScheme={isFollowing ? 'green' : 'blue'}
       variant="outline"
@@ -39,7 +45,7 @@ function UseHeader() {
       _focus={{ boxShadow: 'none' }}
     >
       {isFollowing ? 'Following' : 'Follow'}
-    </Button>
+    </Button>}
       <Text>Co founder of executive of facebook</Text>
       <Flex w={'full'} justifyContent={'space-between'}>
             <Flex gap={2} alignItems={'center'}>

@@ -3,7 +3,7 @@ import storyreducer from '../Slices/storyslice'
 import { authReducers } from "../Slices/Auith";
 import { postReducer } from "../Slices/postSlice";
 import { refreshToken } from "../Slices/Auith";
-
+import { followReducer } from "../Slices/follow";
 
 
 
@@ -29,7 +29,8 @@ const store= configureStore({
     reducer:{
      story: storyreducer,
      auth:authReducers,
-     post:postReducer
+     post:postReducer,
+     follow:followReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(refreshTokenMiddleware),
 });

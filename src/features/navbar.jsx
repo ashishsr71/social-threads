@@ -23,7 +23,7 @@ function Navbar() {
        <Link to='/createpost'> <Button variant="outline" mx={2}>Post</Button></Link>
         <Button variant="outline" mx={2}>Notifications</Button>
         <Button variant="outline" mx={2}>Messages</Button>
-        <Button variant="outline" mx={2}>Profile</Button>
+      <Link to='/profile' > <Button variant="outline" mx={2}>Profile</Button></Link>
       </Flex>}
    
     </>
