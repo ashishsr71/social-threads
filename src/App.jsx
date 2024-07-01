@@ -12,6 +12,7 @@ import Upload from './pages/Upload'
 import Auth from './components/Auth';
 import CreatePost from './components/createPost';
 import Skeletons from './components/Skeleton';
+import LoggedUser from './components/LoggedUser';
 
 
 // component starts here
@@ -21,7 +22,7 @@ function App() {
   <Route index element={<Auth><Feed/></Auth>}/>
   <Route path='/signup' element={<Signup/>}/>
   <Route path='/login' element={<Login/>}/>
-  <Route path='/profile' element={<Auth><Userpage/></Auth>}/>
+  <Route path='/profile' element={<LoggedUser/>}/>
   <Route path='/:userid' element={<Auth><Userpage/></Auth>}/>
   <Route path='/post/:id' element={<Postpage/>}/>
   <Route path='/upload' element={<Upload/>}/>
