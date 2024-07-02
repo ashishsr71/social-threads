@@ -1,24 +1,35 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, Box, Flex,  Menu, MenuButton, MenuItem, MenuList, Portal, Text, VStack ,Button,Image} from '@chakra-ui/react';
 import {BsInstagram} from "react-icons/bs"
 import {CgMoreO} from "react-icons/cg"
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { BsThreeDots } from "react-icons/bs";
 import Actions from './Actions';
 import { Link } from 'react-router-dom';
+import { getFollow } from '../Slices/follow';
 
 
 
 function LoggedUser() {
 const [liked,setliked]=useState(false);
-
-	const [isFollowing,setisfollowing] =useState(false);
-	const {userid}=useParams();
-	console.log(userid)
-	const user=useSelector(state=>state.auth.userId);
+   
+	const dispatch = useDispatch();
+	
+	const user=useSelector(state=>state.auth);
 	const followStat=useSelector(state=>state.follow);
+    //  console.log(followStat);
+	console.log(followStat.followers.length);
+	useEffect(()=>{
+		    if(user.token){
+				dispatch(getFollow({token:user.token}));
+			};
+            
+	},[user]);
+    
+
+
 	const handleFollow=()=>{
 		  setisfollowing(true);
 	}
@@ -46,7 +57,7 @@ const [liked,setliked]=useState(false);
       <Text>Co founder of executive of facebook</Text>
       <Flex w={'full'} justifyContent={'space-between'}>
             <Flex gap={2} alignItems={'center'}>
-               <Text>3.2k followers</Text>
+               <Text>{`${followStat?.followers?.length} followers`}</Text>
                <Box w={1} bg={"gray.light"}
                h={1} borderRadius={"full"}></Box>
                <Link color={"gray.light"}>instagram.com</Link>

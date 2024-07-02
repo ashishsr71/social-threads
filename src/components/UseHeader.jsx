@@ -6,14 +6,16 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 function UseHeader() {
-      const [isFollowing,setisfollowing] =useState(false);
+//     this the user whom to follow
       const {userid}=useParams();
       console.log(userid)
       const user=useSelector(state=>state.auth.userId);
       const followStat=useSelector(state=>state.follow);
+      const isFollowing=followStat.following.includes(userid);
+      // handle follow unfollow
       const handleFollow=()=>{
-            setisfollowing(true);
-      }
+        
+      };
   return (
     <VStack gap={4} alignItems={"start"}>
   <Flex justifyContent={"space-between"} w={"full"}>
@@ -33,8 +35,7 @@ function UseHeader() {
       </Box>
       
       </Flex>
-      {!userid===
-      user&& <Button
+       <Button
       onClick={handleFollow}
       colorScheme={isFollowing ? 'green' : 'blue'}
       variant="outline"
@@ -45,7 +46,7 @@ function UseHeader() {
       _focus={{ boxShadow: 'none' }}
     >
       {isFollowing ? 'Following' : 'Follow'}
-    </Button>}
+    </Button>
       <Text>Co founder of executive of facebook</Text>
       <Flex w={'full'} justifyContent={'space-between'}>
             <Flex gap={2} alignItems={'center'}>

@@ -33,7 +33,7 @@ const navigate=useNavigate()
 const user= useSelector(state=>state.auth);
 
 useEffect(()=>{
-if(user.userId && user.token !==''){
+if(user.userId && user.token){
   navigate('/')
 }
 },[user]);

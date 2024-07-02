@@ -22,7 +22,7 @@ function App() {
   <Route index element={<Auth><Feed/></Auth>}/>
   <Route path='/signup' element={<Signup/>}/>
   <Route path='/login' element={<Login/>}/>
-  <Route path='/profile' element={<LoggedUser/>}/>
+  <Route path='/profile' element={<Auth><LoggedUser/></Auth>}/>
   <Route path='/:userid' element={<Auth><Userpage/></Auth>}/>
   <Route path='/post/:id' element={<Postpage/>}/>
   <Route path='/upload' element={<Upload/>}/>

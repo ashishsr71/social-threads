@@ -4,10 +4,11 @@ import { createAsyncThunk,createSlice } from "@reduxjs/toolkit";
 
 
 
-export const getFollow= createAsyncThunk("follow/followers",async(data)=>{
-    const id =data.id;
-    const token=data.token;
+export const getFollow= createAsyncThunk("follow/followers",async({token})=>{
+    // const id =data.id;
+    // const token=data.token;
     const response=await  axios.get(`${import.meta.env.VITE_API}/user/getfollow`,{headers:{token}});
+    // console.log(response)
     return response.data;
 });
 
@@ -23,15 +24,19 @@ export const followSomeone=createAsyncThunk('follow/someone',async(data)=>{
 // state of followers
 const followSlice= createSlice({
     name:"follow",
-    initialState:{followers:[],following:[],requestSent:[]},
+    initialState:{followers:[],following:[],requestSent:[],pending:false},
     reducers:{},
     extraReducers:(builders)=>{
         builders.addCase(getFollow.pending,(state,action)=>{
             console.log("get follow req.pending")
+            state.pending=true;
         }).addCase(getFollow.fulfilled,(state,action)=>{
+            console.log(action.payload);
             state.followers=[...action.payload.followers];
             state.following=[...action.payload.following];
+            state.pending=false;
         }).addCase(getFollow.rejected,(state,action)=>{
+            state.pending=false;
             console.log(action.error.message);
         }).addCase(followSomeone.pending,(state,action)=>{
             console.log("follow req pending");
