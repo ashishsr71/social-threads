@@ -4,7 +4,7 @@ import { ChakraProvider, Button, useDisclosure, Modal, ModalOverlay, ModalConten
 
 
 
-function SearchModal() {
+function SearchModal({users}) {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
 
@@ -32,8 +32,10 @@ function SearchModal() {
 
 
 <Box mt={2} border="1px solid" borderColor="gray.300" borderRadius="md" p={2} bg="white" zIndex={2}>
-    <h2>sdfsfsds</h2>
-    <h2>sdfsfsds</h2> <h2>sdfsfsds</h2><h2>sdfsfsds</h2><h2>sdfsfsds</h2><h2>sdfsfsds</h2><h2>sdfsfsds</h2><h2>sdfsfsds</h2><h2>sdfsfsds</h2>
+    {users.length && users.map((user)=>{
+      return <h2 style={{color:'black'}}>{user.username}</h2>
+    })}
+    
     </Box>
    </>
   )
