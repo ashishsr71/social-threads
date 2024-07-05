@@ -13,7 +13,7 @@ import Auth from './components/Auth';
 import CreatePost from './components/createPost';
 import Skeletons from './components/Skeleton';
 import LoggedUser from './components/LoggedUser';
-
+import Search from './components/Search'
 
 // component starts here
 function App() {
@@ -27,6 +27,7 @@ function App() {
   <Route path='/post/:id' element={<Postpage/>}/>
   <Route path='/upload' element={<Upload/>}/>
   <Route path="/loading" element={<Skeletons/>} />
+  <Route path ='/search/users' element={<Search/>}/>
   <Route path='/createpost' element={<Auth><CreatePost/></Auth>} />
  </Route>)))
 

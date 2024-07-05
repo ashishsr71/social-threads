@@ -66,6 +66,7 @@ function Navbar() {
       
       <Link to='/profile' > <IconButton bg={'black'}
         color={'white'}
+        
           aria-label="Messages"
           icon={<FaUser />}
           size="lg"
