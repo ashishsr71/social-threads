@@ -1,14 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { AiOutlineConsoleSql } from "react-icons/ai";
 
 
 // login thunk
 
 
 export const loginThunk=createAsyncThunk('login/thunk',async(data)=>{
-    console.log(import.meta.env.API)
+    // console.log(import.meta.env.VITE_API)
 const response= await axios.post(`${import.meta.env.VITE_API}/user/login`,data);
-console.log(response.data)
+// console.log(response)
 return response.data;
 });
 
@@ -20,12 +21,12 @@ return response.data;
     return response.data;
 });
 
-export const refreshToken= createAsyncThunk('refresh/token',async(_,{getState,rejectWithValue})=>{
+export const refreshToken= createAsyncThunk('refresh/token',async(_,{getState})=>{
     const { refreshToken } = getState().auth;
     console.log(refreshToken)
       const response = await axios.post(`${import.meta.env.VITE_API}/user/refreshtoken`, { refreshToken });
       return response.data;
-      console.log(response);
+      
     
 });
 
@@ -70,7 +71,8 @@ const AuthSlice=createSlice({
 
         })
         .addCase(loginThunk.rejected,(state,action)=>{
-            state.error=action.payload
+            // console.log(action)
+            state.error="invalid credentials";
             state.pending=false;
         })
         .addCase(signupThunk.pending,(state,action)=>{
@@ -83,7 +85,8 @@ const AuthSlice=createSlice({
 
             };
         }).addCase(signupThunk.rejected,(state,action)=>{
-            state.error=action.payload
+            console.log(action.payload)
+            state.error=action.payload.message
             state.pending=false;
         }).addCase(refreshToken.pending,(state)=>{
                console.log('refresh pending')

@@ -24,7 +24,8 @@ import Skeletons from '../components/Skeleton';
 function Login() {
 const dispatch=useDispatch();
 const navigate=useNavigate();
-const user=useSelector(state=>state.auth)
+const user=useSelector(state=>state.auth);
+// console.log(user.error)
   const {
     register,
     handleSubmit,
@@ -34,7 +35,7 @@ const user=useSelector(state=>state.auth)
   
 
   useEffect(()=>{
-    console.log(user)
+    // console.log(user)
     if(user.userId){
       console.log("i am working")
       navigate('/')
@@ -112,6 +113,7 @@ dispatch(loginThunk(data));
             <Stack pt={6}>
             <Text align={'center'}>
               New user? <RouterLink to={'/signup'}><Link color={'blue.400'}>Signup</Link></RouterLink>
+              {user.error.length>0 &&<h2 style={{color:"red"}}>{user.error}</h2>}
             </Text>
           </Stack>
           </Stack>  </form>
