@@ -14,6 +14,8 @@ import CreatePost from './components/createPost';
 import Skeletons from './components/Skeleton';
 import LoggedUser from './components/LoggedUser';
 import Search from './components/Search'
+import Profile from './pages/Profile'
+
 
 // component starts here
 function App() {
@@ -22,8 +24,8 @@ function App() {
   <Route index element={<Auth><Feed/></Auth>}/>
   <Route path='/signup' element={<Signup/>}/>
   <Route path='/login' element={<Login/>}/>
-  <Route path='/profile' element={<Auth><LoggedUser/></Auth>}/>
-  <Route path='/:userid' element={<Auth><Userpage/></Auth>}/>
+  <Route path='/profile' element={<Auth><Profile/></Auth>}/>
+  <Route path='/user/:userid' element={<Auth><Userpage/></Auth>}/>
   <Route path='/post/:id' element={<Postpage/>}/>
   <Route path='/upload' element={<Upload/>}/>
   <Route path="/loading" element={<Skeletons/>} />

@@ -16,7 +16,13 @@ export const getFollow= createAsyncThunk("follow/followers",async({token})=>{
 export const followSomeone=createAsyncThunk('follow/someone',async(data)=>{
     const id=data.id;
     const token=data.token;
-    const response= await axios.post(`${import.meta.env.VITE_API}/user/follow/:${id}`,{},{headers:{token}});
+    const response= await axios.post(`${import.meta.env.VITE_API}/user/follow/${id}`,{},{headers:{token}});
+    return response.data;
+});
+
+// this thunk will get you the useryou want to get information
+export const getUser= createAsyncThunk('get/someone',async({id,token})=>{
+    const response=await axios.get(`${import.meta.env.VITE_API}/user/getuser/${id}`,{headers:{token}});
     return response.data;
 })
 
@@ -24,7 +30,7 @@ export const followSomeone=createAsyncThunk('follow/someone',async(data)=>{
 // state of followers
 const followSlice= createSlice({
     name:"follow",
-    initialState:{followers:[],following:[],requestSent:[],pending:false},
+    initialState:{followers:[],following:[],requestSent:[],pending:false,userData:null},
     reducers:{},
     extraReducers:(builders)=>{
         builders.addCase(getFollow.pending,(state,action)=>{
@@ -54,7 +60,20 @@ const followSlice= createSlice({
           })
           .addCase(followSomeone.rejected,(state,action)=>{
             console.log("follow someone req rejected");
-          })
+          }).addCase(getUser.pending,(state,action)=>{
+            console.log("get user pending")
+            state.pending=true;
+        }).addCase(getUser.fulfilled,(state,action)=>{
+            console.log(action.payload);
+            // state.followers=[...action.payload.followers];
+            // state.following=[...action.payload.following];
+            console.log("get user fulfilled")
+            state.userData=action.payload;
+            state.pending=false;
+        }).addCase(getUser.rejected,(state,action)=>{
+            state.pending=false;
+            console.log(action.error.message);
+        })
     }
 });
 

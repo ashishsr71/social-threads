@@ -16,19 +16,24 @@ export const likePostThunk= createAsyncThunk('like/post',async(id)=>{
     const response = axios.put();
     return response.data
 });
-
+// get the posts of the user itself
 export const getPostsThunk= createAsyncThunk('get/posts',async(token,{getState,rejectWithValue})=>{
     
         const response = await  axios.get(`${import.meta.env.VITE_API}/user/getposts`,{headers:{token:token}});
         console.log(response.data)
        
             return response.data;
-        
-
-    
-    
-   
+            
 });
+
+export const getforFeed= createAsyncThunk('get/feed',async({token},{getState,rejectWithValue})=>{
+    
+    const response = await  axios.get(`${import.meta.env.VITE_API}/user/getfollowposts`,{headers:{token:token}});
+    console.log(response.data)
+   
+        return response.data;
+});
+
 
 
 
@@ -36,7 +41,7 @@ export const getPostsThunk= createAsyncThunk('get/posts',async(token,{getState,r
 
 const postSlice= createSlice({
     name:"post",
-    initialState:{posts:[],error:null,totalPosts:0,pending:false,},
+    initialState:{posts:[],error:null,totalPosts:0,pending:false,myPosts:[]},
     reducers:{},
     extraReducers:(builders)=>{
         builders.addCase(createPostThunk.pending,(state,action)=>{
@@ -55,7 +60,15 @@ const postSlice= createSlice({
         }).addCase(getPostsThunk.rejected,(state,action)=>{
             //  console.log(action.error)
             console.log(action.error.message)
-        })
+        }).addCase(getforFeed.pending,(state,action)=>{
+            console.log('getpost request pending')
+       }).addCase(getforFeed.fulfilled,(state,action)=>{
+           console.log('req fullfilled for feed')
+           return {...state,myPosts:[...action?.payload]}
+       }).addCase(getforFeed.rejected,(state,action)=>{
+           //  console.log(action.error)
+           console.log(action.error.message)
+       })
     }
 
 });

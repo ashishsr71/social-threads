@@ -18,7 +18,7 @@ function CreatePost() {
    const dispatch= useDispatch();
 const [loading,setLoading]=useState(false);
 const postState=useSelector(state=>state.post);
-const navigate= useNavigate()
+// const navigate= useNavigate()
 
 
 
@@ -122,12 +122,13 @@ if(loading||error){
                 Upload Video
               </Button>
             </label>
-            {media && (
-           
-                <img src={`${media.secure_url}`}/>
-             
-            )}
+          
           </Flex>
+          {image && (
+           
+           <img src={URL.createObjectURL(image)} style={{height:"200px"}}/>
+        
+       )}
           <Button colorScheme="blue" mt={2} onClick={handlePost}>Post</Button>
         </Box>
 

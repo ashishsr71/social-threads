@@ -56,13 +56,14 @@ function Navbar() {
           variant="outline"
         />
       {/* this is searchicon */}
+      <Link to='/search/users'>
       <IconButton bg={'black'}
         color={'white'}
           aria-label="Messages"
           icon={< RiSearchLine/>}
           size="lg"
           variant="outline"
-        />
+        /> </Link>
       
       <Link to='/profile' > <IconButton bg={'black'}
         color={'white'}

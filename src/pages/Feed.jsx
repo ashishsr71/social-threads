@@ -7,7 +7,7 @@ import { logout } from '../Slices/Auith';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { getPostsThunk } from '../Slices/postSlice';
-
+import { getforFeed } from '../Slices/postSlice';
 
 
 
@@ -15,12 +15,12 @@ import { getPostsThunk } from '../Slices/postSlice';
 function Feed() {
   const [liked,setliked] =useState(false)
  const user= useSelector(state=>state.auth);
- const posts= useSelector(state=>state.post.posts);
+ const posts= useSelector(state=>state.post.myPosts);
   const dispatch= useDispatch();
 
 useEffect(()=>{
 	if(user.token&&user.userId){
-		dispatch(getPostsThunk(user.token));
+		dispatch( getforFeed({token:user.token}));
 	}
 
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import { ChakraProvider, Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter,Box } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 
 
@@ -33,7 +34,7 @@ function SearchModal({users}) {
 
 <Box mt={2} border="1px solid" borderColor="gray.300" borderRadius="md" p={2} bg="white" zIndex={2}>
     {users.length && users.map((user)=>{
-      return <h2 style={{color:'black'}}>{user.username}</h2>
+      return <><Link to={`/user/${user._id}`}><h2 style={{color:'black'}} >{user.username}</h2></Link></>
     })}
     
     </Box>

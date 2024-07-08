@@ -1,27 +1,48 @@
-import React, { useState } from 'react'
-import { Avatar, Box, Flex, Link, Menu, MenuButton, MenuItem, MenuList, Portal, Text, VStack ,Button} from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react'
+import { Avatar, Box, Flex, Link, Menu, MenuButton, MenuItem, MenuList, Portal, Text, VStack ,Button, Skeleton} from '@chakra-ui/react';
 import {BsInstagram} from "react-icons/bs"
 import {CgMoreO} from "react-icons/cg"
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { followSomeone, getFollow, getUser } from '../Slices/follow';
+import Skeletons from './Skeleton';
 
 function UseHeader() {
 //     this the user whom to follow
+      const dispatch=useDispatch();
       const {userid}=useParams();
-      console.log(userid)
-      const user=useSelector(state=>state.auth.userId);
-      const followStat=useSelector(state=>state.follow);
-      const isFollowing=followStat.following.includes(userid);
+      // console.log(userid)
+      const token=useSelector(state=>state.auth.token);
+      const otherUser=useSelector(state=>state.follow.userData);
+      // console.log(otherUser)
+      const followStat=useSelector(state=>state.follow.following);
+      const isFollowing=followStat?.includes(userid);
+      
+      // this useeffect will run on mounting
+      useEffect(()=>{
+            if(token){
+                  dispatch(getFollow({token}));
+                  dispatch(getUser({id:userid,token}));
+            };
+      },[])
+
       // handle follow unfollow
       const handleFollow=()=>{
-        
+        dispatch(followSomeone({id:otherUser.userId,token}));
       };
+
+
+      if(!otherUser){
+            return <Skeletons/>
+      };
+
+
   return (
     <VStack gap={4} alignItems={"start"}>
   <Flex justifyContent={"space-between"} w={"full"}>
       <Box>
             <Text fontSize={"2xl"} fontWeight={"bold"}>
-                  Mark sukerbag
+                  {otherUser?.username}
             </Text>
             <Flex gap={2} alignItems={"center"}>
                   <Text fontSize={"sm"}>mark</Text>
@@ -50,7 +71,7 @@ function UseHeader() {
       <Text>Co founder of executive of facebook</Text>
       <Flex w={'full'} justifyContent={'space-between'}>
             <Flex gap={2} alignItems={'center'}>
-               <Text>3.2k followers</Text>
+               <Text>{otherUser?.followers?.length} followers</Text>
                <Box w={1} bg={"gray.light"}
                h={1} borderRadius={"full"}></Box>
                <Link color={"gray.light"}>instagram.com</Link>
