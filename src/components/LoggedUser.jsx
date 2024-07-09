@@ -23,11 +23,11 @@ const [liked,setliked]=useState(false);
 	const posts=useSelector(state=>state.post.myPosts)
     //  console.log(followStat);
 	// console.log(followStat.followers.length);
-	console.log(posts);
+	// console.log(posts);
 	useEffect(()=>{
 		    if(user.token){
 				dispatch(getFollow({token:user.token}));
-				dispatch(getPostsThunk(token));
+				dispatch(getPostsThunk(user.token));
 			};
             
 	},[user]);
@@ -43,7 +43,7 @@ const [liked,setliked]=useState(false);
   <Flex justifyContent={"space-between"} w={"full"}>
       <Box>
             <Text fontSize={"2xl"} fontWeight={"bold"}>
-                  Mark sukerbag
+                  {followStat?.username?.length>0&& <>{followStat.username}</>}
             </Text>
             <Flex gap={2} alignItems={"center"}>
                   <Text fontSize={"sm"}>mark</Text>
@@ -52,7 +52,7 @@ const [liked,setliked]=useState(false);
             </Flex>
       </Box>
       <Box >
-            <Avatar name='mark jukerbak' size={"xl"}></Avatar>
+            <Avatar name={followStat.username} size={"xl"}></Avatar>
         
       </Box>
       
@@ -104,7 +104,7 @@ const [liked,setliked]=useState(false);
 			</Flex>
     </VStack>
 	{posts?.length&& posts.map((post)=>{
-		return     <Link to={"/markzuckerberg/post/1"}>
+		return     <Link to={`/post/${post._id}`}>
 		<Flex gap={3} mb={4} py={5}>
 			<Flex flexDirection={"column"} alignItems={"center"}>
 				<Avatar size='md' name='Mark Zuckerberg' src='/zuck-avatar.png' />
@@ -143,7 +143,7 @@ const [liked,setliked]=useState(false);
 				<Flex justifyContent={"space-between"} w={"full"}>
 					<Flex w={"full"} alignItems={"center"}>
 						<Text fontSize={"sm"} fontWeight={"bold"}>
-							markzuckerberg
+							{post?.username}
 						</Text>
 						{/* <Image src='/verified.png' w={4} h={4} ml={1} /> */}
 					</Flex>

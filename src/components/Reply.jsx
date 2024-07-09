@@ -6,7 +6,7 @@ function Reply({onOpen,onClose}) {
       const arr=new Array(5).fill("");
   return (
       <>
-  <span onClick={onOpen}>repli</span>
+  <div onClick={()=>{onOpen()}}>repli</div>
     { arr.map((item)=>{
       return <Comment/>
     })}</>

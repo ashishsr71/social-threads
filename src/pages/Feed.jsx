@@ -35,7 +35,8 @@ useEffect(()=>{
 
 	<StoryFeed />
 	{posts.length&& posts.map((post)=>{
-			return <Flex gap={3} mb={4} py={5}>
+			return<Link to={`/post/${post._id}`}>
+			<Flex gap={3} mb={4} py={5}>
 		
 			<Flex flexDirection={"column"} alignItems={"center"}>
 				<Avatar size='md' name='Mark Zuckerberg' src='/zuck-avatar.png' />
@@ -84,7 +85,7 @@ useEffect(()=>{
 					</Text>
 				</Flex>
 			</Flex>
-		</Flex>
+		</Flex></Link> 
 		})}
 	
     

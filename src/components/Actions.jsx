@@ -65,7 +65,7 @@ const handlesvg=()=>{console.log('hi')}
                   role='img'
                   viewBox='0 0 24 24'
                   width='20'
-                  onClick={()=>{setOpen(!open)}}
+                  onClick={onOpen}
             >
                   <title>Comment</title>
                   <path
@@ -90,7 +90,7 @@ const handlesvg=()=>{console.log('hi')}
                  200 likes
             </Text>
       </Flex>
-       {open&& <Reply onOpen={onOpen}/>}
+       
       <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
