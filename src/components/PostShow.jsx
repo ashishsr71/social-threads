@@ -12,7 +12,7 @@ function PostShow() {
 const {userid}=useParams();
    const token=useSelector(state=>state.auth.token);
     const posts=useSelector(state=>state.post.otherUserPosts);
-	console.log(posts)
+	// console.log(posts)
 useEffect(()=>{
 	if(token){
 		// dispatch(getUser({token,id}));
