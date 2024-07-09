@@ -21,7 +21,7 @@ import { useSelector } from 'react-redux';
 function Actions({post}) {
 const auth=useSelector(state=>state.auth.userId);      
 const [reply,setReply]=useState('');
-const [open,setOpen]=useState(false);
+
 const[isReplying,setIsReplying]=useState(false);
 const { isOpen, onOpen, onClose } = useDisclosure();
 const liked= post?.likes?.includes(auth);

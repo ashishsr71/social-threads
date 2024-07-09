@@ -1,8 +1,12 @@
 import React from 'react'
+import PostShow from '../components/PostShow';
+
 
 function Postpage() {
   return (
-    <div>Postpage</div>
+   <>
+   <PostShow/>
+   </>
   )
 }
 

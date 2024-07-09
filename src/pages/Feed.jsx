@@ -8,18 +8,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { getPostsThunk } from '../Slices/postSlice';
 import { getforFeed } from '../Slices/postSlice';
-
+import { Link } from 'react-router-dom';
 
 
 // components starts here
 function Feed() {
   const [liked,setliked] =useState(false)
  const user= useSelector(state=>state.auth);
- const posts= useSelector(state=>state.post.myPosts);
+ const posts= useSelector(state=>state.post.posts);
+//  console.log(posts)
   const dispatch= useDispatch();
 
 useEffect(()=>{
 	if(user.token&&user.userId){
+		console.log(posts)
 		dispatch( getforFeed({token:user.token}));
 	}
 

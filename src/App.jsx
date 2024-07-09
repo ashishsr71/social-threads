@@ -31,7 +31,7 @@ function App() {
   <Route path="/loading" element={<Skeletons/>} />
   <Route path ='/search/users' element={<Search/>}/>
   <Route path='/createpost' element={<Auth><CreatePost/></Auth>} />
- </Route>)))
+ </Route>)))  
 
   return (
 <Container maxW='620px'>

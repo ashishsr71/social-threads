@@ -29,11 +29,20 @@ export const getPostsThunk= createAsyncThunk('get/posts',async(token,{getState,r
 export const getforFeed= createAsyncThunk('get/feed',async({token},{getState,rejectWithValue})=>{
     
     const response = await  axios.get(`${import.meta.env.VITE_API}/user/getfollowposts`,{headers:{token:token}});
-    console.log(response.data)
+    // console.log(response.data)
    
         return response.data;
 });
 
+export const getSinlgePost=createAsyncThunk('get/single',async({id,token})=>{
+    const response = await axios.get(`${import.meta.env.VITE_API}/user/getpost/${id}`,{headers:{token:token}});
+     return response.data;
+});
+
+export const getOtherUserPost=createAsyncThunk('get/otheruser',async({id,token})=>{
+    const response = await axios.get(`${import.meta.env.VITE_API}/user/getotherposts/${id}`,{headers:{token:token}});
+     return response.data;
+});
 
 
 
@@ -41,7 +50,7 @@ export const getforFeed= createAsyncThunk('get/feed',async({token},{getState,rej
 
 const postSlice= createSlice({
     name:"post",
-    initialState:{posts:[],error:null,totalPosts:0,pending:false,myPosts:[]},
+    initialState:{currentPost:null,posts:[],error:null,totalPosts:0,pending:false,myPosts:[],otherUserPosts:[]},
     reducers:{},
     extraReducers:(builders)=>{
         builders.addCase(createPostThunk.pending,(state,action)=>{
@@ -56,19 +65,37 @@ const postSlice= createSlice({
              console.log('getpost request pending')
         }).addCase(getPostsThunk.fulfilled,(state,action)=>{
             console.log('req fullfilled')
-            return {...state,posts:[...action?.payload]}
+            console.log(action.payload)
+           state.myPosts=[...action.payload]
         }).addCase(getPostsThunk.rejected,(state,action)=>{
             //  console.log(action.error)
             console.log(action.error.message)
-        }).addCase(getforFeed.pending,(state,action)=>{
-            console.log('getpost request pending')
-       }).addCase(getforFeed.fulfilled,(state,action)=>{
-           console.log('req fullfilled for feed')
-           return {...state,myPosts:[...action?.payload]}
-       }).addCase(getforFeed.rejected,(state,action)=>{
+        }).addCase(getSinlgePost.pending,(state,action)=>{
+            console.log('getSinlgePost request pending')
+       }).addCase(getSinlgePost.fulfilled,(state,action)=>{
+           console.log('req fullfilled for getSinlgePost')
+         state.currentPost=action.payload;
+       }).addCase(getSinlgePost.rejected,(state,action)=>{
            //  console.log(action.error)
            console.log(action.error.message)
-       })
+       }).addCase(getforFeed.pending,(state,action)=>{
+        console.log('getforFeed request pending')
+   }).addCase(getforFeed.fulfilled,(state,action)=>{
+       console.log('req fullfilled for getforFeed')
+     state.posts=action.payload;
+   }).addCase(getforFeed.rejected,(state,action)=>{
+       //  console.log(action.error)
+       console.log(action.error.message)
+   }).addCase(getOtherUserPost.pending,(state,action)=>{
+    console.log('getOtherUserPostrequest pending')
+}).addCase(getOtherUserPost.fulfilled,(state,action)=>{
+   console.log('getOtherUserPost fullfilled')
+   console.log(action.payload)
+  state.otherUserPosts=[...action.payload]
+}).addCase(getOtherUserPost.rejected,(state,action)=>{
+   //  console.log(action.error)
+   console.log(action.error.message)
+})
     }
 
 });
