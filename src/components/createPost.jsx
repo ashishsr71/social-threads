@@ -108,7 +108,7 @@ if(loading||error){
         
         {/* Compose Tweet Box */}
         <Box mb={4}>
-          <Textarea placeholder="What's happening?" size="sm" resize="none" onChange={handleText} />
+          <Textarea placeholder="What's happening?" size="sm" resize="none" value={text} onChange={handleText} />
           <Flex align="center" mt={2}>
             <Input type="file" accept="image/*" display="none" id="image-upload" onChange={handleChange} />
             <label htmlFor="image-upload">

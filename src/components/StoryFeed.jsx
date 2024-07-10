@@ -16,10 +16,11 @@ export default function StoryFeed(){
   const [isOpen,setModal] =useState(false);
   const [status,setStatus]=useState({open:false,current:0});
   const storie= useSelector(state=>state.story.stories);
+  const user=useSelector(state=>state.auth)
   console.log(storie);
   const dispatch=useDispatch();
 useEffect(()=>{
-dispatch(storythunk());
+dispatch(storythunk({token:user.token}));
 
 },[])
      
@@ -51,7 +52,7 @@ dispatch(storythunk());
           </Box>
           <Text>Add Story</Text>
         </VStack>
-              {storie?.map((story, index) => (
+              {storie.length&&storie?.map((story, index) => (
                 <>
                 <VStack key={index} >
                      <Box

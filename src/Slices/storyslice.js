@@ -1,23 +1,25 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjYxZjI0ZTlmZjkzZjdjYTk5Yzg2MjIiLCJpYXQiOjE3MTc3ODEyMTUsImV4cCI6MTcxNzg2NzYxNX0.RhoMQaezDBYeWGDe24ArjCSeNtX1eGQ2234E8SYWnSA"
-export const storythunk= createAsyncThunk('story/thunk',async()=>{
-    const response= await axios.get("http://localhost:4000/user/getStory",{ 'headers': { token}});
+// const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjYxZjI0ZTlmZjkzZjdjYTk5Yzg2MjIiLCJpYXQiOjE3MTc3ODEyMTUsImV4cCI6MTcxNzg2NzYxNX0.RhoMQaezDBYeWGDe24ArjCSeNtX1eGQ2234E8SYWnSA"
+export const storythunk= createAsyncThunk('story/thunk',async({token})=>{
+    const response= await axios.get(`${import.meta.env.VITE_API}/user/getStory`,{ 'headers': { token}});
     // console.log(response.data)
     return response.data;
-})
+});
+
+export const addStory= createAsyncThunk('story/add',async({token,data})=>{
+    const response= await axios.post(`${import.meta.env.VITE_API}/user/addStory`,data,{ 'headers': { token}});
+    // console.log(response.data)
+    return response.data;
+});
 
 
 
 
 
 const initialState={
-    stories:[{userid:212,media:[{video:'https://pixabay.com/videos/beach-ocean-sunset-sea-nature-sky-201308/'}],
-userimg:'https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png'
-
-}],
-
+  stories:[],pending:false,error:null
 }
 
 const storySlice= createSlice({
@@ -25,8 +27,22 @@ const storySlice= createSlice({
     initialState,
     reducers:{},
     extraReducers:(builders)=>{
-      builders.addCase(storythunk.fulfilled,(state,action)=>{
+      builders.
+      addCase(storythunk.pending,(state)=>{
+        state.pending=true;
+      })
+      .addCase(storythunk.fulfilled,(state,action)=>{
+        state.pending=false;
          state.stories=[...action.payload];
+      }).addCase(storythunk.rejected,(state,action)=>{
+        state.pending=false;
+         state.error='something went wrong'
+      }).addCase(addStory.pending,(state)=>{
+        console.log('add story req pending')
+      }).addCase(addStory.fulfilled,(state,action)=>{
+        state.stories.push(action.payload)
+      }).addCase(addStory.rejected,()=>{
+        console.log('ads req concelled')
       })
     }
     
