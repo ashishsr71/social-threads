@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Box, Flex, Heading, Input, Text, Button, Textarea,useColorModeValue } from '@chakra-ui/react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { addStory } from '../Slices/storyslice';
+import { addStory, storythunk } from '../Slices/storyslice';
 import { redirect, useNavigate } from 'react-router-dom';
 
 
@@ -57,6 +57,10 @@ useEffect(()=>{
         setError(error);
     }
     },[video,image]);
+    
+    useEffect(()=>{
+        dispatch(storythunk({token}));
+    },[])
 
 
 
