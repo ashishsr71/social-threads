@@ -15,7 +15,8 @@ export default function StoryFeed(){
 
   const [isOpen,setModal] =useState(false);
   const [status,setStatus]=useState({open:false,current:0});
-  const storie= useSelector(state=>state.story.stories);
+  const storyStatus= useSelector(state=>state.story);
+  const storie=storyStatus.stories;
   const user=useSelector(state=>state.auth)
   console.log(storie);
   const dispatch=useDispatch();
@@ -52,8 +53,7 @@ dispatch(storythunk({token:user.token}));
           </Box>
           <Text>Add Story</Text>
         </VStack>
-              {storie.length&&storie?.map((story, index) => (
-                <>
+              {storie?.length&&storie?.map((str, index) => <>
                 <VStack key={index} >
                      <Box
               borderRadius="full"
@@ -62,12 +62,13 @@ dispatch(storythunk({token:user.token}));
               p="2px"
             >
              
-              <Avatar size="xl" src={story.video?.secure_url} onClick={()=>{setStatus({open:!status.open,current:index})}} />
+              <Avatar size="xl" src={str.video?.secure_url} onClick={()=>{setStatus({open:!status.open,current:index})}} />
             </Box>
-                  <Text>{story.userId}</Text>
+                  <Text>{str?.stories[0]?.username}</Text>
                 </VStack>
-                 </>
-              ))}
+                 </>)
+              
+              }
             </HStack>
           </Box>
         {status.open && <StoryOpen setStatus={setStatus} status={status}/>}

@@ -40,7 +40,9 @@ const storySlice= createSlice({
       }).addCase(addStory.pending,(state)=>{
         console.log('add story req pending')
       }).addCase(addStory.fulfilled,(state,action)=>{
-        state.stories.push(action.payload)
+        console.log("story req fulfilled")
+        state.stories.push({})
+        // state.stories[0]={_id:action.payload.userId,stories:[action.payload,...state.stories[0]]}
       }).addCase(addStory.rejected,()=>{
         console.log('ads req concelled')
       })

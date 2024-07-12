@@ -42,7 +42,8 @@ try {
         data.append("signature",signature)
         data.append("api_key",171627853614734)
        
-     const {data:response} =   await axios.post("https://api.cloudinary.com/v1_1/dizyncuqs/image/upload",data);
+    
+    const {data:response} =   await axios.post("https://api.cloudinary.com/v1_1/dizyncuqs/image/upload",data);
         console.log(response)
         setMedia(response);
         setLoading(false);
@@ -55,7 +56,7 @@ try {
     };
     uplod();
 } catch (error) {
-    setError(error);
+    setError("something went wrong");
 }
 },[video,image]);
 

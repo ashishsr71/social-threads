@@ -9,10 +9,14 @@ import { useSelector } from 'react-redux';
 
 function StoryOpen({status,setStatus}) {
 const stories=useSelector(state=>state.story.stories);
-const [open,onOpen]=useState(false);
+// const [open,onOpen]=useState(false);
+const [opened,setOpened]=useState(0);
 
 
-
+const handleStory=()=>{
+  console.log(opened)
+  setOpened(1)
+}
 
   return (
    
@@ -46,10 +50,10 @@ const [open,onOpen]=useState(false);
         ) : (
           <img src={mediaSrc} alt="Media" style={{ maxWidth: "100%", maxHeight: "100%" }} />
         )} */}
-        { <img src={stories[status.current]?.video?.secure_url} alt="Media" style={{ maxWidth: "100%", maxHeight: "100%" }} />}
+        { <img src={stories[status.current]?.stories[opened].video?.secure_url} alt="Media" style={{ maxWidth: "100%", maxHeight: "100%" }} />}
         
       </Box>
-      <Button colorScheme="blue" variant="outline" p="2" mt="2">
+      <Button colorScheme="blue" variant="outline" p="2" mt="2" onClick={handleStory}>
         <Icon as={ChevronRightIcon} w={6} h={6} />
       </Button>
     </Box>

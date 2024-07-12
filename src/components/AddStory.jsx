@@ -40,11 +40,18 @@ useEffect(()=>{
             data.append("timestamp", timestamp)
             data.append("signature",signature)
             data.append("api_key",171627853614734)
-           
-         const {data:response} =   await axios.post("https://api.cloudinary.com/v1_1/dizyncuqs/image/upload",data);
-            console.log(response)
-            setMedia(response);
-            setLoading(false);
+          
+            
+            try {
+              const {data:response} =   await axios.post("https://api.cloudinary.com/v1_1/dizyncuqs/image/upload",data);
+              console.log(response)
+              setMedia(response);
+              setLoading(false);
+            } catch (error) {
+              setLoading(false);
+              setError("something went wrong");
+            }
+       
         //  const responses=await axios.post('http://localhost:4000/user/createpost',{media:response,text:text},{headers:{token:token}});
         //  console.log(responses)
         };
@@ -54,7 +61,8 @@ useEffect(()=>{
         };
         uplod();
     } catch (error) {
-        setError(error);
+      setLoading(false);
+        setError("something went wrong");
     }
     },[video,image]);
     
