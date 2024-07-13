@@ -4,7 +4,7 @@ import axios from "axios";
 
  export const createPostThunk= createAsyncThunk('create/post',async({data,token})=>{
     const response =await axios.post(`${import.meta.env.VITE_API}/user/createpost`,data,{headers:{token:token}});
-    console.log(response);
+    // console.log(response);
     return response.data;
 });
 export const deletePostThunk= createAsyncThunk('delete/post',async(id)=>{
@@ -12,15 +12,15 @@ export const deletePostThunk= createAsyncThunk('delete/post',async(id)=>{
     return response.data
 });
 
-export const likePostThunk= createAsyncThunk('like/post',async(id)=>{
-    const response = axios.put();
+export const likePostThunk= createAsyncThunk('like/post',async({id,token})=>{
+    const response = axios.put(`${import.meta.env.VITE_API}/user/likepost/${id}`,{},{headers:{token:token}});
     return response.data
 });
 // get the posts of the user itself
 export const getPostsThunk= createAsyncThunk('get/posts',async(token,{getState,rejectWithValue})=>{
     
         const response = await  axios.get(`${import.meta.env.VITE_API}/user/getposts`,{headers:{token:token}});
-        console.log(response.data)
+        // console.log(response.data)
        
             return response.data;
             
@@ -50,7 +50,7 @@ export const getOtherUserPost=createAsyncThunk('get/otheruser',async({id,token})
 
 const postSlice= createSlice({
     name:"post",
-    initialState:{currentPost:null,posts:[],error:null,totalPosts:0,pending:false,myPosts:[],otherUserPosts:[]},
+    initialState:{currentPost:null,posts:[],error:null,totalPosts:0,pending:false,myPosts:[],otherUserPosts:[],liked:false},
     reducers:{},
     extraReducers:(builders)=>{
         builders.addCase(createPostThunk.pending,(state,action)=>{
@@ -95,6 +95,17 @@ const postSlice= createSlice({
 }).addCase(getOtherUserPost.rejected,(state,action)=>{
    //  console.log(action.error)
    console.log(action.error.message)
+}).addCase(likePostThunk.pending,(state)=>{
+    state.error=null
+state.error=true;
+}).addCase(likePostThunk.fulfilled,(state,action)=>{
+     state.pending=false;
+    //  state.currentPost=action.payload;
+    state.liked=true;
+
+}).addCase(likePostThunk.rejected,(state,action)=>{
+    state.error="something went wrong"
+    console.log(action.error.message)
 })
     }
 

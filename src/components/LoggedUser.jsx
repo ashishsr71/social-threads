@@ -163,7 +163,7 @@ const [liked,setliked]=useState(false);
 				
 
 				<Flex gap={3} my={1}>
-					<Actions liked={liked} setLiked={setliked} />
+					<Actions post={post} />
 				</Flex>
 
 				<Flex gap={2} alignItems={"center"}>

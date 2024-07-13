@@ -71,7 +71,7 @@ dispatch(storythunk({token:user.token}));
               }
             </HStack>
           </Box>
-        {status.open && <StoryOpen setStatus={setStatus} status={status}/>}
+        {status.open && <StoryOpen setStatus={setStatus} status={status} />}
           </>
       )
 };

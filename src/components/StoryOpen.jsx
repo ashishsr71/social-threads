@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Button, Icon,Avatar,Text ,ModalCloseButton, Modal} from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon,} from "@chakra-ui/icons";
 import { useSelector } from 'react-redux';
@@ -11,18 +11,41 @@ function StoryOpen({status,setStatus}) {
 const stories=useSelector(state=>state.story.stories);
 // const [open,onOpen]=useState(false);
 const [opened,setOpened]=useState(0);
+const [currentStory,setCurrentStory]=useState('');
+
+useEffect(()=>{
+  const story=stories[status.current];
+  // console.log(story.stories)
+  if(opened<=story?.stories?.length-1){
+    // console.log(story.stories[opened].video?.secure_url)
+    setCurrentStory(story.stories[opened].video?.secure_url);
+  };
+  // console.log(currentStory);
+},[opened]);
 
 
-const handleStory=()=>{
-  console.log(opened)
-  setOpened(1)
-}
+const handleStory=(e)=>{
+ console.log(e.target.id)
+ if(e.target.id=='plus'){
+  if(opened<=stories[status.current]?.stories?.length-1){
+    setOpened(opened+1);
+  }else{
+    setStatus({open:status.open,current:status.index+1});
+  }
+   };
+ if(e.target.id==='minus'){setOpened(prev=>{
+  if(opened===0){return 0}else{
+    return prev-1 ;
+  }
+ })}
+ 
+};
 
   return (
    
     <Box position="relative" display="flex" alignItems="center" justifyContent="center" flexDirection="row" width="100%">
       
-      <Button colorScheme="blue" variant="outline" p="2" mb="2">
+      <Button colorScheme="blue" variant="outline" p="2" mb="2" id='minus' onClick={handleStory}>
         <Icon as={ChevronLeftIcon} w={6} h={6} />
       </Button>
       <Box
@@ -50,10 +73,10 @@ const handleStory=()=>{
         ) : (
           <img src={mediaSrc} alt="Media" style={{ maxWidth: "100%", maxHeight: "100%" }} />
         )} */}
-        { <img src={stories[status.current]?.stories[opened].video?.secure_url} alt="Media" style={{ maxWidth: "100%", maxHeight: "100%" }} />}
+        { currentStory.length&&<img src={currentStory} alt="Media" style={{ maxWidth: "100%", maxHeight: "100%" }} />}
         
       </Box>
-      <Button colorScheme="blue" variant="outline" p="2" mt="2" onClick={handleStory}>
+      <Button colorScheme="blue" variant="outline" p="2" mt="2" onClick={handleStory} id='plus'>
         <Icon as={ChevronRightIcon} w={6} h={6} />
       </Button>
     </Box>

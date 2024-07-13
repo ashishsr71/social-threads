@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	Box,
 	Button,
@@ -16,24 +16,47 @@ import {
 	useDisclosure,
 } from "@chakra-ui/react";
 import Reply from './Reply';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { likePostThunk } from '../Slices/postSlice';
 // component starts  here
 function Actions({post}) {
-const auth=useSelector(state=>state.auth.userId);      
+const dispatch=useDispatch();
+const {userId:auth,token}=useSelector(state=>state.auth);   
+const posts=useSelector(state=>state.post)   
 const [reply,setReply]=useState('');
 
 const[isReplying,setIsReplying]=useState(false);
 const { isOpen, onOpen, onClose } = useDisclosure();
-const liked= post?.likes?.includes(auth);
+
+const [liked,setliked]=useState(post.likes.includes(auth));
+// let liked= likesArray.includes(auth);
+
+
+
 
 // this function handle replies
 const handleReply=()=>{
     
 
 };
+
+
+
+
 // this function handle like and unlike 
 const handleLikeAndUnLike=()=>{
       // will dispatch a action that will like the post
+      //  console.log(token)
+      if(liked){
+            // console.log(post.likes)
+            setliked(false);
+      }else{
+            dispatch(likePostThunk({id:post._id,token}));
+           setliked(true);
+           
+      }
+        
+       
 };
 const handlesvg=()=>{console.log('hi')}
 

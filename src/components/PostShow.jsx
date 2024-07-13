@@ -12,6 +12,7 @@ function PostShow() {
 const {userid}=useParams();
    const token=useSelector(state=>state.auth.token);
     const posts=useSelector(state=>state.post.otherUserPosts);
+
 	// console.log(posts)
 useEffect(()=>{
 	if(token){
@@ -19,7 +20,7 @@ useEffect(()=>{
  dispatch(getOtherUserPost({token,id:userid}));
 };
 },[]);
-  const [liked,setliked]=useState(false)
+
  
   return (
         <>   
@@ -83,7 +84,7 @@ useEffect(()=>{
 			
 
 			<Flex gap={3} my={1}>
-				<Actions liked={liked} setLiked={setliked} />
+				<Actions post={post} />
 			</Flex>
 
 			<Flex gap={2} alignItems={"center"}>
