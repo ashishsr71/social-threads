@@ -41,7 +41,19 @@ const storySlice= createSlice({
         console.log('add story req pending')
       }).addCase(addStory.fulfilled,(state,action)=>{
         console.log("story req fulfilled")
-        state.stories.push({})
+        if(state.stories.length){
+          if(state.stories.findIndex(item=>item._id==action.payload.userId)>-1){
+            let index=state.stories.findIndex(item=>item._id==userId);
+            state.stories[index].stories.push(action.payload);
+          }else{
+            // console.log('i am form inside')
+            state.stories.push({_id:action.payload.userId,stories:[{...action.payload}]})
+          }
+        }else{
+          // console.log("i am  from out")
+          state.stories.push({_id:action.payload.userId,stories:[{...action.payload}]});
+        }
+        
         // state.stories[0]={_id:action.payload.userId,stories:[action.payload,...state.stories[0]]}
       }).addCase(addStory.rejected,()=>{
         console.log('ads req concelled')

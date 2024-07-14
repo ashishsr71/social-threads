@@ -50,6 +50,7 @@ const handleLikeAndUnLike=()=>{
       if(liked){
             // console.log(post.likes)
             setliked(false);
+            dispatch(likePostThunk({id:post._id,token}));
       }else{
             dispatch(likePostThunk({id:post._id,token}));
            setliked(true);
