@@ -84,7 +84,7 @@ useEffect(()=>{
 			
 
 			<Flex gap={3} my={1}>
-				<Actions post={post} />
+				<Actions post={post} key={post._id} />
 			</Flex>
 
 			<Flex gap={2} alignItems={"center"}>

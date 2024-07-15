@@ -13,7 +13,8 @@ export const deletePostThunk= createAsyncThunk('delete/post',async(id)=>{
 });
 
 export const likePostThunk= createAsyncThunk('like/post',async({id,token})=>{
-    const response = axios.put(`${import.meta.env.VITE_API}/user/likepost/${id}`,{},{headers:{token:token}});
+    const response = await axios.put(`${import.meta.env.VITE_API}/user/likepost/${id}`,{},{headers:{token:token}});
+   
     return response.data
 });
 // get the posts of the user itself
@@ -64,8 +65,8 @@ const postSlice= createSlice({
         }).addCase(getPostsThunk.pending,(state,action)=>{
              console.log('getpost request pending')
         }).addCase(getPostsThunk.fulfilled,(state,action)=>{
-            console.log('req fullfilled')
-            console.log(action.payload)
+            // console.log('req fullfilled')
+            // console.log(action.payload)
            state.myPosts=[...action.payload]
         }).addCase(getPostsThunk.rejected,(state,action)=>{
             //  console.log(action.error)
@@ -73,7 +74,7 @@ const postSlice= createSlice({
         }).addCase(getSinlgePost.pending,(state,action)=>{
             console.log('getSinlgePost request pending')
        }).addCase(getSinlgePost.fulfilled,(state,action)=>{
-           console.log('req fullfilled for getSinlgePost')
+        //    console.log('req fullfilled for getSinlgePost')
          state.currentPost=action.payload;
        }).addCase(getSinlgePost.rejected,(state,action)=>{
            //  console.log(action.error)
@@ -101,7 +102,12 @@ state.error=true;
 }).addCase(likePostThunk.fulfilled,(state,action)=>{
      state.pending=false;
     //  state.currentPost=action.payload;
-    state.liked=true;
+    if(action.payload.msg=="unliked"){
+        console.log("post unliked")
+    }else{
+        console.log("liked")
+    }
+    
 
 }).addCase(likePostThunk.rejected,(state,action)=>{
     state.error="something went wrong"
