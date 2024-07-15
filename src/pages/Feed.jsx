@@ -15,7 +15,8 @@ import { Link } from 'react-router-dom';
 function Feed() {
   const [liked,setliked] =useState(false)
  const user= useSelector(state=>state.auth);
- const posts= useSelector(state=>state.post.posts);
+ const postState= useSelector(state=>state.post);
+ const posts= postState.posts;	
 //  console.log(posts)
   const dispatch= useDispatch();
 
@@ -28,7 +29,9 @@ useEffect(()=>{
 
 
 },[]);
-
+if(postState.pending){
+	return <h2>....loading</h2>
+}
 
   
  
@@ -74,7 +77,7 @@ useEffect(()=>{
 				
 
 				<Flex gap={3} my={1}>
-					<Actions liked={post?.likes.includes(user.userId)} post={post} setLiked={setliked} />
+					<Actions liked={post?.likes.includes(user.userId)} post={post} setLiked={setliked} key={post._id}/>
 				</Flex>
 
 				<Flex gap={2} alignItems={"center"}>
