@@ -76,7 +76,7 @@ function SinglePost() {
 			
 
 			<Flex gap={3} my={1}>
-				<Actions liked={liked} setLiked={setliked} />
+				<Actions liked={liked} setLiked={setliked} post={post} />
 			</Flex>
 
 			<Flex gap={2} alignItems={"center"}>
