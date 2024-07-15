@@ -38,12 +38,12 @@ const theme= extendTheme({config,styles,colors});
 // setupInterceptors();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+ 
     <Provider store={store}>
     <ChakraProvider theme={theme}>
 					<ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <App />
     </ChakraProvider>
     </Provider>
-  </React.StrictMode>,
+ 
 )

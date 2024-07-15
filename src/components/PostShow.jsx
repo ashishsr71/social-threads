@@ -11,8 +11,8 @@ function PostShow() {
 	const dispatch=useDispatch();
 const {userid}=useParams();
    const token=useSelector(state=>state.auth.token);
-    const posts=useSelector(state=>state.post.otherUserPosts);
-
+    const postState=useSelector(state=>state.post);
+  const posts=postState.posts;
 	// console.log(posts)
 useEffect(()=>{
 	if(token){
@@ -21,6 +21,9 @@ useEffect(()=>{
 };
 },[]);
 
+if(postState.pending){
+	return <h2>...loading</h2>
+};
  
   return (
         <>   

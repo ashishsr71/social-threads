@@ -51,7 +51,7 @@ export const getOtherUserPost=createAsyncThunk('get/otheruser',async({id,token})
 
 const postSlice= createSlice({
     name:"post",
-    initialState:{currentPost:null,posts:[],error:null,totalPosts:0,pending:false,myPosts:[],otherUserPosts:[],liked:false},
+    initialState:{currentPost:null,posts:[],error:null,totalPosts:0,pending:false,myPosts:[],otherUserPosts:[],},
     reducers:{},
     extraReducers:(builders)=>{
         builders.addCase(createPostThunk.pending,(state,action)=>{
@@ -63,28 +63,38 @@ const postSlice= createSlice({
         .addCase(createPostThunk.rejected,(state,action)=>{
             return {...state,pending:false,error:"something went wrong"}
         }).addCase(getPostsThunk.pending,(state,action)=>{
+            state.pending=true;
              console.log('getpost request pending')
         }).addCase(getPostsThunk.fulfilled,(state,action)=>{
             // console.log('req fullfilled')
             // console.log(action.payload)
-           state.myPosts=[...action.payload]
+            state.pending=false;
+           state.myPosts=[...action.payload];
+           state.posts=[...action.payload]
         }).addCase(getPostsThunk.rejected,(state,action)=>{
             //  console.log(action.error)
+            state.pending=false;
             console.log(action.error.message)
         }).addCase(getSinlgePost.pending,(state,action)=>{
-            console.log('getSinlgePost request pending')
+            // console.log('getSinlgePost request pending')
+            state.pending=true;
        }).addCase(getSinlgePost.fulfilled,(state,action)=>{
         //    console.log('req fullfilled for getSinlgePost')
+        state.pending=false;
          state.currentPost=action.payload;
        }).addCase(getSinlgePost.rejected,(state,action)=>{
            //  console.log(action.error)
+           state.pending=false;
            console.log(action.error.message)
        }).addCase(getforFeed.pending,(state,action)=>{
-        console.log('getforFeed request pending')
+        // console.log('getforFeed request pending')
+        state.pending=true;
    }).addCase(getforFeed.fulfilled,(state,action)=>{
-       console.log('req fullfilled for getforFeed')
+    //    console.log('req fullfilled for getforFeed')
+       state.pending=false;
      state.posts=action.payload;
    }).addCase(getforFeed.rejected,(state,action)=>{
+    state.pending=false;
        //  console.log(action.error)
        console.log(action.error.message)
    }).addCase(getOtherUserPost.pending,(state,action)=>{
@@ -93,6 +103,7 @@ const postSlice= createSlice({
    console.log('getOtherUserPost fullfilled')
    console.log(action.payload)
   state.otherUserPosts=[...action.payload]
+  state.posts=[...action.payload];
 }).addCase(getOtherUserPost.rejected,(state,action)=>{
    //  console.log(action.error)
    console.log(action.error.message)
@@ -102,11 +113,17 @@ state.error=true;
 }).addCase(likePostThunk.fulfilled,(state,action)=>{
      state.pending=false;
     //  state.currentPost=action.payload;
-    if(action.payload.msg=="unliked"){
-        console.log("post unliked")
-    }else{
-        console.log("liked")
-    }
+  
+        // console.log("post liked")
+        if(state.posts.length){
+         state.posts=  state.posts.map(post=>{
+                if(post._id==action.payload.doc._id){
+                    return action.payload.doc;
+                };
+                return post;
+            });
+        }
+   
     
 
 }).addCase(likePostThunk.rejected,(state,action)=>{

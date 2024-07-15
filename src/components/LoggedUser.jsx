@@ -20,7 +20,8 @@ const [liked,setliked]=useState(false);
 	
 	const user=useSelector(state=>state.auth);
 	const followStat=useSelector(state=>state.follow);
-	const posts=useSelector(state=>state.post.myPosts)
+	const postState=useSelector(state=>state.post);
+	const posts=postState.posts;
     //  console.log(followStat);
 	// console.log(followStat.followers.length);
 	// console.log(posts);
@@ -30,8 +31,10 @@ const [liked,setliked]=useState(false);
 				dispatch(getPostsThunk(user.token));
 			};
             
-	},[user]);
-    
+	},[]);
+    if(postState.pending){
+		return <h2>...loading</h2>
+	};
 
 
 	// const handleFollow=()=>{

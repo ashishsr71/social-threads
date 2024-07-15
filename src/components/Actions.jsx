@@ -22,13 +22,16 @@ import { likePostThunk } from '../Slices/postSlice';
 function Actions({post}) {
 const dispatch=useDispatch();
 const {userId:auth,token}=useSelector(state=>state.auth);   
-const posts=useSelector(state=>state.post)   
-const [reply,setReply]=useState('');
+ const [reply,setReply]=useState('');
 
 const[isReplying,setIsReplying]=useState(false);
 const { isOpen, onOpen, onClose } = useDisclosure();
-
-const [liked,setliked]=useState(post.likes.includes(auth));
+const posts=useSelector(state=>state.post.posts);
+const thisPost=posts.find(p=>p._id==post._id)
+const[liked,setLiked]=useState(thisPost.likes.includes(auth));
+// console.log(thisPost)
+// const isTrue= post.likes.includes(auth)
+// const [liked,setliked]=useState(post.likes.includes(isTrue));
 // let liked= likesArray.includes(auth);
 
 
@@ -47,18 +50,14 @@ const handleReply=()=>{
 const handleLikeAndUnLike=()=>{
       // will dispatch a action that will like the post
       //  console.log(token)
-      if(liked){
+    
             // console.log(post.likes)
-            setliked(false);
             dispatch(likePostThunk({id:post._id,token}));
-      }else if(!liked){
-            dispatch(likePostThunk({id:post._id,token}));
-           setliked(true);
-           
-      }
-        
-       
-};
+            setLiked(prev=>!prev);
+          };
+
+
+          
 const handlesvg=()=>{console.log('hi')}
 
   return (
@@ -66,7 +65,7 @@ const handlesvg=()=>{console.log('hi')}
       <Flex gap={3} my={2} onClick={(e) => e.preventDefault()}>
             <svg
                   aria-label='Like'
-                  color={liked ? "rgb(237, 73, 86)" : ""}
+                  color={ liked? "rgb(237, 73, 86)" : ""}
                   fill={liked ? "rgb(237, 73, 86)" : "transparent"}
                   height='19'
                   role='img'
