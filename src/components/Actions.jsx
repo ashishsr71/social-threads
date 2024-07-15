@@ -27,8 +27,8 @@ const {userId:auth,token}=useSelector(state=>state.auth);
 const[isReplying,setIsReplying]=useState(false);
 const { isOpen, onOpen, onClose } = useDisclosure();
 const posts=useSelector(state=>state.post.posts);
-const thisPost=posts.find(p=>p._id==post._id)
-const[liked,setLiked]=useState(thisPost.likes.includes(auth));
+//const thisPost=posts.find(p=>p._id==post._id)
+const[liked,setLiked]=useState(post.likes.includes(auth));
 // console.log(thisPost)
 // const isTrue= post.likes.includes(auth)
 // const [liked,setliked]=useState(post.likes.includes(isTrue));
