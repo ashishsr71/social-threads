@@ -24,8 +24,9 @@ return response.data;
 export const refreshToken= createAsyncThunk('refresh/token',async(_,{getState})=>{
     const { refreshToken } = getState().auth;
     console.log(refreshToken)
+    if(refreshToken){
       const response = await axios.post(`${import.meta.env.VITE_API}/user/refreshtoken`, { refreshToken });
-      return response.data;
+      return response.data;};
       
     
 });

@@ -49,6 +49,7 @@ export const getOtherUserPost=createAsyncThunk('get/otheruser',async({id,token})
 
 
 
+
 const postSlice= createSlice({
     name:"post",
     initialState:{currentPost:null,posts:[],error:null,totalPosts:0,pending:false,myPosts:[],otherUserPosts:[],},

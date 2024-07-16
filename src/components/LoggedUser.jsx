@@ -10,6 +10,7 @@ import Actions from './Actions';
 import { Link } from 'react-router-dom';
 import { getFollow } from '../Slices/follow';
 import { getforFeed, getPostsThunk } from '../Slices/postSlice';
+import Comment from './comment';
 
 
 
@@ -169,15 +170,7 @@ const [liked,setliked]=useState(false);
 					<Actions post={post} key={post._id}/>
 				</Flex>
 
-				<Flex gap={2} alignItems={"center"}>
-					<Text color={"gray.light"} fontSize='sm'>
-200 replies
-					</Text>
-					<Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"}></Box>
-					<Text color={"gray.light"} fontSize='sm'>
-			422 likes
-					</Text>
-				</Flex>
+			<Comment post={post}/>
 			</Flex>
 		</Flex>
 	</Link>

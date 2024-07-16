@@ -5,6 +5,8 @@ import Actions from './Actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getSinlgePost } from '../Slices/postSlice';
+import Comment from './comment';
+
 
 function SinglePost() {
     const [liked,setliked]=useState(true)
@@ -56,7 +58,7 @@ function SinglePost() {
 				<Flex w={"full"} alignItems={"center"}>
 				<Link to={`/user/${post.userId}`}>	<Text fontSize={"sm"} fontWeight={"bold"}>
 				{ post?.username && <>{post.username}</>  }
-				username
+				
 					</Text></Link>
 					{/* <Image src='/verified.png' w={4} h={4} ml={1} /> */}
 				</Flex>
@@ -68,7 +70,7 @@ function SinglePost() {
 				</Flex>
 			</Flex>
 
-			<Text fontSize={"sm"}>asdfasdf</Text>
+			<Text fontSize={"sm"}>{post?.text}</Text>
 			 
 				<Box borderRadius={6} overflow={"hidden"} border={"1px solid"} borderColor={"gray.light"}>
 					<Image src={post?.media?.secure_url} w={"full"} />
@@ -79,15 +81,7 @@ function SinglePost() {
 				<Actions liked={liked} setLiked={setliked} post={post} />
 			</Flex>
 
-			<Flex gap={2} alignItems={"center"}>
-				<Text color={"gray.light"} fontSize='sm'>
-200 replies
-				</Text>
-				<Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"}></Box>
-				<Text color={"gray.light"} fontSize='sm'>
-		422 likes
-				</Text>
-			</Flex>
+		<Comment post={post}/>
 		</Flex>
 	</Flex>}</>
    

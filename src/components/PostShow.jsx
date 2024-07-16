@@ -6,6 +6,8 @@ import Actions from './Actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOtherUserPost, getSinlgePost } from '../Slices/postSlice';
 import { getUser } from '../Slices/follow';
+import Comment from './comment';
+
 
 function PostShow() {
 	const dispatch=useDispatch();
@@ -90,15 +92,7 @@ if(postState.pending){
 				<Actions post={post} key={post._id} />
 			</Flex>
 
-			<Flex gap={2} alignItems={"center"}>
-				<Text color={"gray.light"} fontSize='sm'>
-200 replies
-				</Text>
-				<Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"}></Box>
-				<Text color={"gray.light"} fontSize='sm'>
-		422 likes
-				</Text>
-			</Flex>
+			<Comment post={post}/>
 		</Flex>
 	</Flex></Link>
 	})	}

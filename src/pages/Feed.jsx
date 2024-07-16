@@ -9,7 +9,7 @@ import { Navigate } from 'react-router-dom';
 import { getPostsThunk } from '../Slices/postSlice';
 import { getforFeed } from '../Slices/postSlice';
 import { Link } from 'react-router-dom';
-
+import Comment from '../components/comment';
 
 // components starts here
 function Feed() {
@@ -80,15 +80,7 @@ if(postState.pending){
 					<Actions liked={post?.likes.includes(user.userId)} post={post} setLiked={setliked} key={post._id}/>
 				</Flex>
 
-				<Flex gap={2} alignItems={"center"}>
-					<Text color={"gray.light"} fontSize='sm'>
-200 replies
-					</Text>
-					<Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"}></Box>
-					<Text color={"gray.light"} fontSize='sm'>
-			422 likes
-					</Text>
-				</Flex>
+				<Comment post={post}/>
 			</Flex>
 		</Flex></Link> 
 		})}

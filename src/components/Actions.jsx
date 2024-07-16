@@ -18,6 +18,7 @@ import {
 import Reply from './Reply';
 import { useDispatch, useSelector } from 'react-redux';
 import { likePostThunk } from '../Slices/postSlice';
+import { addComment } from '../Slices/commentSlice';
 // component starts  here
 function Actions({post}) {
 const dispatch=useDispatch();
@@ -26,7 +27,7 @@ const {userId:auth,token}=useSelector(state=>state.auth);
 
 const[isReplying,setIsReplying]=useState(false);
 const { isOpen, onOpen, onClose } = useDisclosure();
-const posts=useSelector(state=>state.post.posts);
+const comment=useSelector(state=>state.comment);
 //const thisPost=posts.find(p=>p._id==post._id)
 const[liked,setLiked]=useState(post.likes.includes(auth));
 // console.log(thisPost)
@@ -34,12 +35,20 @@ const[liked,setLiked]=useState(post.likes.includes(auth));
 // const [liked,setliked]=useState(post.likes.includes(isTrue));
 // let liked= likesArray.includes(auth);
 
-
+useEffect(()=>{
+ if(comment.newcomment&&!comment.error&&!comment.pending){
+   setReply('');
+   onClose();
+ };
+},[comment])
 
 
 // this function handle replies
 const handleReply=()=>{
-    
+    if(reply.length>0){
+      const body = {text:reply}
+      dispatch(addComment({id:post._id,token,body}));
+    }
 
 };
 
@@ -104,7 +113,7 @@ const handlesvg=()=>{console.log('hi')}
             <ShareSVG />
       </Flex>
 
-      <Flex gap={2} alignItems={"center"}>
+      {/* <Flex gap={2} alignItems={"center"}>
             <Text color={"gray.light"} fontSize='sm'>
                   replies
             </Text>
@@ -112,7 +121,7 @@ const handlesvg=()=>{console.log('hi')}
             <Text color={"gray.light"} fontSize='sm'>
                  200 likes
             </Text>
-      </Flex>
+      </Flex> */}
        
       <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
