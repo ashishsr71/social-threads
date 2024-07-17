@@ -5,7 +5,7 @@ import Actions from './Actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getSinlgePost } from '../Slices/postSlice';
-import Comment from './comment';
+import ShowComment from './ShowComment';
 
 
 function SinglePost() {
@@ -13,12 +13,12 @@ function SinglePost() {
     const dispatch=useDispatch();
     const {id}=useParams();
     const token=useSelector(state=>state.auth.token);
-    const post =useSelector(state=>state.post.currentPost);
-
+    const postState =useSelector(state=>state.post);
+    const post =postState.currentPost;
     useEffect(()=>{
         dispatch(getSinlgePost({token,id}));
     },[])
-
+     
   return (<>{post &&<Flex gap={3} mb={4} py={5}>
 		<Flex flexDirection={"column"} alignItems={"center"}>
 			<Avatar size='md' name='Mark Zuckerberg' src='/zuck-avatar.png' />
@@ -81,7 +81,7 @@ function SinglePost() {
 				<Actions liked={liked} setLiked={setliked} post={post} />
 			</Flex>
 
-		<Comment post={post}/>
+		<ShowComment post={post} />
 		</Flex>
 	</Flex>}</>
    

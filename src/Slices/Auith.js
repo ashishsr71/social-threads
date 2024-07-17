@@ -27,7 +27,7 @@ export const refreshToken= createAsyncThunk('refresh/token',async(_,{getState})=
     if(refreshToken){
       const response = await axios.post(`${import.meta.env.VITE_API}/user/refreshtoken`, { refreshToken });
       return response.data;};
-      
+    return {msg:"you are logged out"}
     
 });
 
@@ -95,6 +95,9 @@ const AuthSlice=createSlice({
             state.token=action.payload;
             console.log(action.payload)
         }).addCase(refreshToken.rejected,(state,action)=>{
+            if(action.payload.msg){
+                return state.error=action.payload.msg
+            }
             state.error=action?.error?.message
             console.log(action.error.message);
         })

@@ -65,7 +65,7 @@ const postSlice= createSlice({
             return {...state,pending:false,error:"something went wrong"}
         }).addCase(getPostsThunk.pending,(state,action)=>{
             state.pending=true;
-             console.log('getpost request pending')
+            //  console.log('getpost request pending')
         }).addCase(getPostsThunk.fulfilled,(state,action)=>{
             // console.log('req fullfilled')
             // console.log(action.payload)
@@ -99,9 +99,9 @@ const postSlice= createSlice({
        //  console.log(action.error)
        console.log(action.error.message)
    }).addCase(getOtherUserPost.pending,(state,action)=>{
-    console.log('getOtherUserPostrequest pending')
+    // console.log('getOtherUserPostrequest pending')
 }).addCase(getOtherUserPost.fulfilled,(state,action)=>{
-   console.log('getOtherUserPost fullfilled')
+//    console.log('getOtherUserPost fullfilled')
    console.log(action.payload)
   state.otherUserPosts=[...action.payload]
   state.posts=[...action.payload];

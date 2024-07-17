@@ -26,10 +26,10 @@ function App() {
   <Route path='/login' element={<Login/>}/>
   <Route path='/profile' element={<Auth><Profile/></Auth>}/>
   <Route path='/user/:userid' element={<Auth><Userpage/></Auth>}/>
-  <Route path='/post/:id' element={<Postpage/>}/>
-  <Route path='/upload' element={<Upload/>}/>
+  <Route path='/post/:id' element={<Auth><Postpage/></Auth>}/>
+  <Route path='/upload' element={<Auth><Upload/></Auth>}/>
   <Route path="/loading" element={<Skeletons/>} />
-  <Route path ='/search/users' element={<Search/>}/>
+  <Route path ='/search/users' element={<Auth><Search/></Auth>}/>
   <Route path='/createpost' element={<Auth><CreatePost/></Auth>} />
  </Route>)))  
 

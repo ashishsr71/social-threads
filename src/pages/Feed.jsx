@@ -80,7 +80,7 @@ if(postState.pending){
 					<Actions liked={post?.likes.includes(user.userId)} post={post} setLiked={setliked} key={post._id}/>
 				</Flex>
 
-				<Comment post={post}/>
+				<Comment post={post} key={post._id}/>
 			</Flex>
 		</Flex></Link> 
 		})}

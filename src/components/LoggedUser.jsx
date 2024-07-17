@@ -170,7 +170,7 @@ const [liked,setliked]=useState(false);
 					<Actions post={post} key={post._id}/>
 				</Flex>
 
-			<Comment post={post}/>
+			<Comment post={post} key={post._id}/>
 			</Flex>
 		</Flex>
 	</Link>

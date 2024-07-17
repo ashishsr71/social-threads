@@ -28,6 +28,7 @@ const {userId:auth,token}=useSelector(state=>state.auth);
 const[isReplying,setIsReplying]=useState(false);
 const { isOpen, onOpen, onClose } = useDisclosure();
 const comment=useSelector(state=>state.comment);
+
 //const thisPost=posts.find(p=>p._id==post._id)
 const[liked,setLiked]=useState(post.likes.includes(auth));
 // console.log(thisPost)
@@ -43,6 +44,7 @@ useEffect(()=>{
 },[comment])
 
 
+
 // this function handle replies
 const handleReply=()=>{
     if(reply.length>0){
@@ -51,8 +53,6 @@ const handleReply=()=>{
     }
 
 };
-
-
 
 
 // this function handle like and unlike 
