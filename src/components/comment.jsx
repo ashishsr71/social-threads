@@ -9,7 +9,7 @@ const [comments,setComments]=useState([]);
 const token=useSelector(state=>state.auth.token);
 const comState=useSelector(state=>state.comment);
  useEffect(()=>{
- axios.get(`http:/${import.meta.env.VITE_API}/user/getcomments/${post._id}`,{headers:{token}}).then(res=>{
+ axios.get(`${import.meta.env.VITE_API}/user/getcomments/${post._id}`,{headers:{token}}).then(res=>{
   console.log(res.data)
   setComments(res.data)});
  },[comState])
