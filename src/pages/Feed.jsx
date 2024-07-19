@@ -37,7 +37,7 @@ useEffect(()=>{
   {!user.token && <Navigate to='/login'/>}
  {postState.pending&&<h2>...loading</h2>}
 	<StoryFeed />
-	{postState.posts.length&& posState.posts.map((post)=>{
+	{postState.posts.length&& postState.posts.map((post)=>{
 			return<Link to={`/post/${post._id}`}>
 			<Flex gap={3} mb={4} py={5}>
 		
