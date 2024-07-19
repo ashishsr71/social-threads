@@ -17,7 +17,7 @@ function SinglePost() {
     const post =postState.currentPost;
     useEffect(()=>{
         dispatch(getSinlgePost({token,id}));
-    },[])
+    },[dispatch])
      
   return (<>{post &&<Flex gap={3} mb={4} py={5}>
 		<Flex flexDirection={"column"} alignItems={"center"}>
