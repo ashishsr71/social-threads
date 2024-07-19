@@ -29,15 +29,17 @@ useEffect(()=>{
 
 
 },[]);
-
+if(postState.pending){
+	return <h2>....loading</h2>
+}
 
   
  
   return (<>
   {!user.token && <Navigate to='/login'/>}
- {postState.pending&&<h2>...loading</h2>}
+
 	<StoryFeed />
-	{postState.posts.length&& postState.posts.map((post)=>{
+	{posts.length&& posts.map((post)=>{
 			return<Link to={`/post/${post._id}`}>
 			<Flex gap={3} mb={4} py={5}>
 		
@@ -77,7 +79,7 @@ useEffect(()=>{
 				<Flex gap={3} my={1}>
 					<Actions liked={post?.likes.includes(user.userId)} post={post} setLiked={setliked} key={post._id}/>
 				</Flex>
-				
+
 				<Comment post={post} key={post._id}/>
 			</Flex>
 		</Flex></Link> 
