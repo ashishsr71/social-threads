@@ -79,7 +79,7 @@ if(postState.pending){
 				<Flex gap={3} my={1}>
 					<Actions liked={post?.likes.includes(user.userId)} post={post} setLiked={setliked} key={post._id}/>
 				</Flex>
-
+				{post.likes.length}
 				<Comment post={post} key={post._id}/>
 			</Flex>
 		</Flex></Link> 
