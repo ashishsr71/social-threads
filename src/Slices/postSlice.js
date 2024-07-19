@@ -116,14 +116,14 @@ state.error=true;
     //  state.currentPost=action.payload;
   
         // console.log("post liked")
-        if(state.posts.length){
+        
          state.posts=  state.posts.map(post=>{
                 if(post._id==action.payload.doc._id){
                     return action.payload.doc;
                 };
                 return post;
             });
-        }
+        
    
     
 
