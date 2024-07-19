@@ -18,7 +18,9 @@ function SinglePost() {
     useEffect(()=>{
         dispatch(getSinlgePost({token,id}));
     },[dispatch])
-     
+     if(postState.pending){
+	     return <h2>...loading</h2>
+     }
   return (<>{post &&<Flex gap={3} mb={4} py={5}>
 		<Flex flexDirection={"column"} alignItems={"center"}>
 			<Avatar size='md' name='Mark Zuckerberg' src='/zuck-avatar.png' />
