@@ -13,9 +13,8 @@ const token=useSelector(state=>state.auth.token);
 const comState=useSelector(state=>state.comment);
 const postState=useSelector(state=>state.post)
 const [comments,setCom]=useState([]);
-const [likes,setLikes]=useState(0);
-// console.log(post._id)
-// const comments= comState.allComments;
+//  const [likes,setLikes]=useState(post.likes.length);
+const po=postState.posts.find(p=>p._id==post._id);
  useEffect(()=>{
  axios.get(`${import.meta.env.VITE_API}/user/getcomments/${post._id}`,{headers:{token}}).then(res=>{
   // console.log(res.data)
@@ -23,7 +22,12 @@ const [likes,setLikes]=useState(0);
 
  },[comState]);
   
-
+//  useEffect(()=>{
+//   axios.get(`${import.meta.env.VITE_API}/user/getpost/${post._id}`,{headers:{token}}).then(res=>{
+//    console.log(res.data)
+//    setLikes(res.data.likes.length)});
+ 
+//   },[postState]);
 
 
 const handleOpen=()=>{
@@ -39,7 +43,8 @@ const handleOpen=()=>{
       </Text>}
       <Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"}></Box>
       <Text color={"gray.light"} fontSize='sm'>
-  {post.likes.length&&<>{post.likes.length}</>} likes
+  {/* {likes&&<>{likes}</>} likes */}
+  {po&&po.likes.length}likes
  
       </Text>
     

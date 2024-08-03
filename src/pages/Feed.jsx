@@ -13,33 +13,34 @@ import Comment from '../components/comment';
 
 // components starts here
 function Feed() {
-  const [liked,setliked] =useState(false)
+ 
  const user= useSelector(state=>state.auth);
  const postState= useSelector(state=>state.post);
- const posts= postState.posts;	
+	
 //  console.log(posts)
   const dispatch= useDispatch();
-
+// console.log(postState.posts[0].likes.length)x
 useEffect(()=>{
 	if(user.token&&user.userId){
-		console.log(posts)
+		// console.log(posts)
 		dispatch( getforFeed({token:user.token}));
 	}
 
 
 
 },[]);
+
 if(postState.pending){
 	return <h2>....loading</h2>
 }
 
-  
- 
+//   
+// console.log('i am rendering again')
   return (<>
   {!user.token && <Navigate to='/login'/>}
 
 	<StoryFeed />
-	{posts.length&& posts.map((post)=>{
+	{postState.posts.length&& postState.posts.map((post)=>{
 			return<Link to={`/post/${post._id}`}>
 			<Flex gap={3} mb={4} py={5}>
 		
@@ -56,7 +57,7 @@ if(postState.pending){
 				<Flex justifyContent={"space-between"} w={"full"}>
 					<Flex w={"full"} alignItems={"center"}>
 						<Text fontSize={"sm"} fontWeight={"bold"}>
-							markzuckerberg
+							{post.username}
 						</Text>
 						{/* <Image src='/verified.png' w={4} h={4} ml={1} /> */}
 					</Flex>
@@ -77,10 +78,10 @@ if(postState.pending){
 				
 
 				<Flex gap={3} my={1}>
-					<Actions liked={post?.likes.includes(user.userId)} post={post} setLiked={setliked} key={post._id}/>
+					<Actions  post={post}  key={post._id}/>
 				</Flex>
 
-				<Comment post={post} key={post._id}/>
+				<Comment post={post} key={post._id} />
 			</Flex>
 		</Flex></Link> 
 		})}

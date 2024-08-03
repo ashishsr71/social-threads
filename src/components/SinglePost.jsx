@@ -19,7 +19,9 @@ function SinglePost() {
         dispatch(getSinlgePost({token,id}));
     },[])
      
-  return (<>{post &&<Flex gap={3} mb={4} py={5}>
+  return (<>
+  {/* {postState.pending&& <h2>...loading</h2>} */}
+  {post&& !postState.pending &&<Flex gap={3} mb={4} py={5}>
 		<Flex flexDirection={"column"} alignItems={"center"}>
 			<Avatar size='md' name='Mark Zuckerberg' src='/zuck-avatar.png' />
 			<Box w='1px' h={"full"} bg='gray.light' my={2}></Box>

@@ -48,13 +48,14 @@ function Navbar() {
           variant="outline"
         />
         {/* this is message icon */}
+        <Link to='/messages'>
         <IconButton bg={'black'}
           color={'white'}
           aria-label="Messages"
           icon={<RiSendPlaneLine/>}
           size="lg"
           variant="outline"
-        />
+        /></Link>
       {/* this is searchicon */}
       <Link to='/search/users'>
       <IconButton bg={'black'}

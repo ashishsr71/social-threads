@@ -15,7 +15,7 @@ import Skeletons from './components/Skeleton';
 import LoggedUser from './components/LoggedUser';
 import Search from './components/Search'
 import Profile from './pages/Profile'
-
+import Socket from './socket/socket';
 
 // component starts here
 function App() {
@@ -31,6 +31,7 @@ function App() {
   <Route path="/loading" element={<Skeletons/>} />
   <Route path ='/search/users' element={<Auth><Search/></Auth>}/>
   <Route path='/createpost' element={<Auth><CreatePost/></Auth>} />
+  <Route path ='/messages' element={<Socket/>}/>
  </Route>)))  
 
   return (
