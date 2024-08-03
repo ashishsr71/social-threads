@@ -115,18 +115,22 @@ const postSlice= createSlice({
 .addCase(getOtherUserPost.rejected,(state,action)=>{
     state.pending=false;
    console.log(action.error.message)
-})
-
-.addCase(likePostThunk.fulfilled,(state,action)=>{
-    
-        const newPosts= state.posts.map(post=>{
-            if(post._id===action.payload.doc._id){
-          
-             return action.payload.doc;
-            };
-            return post;
-        });
-         state.posts= newPosts;
+}).addCase(likePostThunk.pending,(state)=>{
+    state.error=null
+state.error=true;
+}).addCase(likePostThunk.fulfilled,(state,action)=>{
+     state.pending=false;
+    //  state.currentPost=action.payload;
+  
+        // console.log("post liked")
+        if(state.posts.length){
+         state.posts=  state.posts.map(post=>{
+                if(post._id==action.payload.doc._id){
+                    return action.payload.doc;
+                };
+                return post;
+            });
+        }
    
     
 
