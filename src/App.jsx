@@ -15,8 +15,8 @@ import Skeletons from './components/Skeleton';
 import LoggedUser from './components/LoggedUser';
 import Search from './components/Search'
 import Profile from './pages/Profile'
-import Socket from './socket/socket';
 
+import Chat from './pages/Chat';
 // component starts here
 function App() {
  const router= createBrowserRouter((createRoutesFromElements(
@@ -31,7 +31,7 @@ function App() {
   <Route path="/loading" element={<Skeletons/>} />
   <Route path ='/search/users' element={<Auth><Search/></Auth>}/>
   <Route path='/createpost' element={<Auth><CreatePost/></Auth>} />
-  <Route path ='/messages' element={<Socket/>}/>
+  <Route path ='/messages' element={<Chat/>}/>
  </Route>)))  
 
   return (

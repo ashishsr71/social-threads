@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import useSocket from "../hooks/socket";
 
 import React, { useEffect,useState } from 'react'
-
+import MesseageContainer from "../components/Conversesation";
 
 
 
@@ -30,10 +30,8 @@ function Socket() {
         setMessage('');
     };
   return (
-    <div>socket
-        <input type="text" value={message} onChange={(e)=>{
-          setMessage(e.target.value)}} />
-        <button onClick={sendMessage}>send</button>
+    <div>
+       <MesseageContainer/>
     </div>
   )
 }
