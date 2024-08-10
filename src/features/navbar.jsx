@@ -25,7 +25,17 @@ function Navbar() {
 {<Outlet/>}
 {user.token&&
 
-     <Flex justify="center" align="center" bg={footerBgColor} p={4} position="sticky" bottom={0} zIndex={10}>
+     <Flex  justify="center"
+     align="center"
+     bg={footerBgColor}
+     p={4}
+     position="fixed"
+     bottom={0}
+     left={0}
+     width="100%"
+     zIndex={10}
+     borderTop="1px solid"
+     borderColor="gray.200">
        <Link to='/'>  <IconButton bg={'black'} 
        color={'white'}
           aria-label="Messages"

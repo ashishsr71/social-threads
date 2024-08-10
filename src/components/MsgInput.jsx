@@ -26,6 +26,8 @@ function MsgInput() {
     const handleImageChange=()=>{};
     const imgUrl=''
     const isSending=true
+
+    
   return(
     <Flex gap={2} alignItems={"center"}>
         <form onSubmit={handleSendMessage} style={{ flex: 95 }}>
