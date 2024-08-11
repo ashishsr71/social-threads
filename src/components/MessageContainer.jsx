@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState,useEffect} from 'react'
 import { Avatar, Divider, Flex, Image, Skeleton, SkeletonCircle, Text, useColorModeValue } from "@chakra-ui/react";
 import MessageEach from './MessageEach';
 import MsgInput from './MsgInput';
@@ -9,6 +9,8 @@ function MessageContainer() {
     const messageEndRef=useRef()
     const currentUser={_id:12}
     const [messages,setMessages]=useState()
+   
+   
   return (
     <Flex
     flex='70'
@@ -49,7 +51,7 @@ function MessageContainer() {
             ))}
 
         {true &&
-            [1,2,3,4].map((message,i) => (
+            [0,1,2].map((message,i) => (
                 <Flex
                     key={i}
                     direction={"column"}

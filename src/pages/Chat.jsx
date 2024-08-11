@@ -1,23 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { SearchIcon } from "@chakra-ui/icons";
 import { Box, Button, Flex, Input, Skeleton, SkeletonCircle, Text, useColorModeValue } from "@chakra-ui/react";
 import { GiConversation } from "react-icons/gi";
 import Conversesation from '../components/Conversesation';
 import MessageContainer from '../components/MessageContainer';
 import MessageEach from '../components/MessageEach';
-
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 // component starts here
 function Chat() {
 
 
+    const[conversesations,setConversesations]=useState([]);
 
-const handleConversationSearch=()=>{};
+
+const token=useSelector(state=>state.auth.token);
+useEffect(()=>{
+    
+    axios.get(`${import.meta.env.VITE_API}/user/getconver`,{headers:{token}}).then(res=>{
+        console.log(res.data)
+        setConversesations(res.data)});
+    
+       },[]);
+
+
+       const handleConversationSearch=()=>{};
 const searchingUser=()=>{}
 const loadingConversations=false
 const selectedConversation={_id:2}
-
-
 
   return (<Box
   position={"absolute"}
@@ -49,7 +60,7 @@ const selectedConversation={_id:2}
           </form>
 
           {!loadingConversations &&
-              [0, 1, 2, 3, 4].map((_, i) => (
+              [0, 1, 2, 3].map((_, i) => (
                   <Flex key={i} gap={4} alignItems={"center"} p={"1"} borderRadius={"md"}>
                       <Box>
                           <SkeletonCircle size={"10"} />
@@ -61,9 +72,9 @@ const selectedConversation={_id:2}
                   </Flex>
               ))}
 
-          {!loadingConversations &&
-              [1,2,3,4].map((conversation) => (
-                 < Conversesation/>
+          {conversesations.length &&
+              conversesations.map((conversation) => (
+                 < Conversesation conversation={conversation}/>
           ))}
       </Flex>
       {!selectedConversation._id && (

@@ -1,16 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Flex, Box, Text,useBreakpointValue ,useColorModeValue,WrapItem,Avatar,Stack,} from '@chakra-ui/react';
 // BsCheck2All
 import { AddIcon, SearchIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import { BsCheck2All } from 'react-icons/bs';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 
 
-function Conversesation() {
+function Conversesation({conversation}) {
     const sideBarWidth = useBreakpointValue({ base: "100%", md: "300px" }); 
-    const user={userId:'asdfsaf',username:'ashish'}
+    const {token,userId}=useSelector(state=>state.auth);
+    // const user={userId:'asdfsaf',username:'ashish'}
     const currentUser={}
-    const lastMessage={seen:true,sender:'sdfdfd'}
+    const lastMessage={seen:true,sender:'sdfdfd'};
+    const user=conversation.participants.find((r)=>r._id !=userId)
+//    to fetch conversesations
+ 
+
+
   return (
     <Flex
         gap={4}
@@ -25,9 +33,9 @@ function Conversesation() {
             setSelectedConversation({
                 _id: conversation._id,
                 userId: user._id,
-                userProfilePic: user.profilePic,
+                userProfilePic: user.userImg,
                 username: user.username,
-                mock: conversation.mock,
+              
             })
         }
        
@@ -49,19 +57,19 @@ function Conversesation() {
 
         <Stack direction={"column"} fontSize={"sm"}>
             <Text fontWeight='700' display={"flex"} alignItems={"center"}>
-                {/* {user.username} <Image src='' w={4} h={4} ml={1} /> */}
+               {user.username}
             </Text>
             <Text fontSize={"xs"} display={"flex"} alignItems={"center"} gap={1}>
-                {currentUser._id === lastMessage.sender ? (
+                {userId === lastMessage.sender ? (
                     <Box color={lastMessage.seen ? "blue.400" : ""}>
                         <BsCheck2All size={16} />
                     </Box>
                 ) : (
                     ""
                 )}
-                {/* {lastMessage.text.length > 18
-                    ? lastMessage.text.substring(0, 18) + "..."
-                    : lastMessage.text || <BsFillImageFill size={16} />} */}
+                {conversation.lastmessage.text.length > 18
+                    ? conversation.lastmessage.text.substring(0, 18) + "..."
+                    :conversation.lastmessage.text || <BsFillImageFill size={16} />}
             </Text>
         </Stack>
     </Flex>
