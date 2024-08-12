@@ -7,28 +7,58 @@ import MessageContainer from '../components/MessageContainer';
 import MessageEach from '../components/MessageEach';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-
+import useSocket from '../hooks/socket';
 // component starts here
 function Chat() {
-
-
+    const {token,userId}=useSelector(state=>state.auth);
+const socket=useSocket(import.meta.env.VITE_API,userId)
+    const [loadingConversations,setloadingConversesations]=useState(false);
     const[conversesations,setConversesations]=useState([]);
+    const[messages,setMessages]=useState([]);
+    const [current,setCurrent]=useState({});
 
-
-const token=useSelector(state=>state.auth.token);
+// this will get all conversesations
 useEffect(()=>{
     
     axios.get(`${import.meta.env.VITE_API}/user/getconver`,{headers:{token}}).then(res=>{
-        console.log(res.data)
+        // console.log(res.data)
         setConversesations(res.data)});
     
        },[]);
 
 
+    //will connect to sockets    
+useEffect(()=>{
+if(!socket)return;
+socket.on('message',(message)=>{
+    console.log(message)
+    setMessages(prev=>[...prev,message])
+})
+
+
+return ()=>{socket.off('message')}
+
+},[socket,current]);
+
+
+// this effect will let you get messages of particular conversesattion
+
+useEffect(()=>{
+ if(!current._id)return;
+ axios.get(`${import.meta.env.VITE_API}/user/getcurrent/${current._id}`,{headers:{token}}).then(res=>{
+    console.log(res.data);
+    setMessages(res.data);
+ });
+
+},[current])
+
+
+
+
+
        const handleConversationSearch=()=>{};
-const searchingUser=()=>{}
-const loadingConversations=false
-const selectedConversation={_id:2}
+const searchingUser=false
+
 
   return (<Box
   position={"absolute"}
@@ -73,11 +103,11 @@ const selectedConversation={_id:2}
               ))}
 
           {conversesations.length &&
-              conversesations.map((conversation) => (
-                 < Conversesation conversation={conversation}/>
+              conversesations.map((conversation,i) => (
+                 < Conversesation conversation={conversation} setSelectedConversation={setCurrent} />
           ))}
       </Flex>
-      {!selectedConversation._id && (
+      {!current._id && (
           <Flex
               flex={70}
               borderRadius={"md"}
@@ -92,7 +122,7 @@ const selectedConversation={_id:2}
           </Flex>
       )}
 
-      {selectedConversation._id && <MessageContainer/>}
+      {current._id && <MessageContainer messages={messages} socket={socket} current={current} setMessages={setMessages}/>}
   </Flex>
 </Box>
 );

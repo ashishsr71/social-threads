@@ -5,10 +5,10 @@ import { AddIcon, SearchIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import { BsCheck2All } from 'react-icons/bs';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { BsFillImageFill } from 'react-icons/bs';
 
 
-
-function Conversesation({conversation}) {
+function Conversesation({conversation,setSelectedConversation}) {
     const sideBarWidth = useBreakpointValue({ base: "100%", md: "300px" }); 
     const {token,userId}=useSelector(state=>state.auth);
     // const user={userId:'asdfsaf',username:'ashish'}
@@ -67,7 +67,7 @@ function Conversesation({conversation}) {
                 ) : (
                     ""
                 )}
-                {conversation.lastmessage.text.length > 18
+                {conversation.lastmessage.length > 18
                     ? conversation.lastmessage.text.substring(0, 18) + "..."
                     :conversation.lastmessage.text || <BsFillImageFill size={16} />}
             </Text>

@@ -2,15 +2,16 @@ import React, { useRef, useState,useEffect} from 'react'
 import { Avatar, Divider, Flex, Image, Skeleton, SkeletonCircle, Text, useColorModeValue } from "@chakra-ui/react";
 import MessageEach from './MessageEach';
 import MsgInput from './MsgInput';
+import { useSelector } from 'react-redux';
 
 
 
-function MessageContainer() {
+function MessageContainer({socket,messages,current,setMessages}) {
     const messageEndRef=useRef()
     const currentUser={_id:12}
-    const [messages,setMessages]=useState()
-   
-   
+ 
+   const userId=useSelector(state=>state.auth.userId);
+//   console.log(current);
   return (
     <Flex
     flex='70'
@@ -24,6 +25,7 @@ function MessageContainer() {
         <Avatar src='' size={"sm"} />
         <Text display={"flex"} alignItems={"center"}>
             <Image src='' w={4} h={4} ml={1} />
+            {current.username}
         </Text>
     </Flex>
 
@@ -50,22 +52,22 @@ function MessageContainer() {
                 </Flex>
             ))}
 
-        {true &&
-            [0,1,2].map((message,i) => (
+        {messages.length &&
+            messages.map((message,i) => (
                 <Flex
                     key={i}
                     direction={"column"}
                     ref={2- 1 === [1,2,3,4].indexOf(message) ? messageEndRef : null}
                 >
-                    <MessageEach message={message} ownMessage={currentUser._id === message.sender} />
+                    <MessageEach message={message} ownMessage={userId === message.senderId} />
                 </Flex>
             ))}
     </Flex>
 
-    <MsgInput  setMessages={setMessages} />
+    <MsgInput  setMessages={setMessages} socket={socket}  reciepentId={current.userId}/>
 </Flex>
 );
   
 }
 
-export default MessageContainer
+export default MessageContainer;

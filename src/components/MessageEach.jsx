@@ -7,10 +7,10 @@ import { BsCheck2All } from "react-icons/bs";
 
 
 
-function MessageEach() {
+function MessageEach({ownMessage,message}) {
 
-const ownMessage=true;
-const message={text:'hii',img:'',}
+// const ownMessage=true;
+// const message={text:'hii',img:'',}
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
 	Flex,
 	Image,
@@ -16,16 +16,37 @@ import {
 } from "@chakra-ui/react";
 import { IoSendSharp } from "react-icons/io5";
 import { BsFillImageFill } from "react-icons/bs";
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 // component starts here
-function MsgInput() {
+function MsgInput({reciepentId,socket,setMessages}) {
+    const inputRef=useRef();
+    const [text,setText]=useState('')
+    const {token,userId}=useSelector(state=>state.auth);
+    // useEffect(()=>{
+    //  if(text.length<1)return;
+    // axios.post(`${import.meta.env.VITE_API}/user/sendmessage`,{text,reciepentId},{headers:{token}}).then(res=>{
+    //     // console.log(res.data);
+    // })
+    // },[text]);
+
+
+
     const { onClose } = useDisclosure();
-    const handleSendMessage=()=>{}
+    const handleSendMessage=async(e)=>{
+        e.preventDefault();
+     const {data}= await axios.post(`${import.meta.env.VITE_API}/user/sendmessage`,{text,reciepentId},{headers:{token}});
+     setMessages(prev=>[...prev,data]);
+        };
     const messageText='asdfsf'
     const imageRef=useRef();
     const handleImageChange=()=>{};
     const imgUrl=''
     const isSending=true
+   
+// this is to send message
+
 
     
   return(
@@ -35,8 +56,9 @@ function MsgInput() {
                 <Input
                     w={"full"}
                     placeholder='Type a message'
-                    onChange={(e) => setMessageText(e.target.value)}
-                    value={messageText}
+                    onChange={(e)=>{setText(e.target.value)}}
+                    value={text}
+                   
                 />
                 <InputRightElement onClick={handleSendMessage} cursor={"pointer"}>
                     <IoSendSharp />
@@ -76,4 +98,4 @@ function MsgInput() {
 );
 }
 
-export default MsgInput
+export default MsgInput;
