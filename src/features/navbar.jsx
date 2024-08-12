@@ -23,7 +23,7 @@ function Navbar() {
   
      {/* <button onClick={()=>{dispatch(logout())}}>logout</button> */}
 {<Outlet/>}
-{user.token&&
+{user.token&& user.useId&&
 
      <Flex  justify="center"
      align="center"
