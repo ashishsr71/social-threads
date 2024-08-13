@@ -30,17 +30,18 @@ export const getUser= createAsyncThunk('get/someone',async({id,token})=>{
 // state of followers
 const followSlice= createSlice({
     name:"follow",
-    initialState:{username:'',followers:[],following:[],requestSent:[],pending:false,userData:null},
+    initialState:{username:'',followers:[],following:[],requestSent:[],pending:false,userData:null,userImg:''},
     reducers:{},
     extraReducers:(builders)=>{
         builders.addCase(getFollow.pending,(state,action)=>{
             console.log("get follow req.pending")
             state.pending=true;
         }).addCase(getFollow.fulfilled,(state,action)=>{
-            // console.log(action.payload);
+            console.log(action.payload);
             state.username=action.payload.username;
             state.followers=[...action.payload.followers];
             state.following=[...action.payload.following];
+            state.userImg=action.payload.userImg;
             state.pending=false;
         }).addCase(getFollow.rejected,(state,action)=>{
             state.pending=false;

@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react'
-import { Avatar, Box, Flex,  Menu, MenuButton, MenuItem, MenuList, Portal, Text, VStack ,Button,Image} from '@chakra-ui/react';
+import { Avatar, Box, Flex,  Menu, MenuButton, MenuItem, MenuList, Portal, Text, VStack ,Button,Image, useDisclosure} from '@chakra-ui/react';
 import {BsInstagram} from "react-icons/bs"
 import {CgMoreO} from "react-icons/cg"
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,19 +11,21 @@ import { Link } from 'react-router-dom';
 import { getFollow } from '../Slices/follow';
 import { getforFeed, getPostsThunk } from '../Slices/postSlice';
 import Comment from './comment';
+import AddProfile from './AddProfile';
 
 
 
 function LoggedUser() {
 const [liked,setliked]=useState(false);
-   
+   const {onOpen,onClose,isOpen}=useDisclosure()
 	const dispatch = useDispatch();
 	
 	const user=useSelector(state=>state.auth);
 	const followStat=useSelector(state=>state.follow);
 	const postState=useSelector(state=>state.post);
+	const[imag,setImg]=useState(followStat.userImg)
 	const posts=postState.posts;
-    //  console.log(followStat);
+     console.log(followStat.userImg);
 	// console.log(followStat.followers.length);
 	// console.log(posts);
 	useEffect(()=>{
@@ -56,7 +58,8 @@ const [liked,setliked]=useState(false);
             </Flex>
       </Box>
       <Box >
-            <Avatar name={followStat.username} size={"xl"}></Avatar>
+            <Avatar src={followStat.userImg} name={followStat.username} size={"xl"} onClick={onOpen}  ></Avatar>
+			<AddProfile onClose={onClose} isOpen={isOpen} userImg={imag}setImg={setImg}/>
         
       </Box>
       
