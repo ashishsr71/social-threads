@@ -38,6 +38,7 @@ function MsgInput({reciepentId,socket,setMessages}) {
         e.preventDefault();
      const {data}= await axios.post(`${import.meta.env.VITE_API}/user/sendmessage`,{text,reciepentId},{headers:{token}});
      setMessages(prev=>[...prev,data]);
+     setText('');
         };
     const messageText='asdfsf'
     const imageRef=useRef();

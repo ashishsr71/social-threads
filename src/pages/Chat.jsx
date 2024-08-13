@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { SearchIcon } from "@chakra-ui/icons";
-import { Box, Button, Flex, Input, Skeleton, SkeletonCircle, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Skeleton, SkeletonCircle, Text, useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import { GiConversation } from "react-icons/gi";
 import Conversesation from '../components/Conversesation';
 import MessageContainer from '../components/MessageContainer';
@@ -8,21 +8,26 @@ import MessageEach from '../components/MessageEach';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import useSocket from '../hooks/socket';
+import SearchConver from '../components/SearchConver';
 // component starts here
 function Chat() {
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const {token,userId}=useSelector(state=>state.auth);
 const socket=useSocket(import.meta.env.VITE_API,userId)
-    const [loadingConversations,setloadingConversesations]=useState(false);
+    const [loadingConversations,setloadingConversesations]=useState(true);
     const[conversesations,setConversesations]=useState([]);
     const[messages,setMessages]=useState([]);
     const [current,setCurrent]=useState({});
-
+    const [searchingUser,setSearchingUser]=useState(false);
+    const[serchText,setSearchText]=useState('');
+    const [searched,setSearched]=useState([]);
 // this will get all conversesations
 useEffect(()=>{
     
     axios.get(`${import.meta.env.VITE_API}/user/getconver`,{headers:{token}}).then(res=>{
         // console.log(res.data)
         setConversesations(res.data)});
+        setloadingConversesations(false);
     
        },[]);
 
@@ -56,8 +61,18 @@ useEffect(()=>{
 
 
 
-       const handleConversationSearch=()=>{};
-const searchingUser=false
+       const handleConversationSearch=async()=>{
+        // console.log(' iam workin ')
+        setSearchingUser(true);
+      if(serchText.length==0)return;
+      const {data}= await axios.get(`${import.meta.env.VITE_API}/search?username=${serchText}`);
+      setSearched([...data]);
+    //   console.log(data)
+    onOpen();
+      setSearchingUser(false);
+
+       };
+
 
 
   return (<Box
@@ -82,14 +97,14 @@ const searchingUser=false
           </Text>
           <form onSubmit={handleConversationSearch}>
               <Flex alignItems={"center"} gap={2}>
-                  <Input placeholder='Search for a user' onChange={(e) => setSearchText(e.target.value)} />
+                  <Input placeholder='Search for a user' value={serchText} onChange={(e) => setSearchText(e.target.value)} />
                   <Button size={"sm"} onClick={handleConversationSearch} isLoading={searchingUser}>
                       <SearchIcon />
                   </Button>
               </Flex>
           </form>
-
-          {!loadingConversations &&
+          <SearchConver searched={searched}  isOpen={isOpen} onClose={onClose} onOpen={onOpen} setSelectedConversation={setCurrent}/>
+          {loadingConversations &&
               [0, 1, 2, 3].map((_, i) => (
                   <Flex key={i} gap={4} alignItems={"center"} p={"1"} borderRadius={"md"}>
                       <Box>
@@ -104,7 +119,7 @@ const searchingUser=false
 
           {conversesations.length &&
               conversesations.map((conversation,i) => (
-                 < Conversesation conversation={conversation} setSelectedConversation={setCurrent} />
+                 < Conversesation conversation={conversation} setSelectedConversation={setCurrent} searched={searched}/>
           ))}
       </Flex>
       {!current._id && (

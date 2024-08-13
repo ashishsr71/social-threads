@@ -32,7 +32,7 @@ function MessageContainer({socket,messages,current,setMessages}) {
     <Divider />
 
     <Flex flexDir={"column"} gap={4} my={4} p={2} height={"400px"} overflowY={"auto"}>
-        {false&&
+        {messages.length==0&&
             [...Array(5)].map((_, i) => (
                 <Flex
                     key={i}
@@ -57,7 +57,7 @@ function MessageContainer({socket,messages,current,setMessages}) {
                 <Flex
                     key={i}
                     direction={"column"}
-                    ref={2- 1 === [1,2,3,4].indexOf(message) ? messageEndRef : null}
+                    ref={messages?.length- 1 === messages.indexOf(message) ? messageEndRef : null}
                 >
                     <MessageEach message={message} ownMessage={userId === message.senderId} />
                 </Flex>

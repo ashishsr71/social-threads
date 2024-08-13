@@ -12,7 +12,7 @@ function Conversesation({conversation,setSelectedConversation}) {
     const sideBarWidth = useBreakpointValue({ base: "100%", md: "300px" }); 
     const {token,userId}=useSelector(state=>state.auth);
     // const user={userId:'asdfsaf',username:'ashish'}
-    const currentUser={}
+   
     const lastMessage={seen:true,sender:'sdfdfd'};
     const user=conversation.participants.find((r)=>r._id !=userId)
 //    to fetch conversesations
