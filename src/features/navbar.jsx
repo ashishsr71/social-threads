@@ -10,12 +10,12 @@ import { logout } from '../Slices/Auith';
 import { FaUser,FaBell, FaFeatherAlt  } from 'react-icons/fa'
 import { AiOutlineHome } from 'react-icons/ai'
 import {RiSendPlaneLine, RiSearchLine } from 'react-icons/ri';
-
+import { HamburgerIcon } from '@chakra-ui/icons';
 // component starts here
 function Navbar() {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const [isMenuOpen,setMenuOpen]=useState(false);
-  const dispatch= useDispatch();
+  // const dispatch= useDispatch();
   const user=useSelector(state=>state.auth);
   const footerBgColor = useColorModeValue('light.footerBg', 'dark.footerBg');
 
@@ -23,6 +23,7 @@ function Navbar() {
 
 
   const toggleMenu = () => {
+    // console.log('iam working')
     setMenuOpen(!isMenuOpen);
   };
   return (
@@ -31,6 +32,74 @@ function Navbar() {
   
      {/* <button onClick={()=>{dispatch(logout())}}>logout</button> */}
 {<Outlet/>}
+
+{isMobile&&<HamburgerIcon onClick={toggleMenu}/>}
+{isMobile&&isMenuOpen&&user.userId&&<Flex  justify="center"
+     align="center"
+     bg={footerBgColor}
+     p={4}
+     position="fixed"
+     bottom={0}
+     left={0}
+     width="100%"
+     zIndex={10}
+     borderTop="1px solid"
+     borderColor="gray.200">
+       <Link to='/'>  <IconButton bg={'black'} 
+       color={'white'}
+          aria-label="Messages"
+          icon={<AiOutlineHome/>}
+          size="lg"
+          variant="outline"
+          onClick={toggleMenu}
+        /></Link>
+       <Link to='/createpost'>  <IconButton bg={'black'}
+         color={'white'}
+          aria-label="Messages"
+          icon={<FaFeatherAlt />}
+          size="lg"
+          variant="outline"
+          onClick={toggleMenu}
+        /></Link>
+       <IconButton bg={'black'}
+         color={'white'}
+          aria-label="Messages"
+          icon={<FaBell/>}
+          size="lg"
+          variant="outline"
+          onClick={toggleMenu}
+        />
+        {/* this is message icon */}
+        <Link to='/messages'>
+        <IconButton bg={'black'}
+          color={'white'}
+          aria-label="Messages"
+          icon={<RiSendPlaneLine/>}
+          size="lg"
+          variant="outline"
+          onClick={toggleMenu}
+        /></Link>
+      {/* this is searchicon */}
+      <Link to='/search/users'>
+      <IconButton bg={'black'}
+        color={'white'}
+          aria-label="Messages"
+          icon={< RiSearchLine/>}
+          size="lg"
+          variant="outline"
+          onClick={toggleMenu}
+        /> </Link>
+      
+      <Link to='/profile' > <IconButton bg={'black'}
+        color={'white'}
+        
+          aria-label="Messages"
+          icon={<FaUser />}
+          size="lg"
+          variant="outline"
+          onClick={toggleMenu}
+        /></Link>
+      </Flex>}
 {user.token&& user.userId&&!isMobile&&
 
      <Flex  justify="center"
