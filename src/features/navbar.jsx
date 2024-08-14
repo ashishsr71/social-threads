@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import { Flex,Button ,useColorModeValue,Box,  Input, InputGroup, InputLeftElement, IconButton } from '@chakra-ui/react'
+import { Flex,Button ,useColorModeValue,Box,  Input, InputGroup, InputLeftElement, IconButton,useBreakpointValue } from '@chakra-ui/react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -13,17 +13,25 @@ import {RiSendPlaneLine, RiSearchLine } from 'react-icons/ri';
 
 // component starts here
 function Navbar() {
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  const [isMenuOpen,setMenuOpen]=useState(false);
   const dispatch= useDispatch();
   const user=useSelector(state=>state.auth);
   const footerBgColor = useColorModeValue('light.footerBg', 'dark.footerBg');
 
+
+
+
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
+  };
   return (
     <>
     
   
      {/* <button onClick={()=>{dispatch(logout())}}>logout</button> */}
 {<Outlet/>}
-{user.token&& user.userId&&
+{user.token&& user.userId&&!isMobile&&
 
      <Flex  justify="center"
      align="center"
