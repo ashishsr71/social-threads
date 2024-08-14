@@ -7,10 +7,12 @@ import { useSelector } from 'react-redux';
 
 
 function MessageContainer({socket,messages,current,setMessages}) {
-    const messageEndRef=useRef()
-    const currentUser={_id:12}
- 
-   const userId=useSelector(state=>state.auth.userId);
+    const messageEndRef=useRef(null)
+    const userId=useSelector(state=>state.auth.userId);
+   useEffect(() => {
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+}, [messages]);
+
 //   console.log(current);
   return (
     <Flex
