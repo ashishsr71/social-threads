@@ -29,11 +29,11 @@ function Navbar() {
   return (
     <>
     
-  
+    {isMobile&&<HamburgerIcon onClick={toggleMenu}/>}
      {/* <button onClick={()=>{dispatch(logout())}}>logout</button> */}
 {<Outlet/>}
 
-{isMobile&&<HamburgerIcon onClick={toggleMenu}/>}
+
 {isMobile&&isMenuOpen&&user.userId&&<Flex  justify="center"
      align="center"
      bg={footerBgColor}
