@@ -41,7 +41,7 @@ useEffect(()=>{
    setReply('');
    onClose();
  };
-},[comment]);
+},[comment]);     
 
 
 
