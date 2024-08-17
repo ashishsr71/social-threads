@@ -1,5 +1,5 @@
 import React, { useRef, useState,useEffect} from 'react'
-import { Avatar, Divider, Flex, Image, Skeleton, SkeletonCircle, Text, useColorModeValue } from "@chakra-ui/react";
+import { Avatar, Divider, Flex, Image, Skeleton, SkeletonCircle, Text, useColorModeValue,useDisclosure } from "@chakra-ui/react";
 import MessageEach from './MessageEach';
 import MsgInput from './MsgInput';
 import { useSelector } from 'react-redux';
@@ -8,8 +8,9 @@ import VideoCall from './VideoCall';
 
 
 function MessageContainer({socket,messages,current,setMessages}) {
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const messageEndRef=useRef(null)
-    const [vcall,setVcall]=useState(false);
+    
     const userId=useSelector(state=>state.auth.userId);
    useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -31,9 +32,10 @@ function MessageContainer({socket,messages,current,setMessages}) {
             {/* <Image src='' w={4} h={4} ml={1} /> */}
             {current.username}
         </Text>
-    
+        <VideoSvg onOpen={onOpen}/>
     </Flex>
-   {vcall&&<VideoCall/>}
+    
+   {isOpen&&<VideoCall isOpen={isOpen} onClose={onClose} socket={socket}/>}
     <Divider />
 
     <Flex flexDir={"column"} gap={4} my={4} p={2} height={"400px"} overflowY={"auto"}>
@@ -79,7 +81,7 @@ export default MessageContainer;
 
 
 
-const VideoSvg=({setVcall})=>{
+const VideoSvg=({onOpen})=>{
     return(
         <div style={{cursor:"pointer" }}>
         <svg 
@@ -88,7 +90,7 @@ const VideoSvg=({setVcall})=>{
     width="24" 
     height="24" 
     fill="currentColor"
-    onClick={e=>setVcall(prev=>!prev)}
+    onClick={onOpen}
     >
 
   <path 

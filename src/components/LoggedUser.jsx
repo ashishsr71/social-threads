@@ -25,7 +25,8 @@ const [liked,setliked]=useState(false);
 	const postState=useSelector(state=>state.post);
 	const[imag,setImg]=useState(followStat.userImg)
 	const posts=postState.posts;
-     console.log(followStat.userImg);
+	console.log(posts)
+    //  console.log(followStat.userImg);
 	// console.log(followStat.followers.length);
 	// console.log(posts);
 	useEffect(()=>{
@@ -114,7 +115,7 @@ const [liked,setliked]=useState(false);
 		return     <Link to={`/post/${post._id}`}>
 		<Flex gap={3} mb={4} py={5}>
 			<Flex flexDirection={"column"} alignItems={"center"}>
-				<Avatar size='md' name='Mark Zuckerberg' src='/zuck-avatar.png' />
+				<Avatar size='md' name='Mark Zuckerberg' src={post?.userId?.userImg} />
 				<Box w='1px' h={"full"} bg='gray.light' my={2}></Box>
 				<Box position={"relative"} w={"full"}>
 					<Avatar
@@ -150,7 +151,7 @@ const [liked,setliked]=useState(false);
 				<Flex justifyContent={"space-between"} w={"full"}>
 					<Flex w={"full"} alignItems={"center"}>
 						<Text fontSize={"sm"} fontWeight={"bold"}>
-							{post?.username}
+							{post?.userId.username}
 						</Text>
 						{/* <Image src='/verified.png' w={4} h={4} ml={1} /> */}
 					</Flex>
@@ -162,7 +163,7 @@ const [liked,setliked]=useState(false);
 					</Flex>
 				</Flex>
 
-				<Text fontSize={"sm"}>asdfasdf</Text>
+				<Text fontSize={"sm"}>{post?.text}</Text>
 				    
 				{post.media.secure_url&&<Box borderRadius={6} overflow={"hidden"} border={"1px solid"} borderColor={"gray.light"}>
 						<Image src={post.media.secure_url}   w={"full"} />

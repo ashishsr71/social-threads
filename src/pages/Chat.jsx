@@ -9,11 +9,11 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import useSocket from '../hooks/socket';
 import SearchConver from '../components/SearchConver';
+import VideoCall from '../components/VideoCall';
 // component starts here
 function Chat() {
     const { isOpen, onOpen, onClose } = useDisclosure();
- 
-    const {token,userId}=useSelector(state=>state.auth);
+  const {token,userId}=useSelector(state=>state.auth);
 const socket=useSocket(import.meta.env.VITE_API,userId)
     const [loadingConversations,setloadingConversesations]=useState(true);
     const[conversesations,setConversesations]=useState([]);
