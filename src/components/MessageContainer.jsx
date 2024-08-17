@@ -9,8 +9,7 @@ import VideoCall from './VideoCall';
 
 function MessageContainer({socket,messages,current,setMessages}) {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const messageEndRef=useRef(null)
-    
+    const messageEndRef=useRef(null);
     const userId=useSelector(state=>state.auth.userId);
    useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -27,7 +26,7 @@ function MessageContainer({socket,messages,current,setMessages}) {
 >
     {/* Message header */}
     <Flex w={"full"} h={12} alignItems={"center"} gap={2}>
-        <Avatar src='' size={"sm"} />
+        <Avatar src={current.userProfilePic} size={"sm"} />
         <Text display={"flex"} alignItems={"center"}>
             {/* <Image src='' w={4} h={4} ml={1} /> */}
             {current.username}

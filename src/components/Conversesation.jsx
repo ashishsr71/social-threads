@@ -48,7 +48,7 @@ function Conversesation({conversation,setSelectedConversation}) {
                     sm: "sm",
                     md: "md",
                 }}
-                src=''
+                src={user.userImg}
                 
             >
                 {/* {isOnline ? <AvatarBadge boxSize='1em' bg='green.500' /> : ""} */}

@@ -9,7 +9,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import useSocket from '../hooks/socket';
 import SearchConver from '../components/SearchConver';
-import VideoCall from '../components/VideoCall';
+
 // component starts here
 function Chat() {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -26,7 +26,7 @@ const socket=useSocket(import.meta.env.VITE_API,userId)
 useEffect(()=>{
     
     axios.get(`${import.meta.env.VITE_API}/user/getconver`,{headers:{token}}).then(res=>{
-        // console.log(res.data)
+        console.log(res.data)
         setConversesations(res.data)});
         setloadingConversesations(false);
     
