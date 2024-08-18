@@ -12,65 +12,82 @@ import {
   ModalFooter,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 function VideoCall({isOpen,onClose,socket}) {
-  
+    
     const endCallButtonSize = useBreakpointValue({ base: 'md', md: 'lg' });
     const [localStream, setLocalStream] = useState(null);
-    const [remoteStream, setRemoteStream] = useState(null);
-    const localVideoRef = useRef();
-    const remoteVideoRef = useRef();
-    const peerConnectionRef = useRef();
+      const [remoteStream, setRemoteStream] = useState(null);
+      const localVideoRef = useRef();
+      const remoteVideoRef = useRef();
+      const peerConnectionRef = useRef();
     const iceServers = {
       iceServers: [
           { urls: 'stun:stun.l.google.com:19302' }, 
-          { urls: 'stun:stun1.l.google.com:19302' },
-          { urls: 'stun:stun2.l.google.com:19302' },
-          { urls: 'stun:stun3.l.google.com:19302' },
-          { urls: 'stun:stun4.l.google.com:19302' }
+         
       ]
   };
+  
+ 
   // const peerConnection = new RTCPeerConnection(iceServers);
+
     useEffect(() => {
-        async function init() {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-            console.log(stream)
-            setLocalStream(stream);
-            localVideoRef.current.srcObject = stream;
+     
+      async function init() {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        setLocalStream(stream);
+        localVideoRef.current.srcObject = stream;
 
-            const pc = new RTCPeerConnection(iceServers);
-            stream.getTracks().forEach(track => pc.addTrack(track, stream));
-            peerConnectionRef.current = pc;
+        const pc = new RTCPeerConnection(iceServers);
+        stream.getTracks().forEach(track => pc.addTrack(track, stream));
+        peerConnectionRef.current = pc;
 
-            pc.onicecandidate = event => {
-                if (event.candidate) {
-                    socket.emit('ice-candidate', { candidate: event.candidate, roomId: '1234' });
-                }
-            };
-
-            pc.ontrack = event => {
-                setRemoteStream(event.streams[0]);
-                remoteVideoRef.current.srcObject = event.streams[0];
-            };
+        pc.onicecandidate = event => {
+            if (event.candidate) {
+                socket.emit('ice-candidate', { candidate: event.candidate, roomId: '1234' });
+            }
         };
 
-        socket.emit('join-room', '1234');
+        pc.ontrack = event => {
+            setRemoteStream(event.streams[0]);
+            remoteVideoRef.current.srcObject = event.streams[0];
+        };
+    }
 
-        socket.on('offer', async (sdp) => {
-            await peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(sdp));
-            const answer = await peerConnectionRef.current.createAnswer();
-            await peerConnectionRef.current.setLocalDescription(answer);
-            socket.emit('answer', { sdp: peerConnectionRef.current.localDescription, roomId: '1234' });
-        });
+    socket.emit('join-room', '1234');
 
-        socket.on('answer', async (sdp) => {
-            await peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(sdp));
-        });
+    socket.on('offer', async (sdp) => {
+        await peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(sdp));
+        const answer = await peerConnectionRef.current.createAnswer();
+        await peerConnectionRef.current.setLocalDescription(answer);
+        socket.emit('answer', { sdp: peerConnectionRef.current.localDescription, roomId: '1234' });
+    });
 
-        socket.on('ice-candidate', async (candidate) => {
-            await peerConnectionRef.current.addIceCandidate(new RTCIceCandidate(candidate));
-        });
+    socket.on('answer', async (sdp) => {
+        await peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(sdp));
+    });
 
-        init();
+    socket.on('ice-candidate', async (candidate) => {
+        await peerConnectionRef.current.addIceCandidate(new RTCIceCandidate(candidate));
+    });
+    init();
+    
+    return () => {
+      // Cleanup function to be called on component unmount
+
+      // Close all peer connections
+      Object.values(peerConnections.current).forEach(pc => pc.close());
+
+      // Stop all local media tracks
+      if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+      }
+
+      // Disconnect from the signaling server
+      
+
+      console.log('Call ended');
+    };
     }, []);
 
 
@@ -79,10 +96,12 @@ function VideoCall({isOpen,onClose,socket}) {
       await peerConnectionRef.current.setLocalDescription(offer);
       socket.emit('offer', { sdp: peerConnectionRef.current.localDescription, roomId: '1234' });
   };
+  
+  
    
 
 
-    const handleCall=()=>{}
+ 
   return (
     <>
 
@@ -98,7 +117,10 @@ function VideoCall({isOpen,onClose,socket}) {
             <div>
             <video ref={localVideoRef} autoPlay muted style={{ width: "300px" }} />
             <video ref={remoteVideoRef} autoPlay style={{ width: "300px" }} />
-            <button onClick={callUser}>Call</button>
+           
+            <Button colorScheme="green" mr={3} onClick={callUser}>
+            call
+          </Button>
         </div>
           </Box>
         </ModalBody>
