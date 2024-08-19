@@ -34,7 +34,7 @@ function MessageContainer({socket,messages,current,setMessages}) {
         <VideoSvg onOpen={onOpen}/>
     </Flex>
     
-   {isOpen&&<VideoCall isOpen={isOpen} onClose={onClose} socket={socket}/>}
+   {isOpen&&<VideoCall isOpen={isOpen} onClose={onClose} socket={socket} current={current}/>}
     <Divider />
 
     <Flex flexDir={"column"} gap={4} my={4} p={2} height={"400px"} overflowY={"auto"}>
