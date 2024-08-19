@@ -41,10 +41,16 @@ useEffect(()=>{
     setStream(currentStream);
 
     myVideo.current.srcObject = currentStream;
-  });
+  }).catch(error=>console.log(error));
   socket.on('calluser', ({ from,  name: callerName, signal }) => {
+    console.log(from,callerName)
     setCall({ isReceivingCall: true, from, name: callerName, signal });
   });
+  return()=>{
+    if (stream) {
+      stream.getTracks().forEach((track) => track.stop());
+    }
+  }
 },[]);
 
 const answerCall=()=>{
@@ -69,7 +75,7 @@ const callUser=()=>{
   const peer = new Peer({ initiator: true, trickle: false, stream });
 console.log(peer)
   peer.on('signal', (data) => {
-    socket.emit('callUser', { toWhom:current?.userId, signalData: data, from: userId, name:username });
+    socket.emit('calluser', { toWhom:current?.userId, signalData: data, from: userId, name:username });
   });
 
   peer.on('stream', (currentStream) => {
@@ -87,6 +93,8 @@ console.log(peer)
 const leaveCall=()=>{ setCallEnded(true);
 
   connectionRef.current.destroy();
+  myVideo.current=null;
+  
 onClose();
 }
     // useEffect(() => {
