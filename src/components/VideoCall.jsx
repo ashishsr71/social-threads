@@ -65,8 +65,9 @@ const answerCall=()=>{
 };
 
 const callUser=()=>{
+  
   const peer = new Peer({ initiator: true, trickle: false, stream });
-
+console.log(peer)
   peer.on('signal', (data) => {
     socket.emit('callUser', { toWhom:current?.userId, signalData: data, from: userId, name:username });
   });
