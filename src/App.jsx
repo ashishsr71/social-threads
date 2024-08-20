@@ -17,8 +17,8 @@ import Search from './components/Search'
 import Profile from './pages/Profile'
 
 import Chat from './pages/Chat';
-import VideoCall from './components/VideoCall';
-import Videoplayer from './components/Videoplayer';
+;
+
 // component starts here
 function App() {
  const router= createBrowserRouter((createRoutesFromElements(
@@ -33,14 +33,16 @@ function App() {
   <Route path="/loading" element={<Skeletons/>} />
   <Route path ='/search/users' element={<Auth><Search/></Auth>}/>
   <Route path='/createpost' element={<Auth><CreatePost/></Auth>} />
-  <Route path ='/messages' element={<Auth><Chat/></Auth>}/>
-  <Route path ='/video' element={<Videoplayer/>} />
+  <Route path ='/messages' element={<Auth> <Chat/></Auth>}/>
+  
  </Route>)))  
 
   return (
 <Container maxW='620px'>
   <Header/>
+
    <RouterProvider router={router}/>
+  
    </Container>
   )
 }

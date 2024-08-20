@@ -1,18 +1,12 @@
 import React, { useEffect, useRef } from 'react'
 
-function Videoplayer() {
-    const videoRef=useRef()
-    useEffect(()=>{
-        async function init(){
-const stream=await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-videoRef.current.srcObject=stream;
-        };
-        init();
-    },[])
+function Videoplayer({stream,callAccepted,callEnded,userVideo,myVideo}) {
+ 
+   
   return (
     <div>
-        <p>video call</p>
-         <video ref={videoRef} autoPlay muted style={{  width: "250px"}} /></div>
+       {stream&&  <video ref={myVideo} autoPlay muted style={{  width: "250px"}} />}
+       {callAccepted&&!callEnded&&<video ref={userVideo} autoPlay style={{ width: "250px" }} />}  </div>
   )
 }
 

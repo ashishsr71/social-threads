@@ -13,7 +13,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
-import Peer from 'simple-peer';
+import Peer from 'simple-peer'
+import Videoplayer from './Videoplayer';
 function VideoCall({isOpen,onClose,socket,current}) {
 
   const [callAccepted, setCallAccepted] = useState(false);
@@ -36,9 +37,8 @@ function VideoCall({isOpen,onClose,socket,current}) {
  
   // const peerConnection = new RTCPeerConnection(iceServers);
 useEffect(()=>{
-  
   async function init(){  
-   const currentStream= await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+   const currentStream= await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     setStream(currentStream);
 
     myVideo.current.srcObject = currentStream;
@@ -185,20 +185,19 @@ onClose();
         <ModalHeader>Full-Screen Modal</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          
-           
-           
-            <video ref={myVideo} autoPlay muted style={{  width: "250px"}} />
-          {callAccepted&&!callEnded&&<video ref={userVideo} autoPlay style={{ width: "250px" }} />}  
-           
-          
           <Box>
-          <Button colorScheme="green" mr={3} onClick={callUser}>
+           <Videoplayer callAccepted={callAccepted} callEnded={callEnded} stream={stream} myVideo={myVideo} userVideo={userVideo} />
+           
+         
+           
+          </Box> 
+          <Box>
+         {!callAccepted&&<Button colorScheme="green" mr={3} onClick={callUser}>
             call
-          </Button>
-          <Button colorScheme="red" mr={3} onClick={leaveCall}>
+          </Button>} 
+          {!callEnded&&<Button colorScheme="red" mr={3} onClick={leaveCall}>
             End
-          </Button>
+          </Button>}
           {call.isReceivingCall&&<Button colorScheme="blue" mr={3} onClick={answerCall}>
             ans
           </Button>}
