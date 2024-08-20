@@ -37,7 +37,7 @@ function VideoCall({isOpen,onClose,socket,current}) {
   // const peerConnection = new RTCPeerConnection(iceServers);
 useEffect(()=>{
   async function init(){  
-   const currentStream= await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+   const currentStream= await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
     setStream(currentStream);
 
     myVideo.current.srcObject = currentStream;
@@ -184,13 +184,13 @@ onClose();
         <ModalHeader>Full-Screen Modal</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Box>
+          
            
            
-          {stream&&  <video ref={myVideo} autoPlay muted style={{  width: "250px"}} />}
+            <video ref={myVideo} autoPlay muted style={{  width: "250px"}} />
           {callAccepted&&!callEnded&&<video ref={userVideo} autoPlay style={{ width: "250px" }} />}  
            
-          </Box> 
+          
           <Box>
           <Button colorScheme="green" mr={3} onClick={callUser}>
             call
