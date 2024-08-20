@@ -36,6 +36,7 @@ function VideoCall({isOpen,onClose,socket,current}) {
  
   // const peerConnection = new RTCPeerConnection(iceServers);
 useEffect(()=>{
+  
   async function init(){  
    const currentStream= await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
     setStream(currentStream);

@@ -7,10 +7,12 @@ function Videoplayer() {
 const stream=await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
 videoRef.current.srcObject=stream;
         };
-        init()
+        init();
     },[])
   return (
-    <div> <video ref={videoRef} autoPlay muted style={{  width: "250px"}} /></div>
+    <div>
+        <p>video call</p>
+         <video ref={videoRef} autoPlay muted style={{  width: "250px"}} /></div>
   )
 }
 
