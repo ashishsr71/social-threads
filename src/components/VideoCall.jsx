@@ -36,16 +36,18 @@ function VideoCall({isOpen,onClose,socket,current}) {
  
   // const peerConnection = new RTCPeerConnection(iceServers);
 useEffect(()=>{
-  navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-  .then((currentStream) => {
+  async function init(){  
+   const currentStream= await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     setStream(currentStream);
 
     myVideo.current.srcObject = currentStream;
-  }).catch(error=>console.log(error));
+};
+
   socket.on('calluser', ({ from,  name: callerName, signal }) => {
     console.log(from,callerName)
     setCall({ isReceivingCall: true, from, name: callerName, signal });
   });
+  init();
   return()=>{
     if (stream) {
       stream.getTracks().forEach((track) => track.stop());
@@ -58,7 +60,7 @@ const answerCall=()=>{
 
   const peer = new Peer({ initiator: false, trickle: false, stream });
   peer.on('signal', (data) => {
-    socket.emit('answerCall', { signal: data, userId:call.from });
+    socket.emit('answercall', { signal: data, userId:call.from });
   });
 
   peer.on('stream', (currentStream) => {
@@ -93,7 +95,10 @@ console.log(peer)
 const leaveCall=()=>{ setCallEnded(true);
 
   connectionRef.current.destroy();
-  myVideo.current=null;
+  if(stream){
+    stream.getTracks().forEach((track) => track.stop());
+  }
+ 
   
 onClose();
 }
@@ -182,7 +187,7 @@ onClose();
           <Box>
             <p>This is a full-screen modal. You can add any content here.</p>
             <Flex direction={"column"}>
-          {stream&&  <video ref={myVideo} autoPlay muted style={{ maxWidth: "250px",borderRadius:'20px' }} />}
+          {stream&&  <video ref={myVideo} autoPlay muted style={{  width: "250px"}} />}
           {callAccepted&&!callEnded&&<video ref={userVideo} autoPlay style={{ width: "250px" }} />}  
            
             
