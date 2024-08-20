@@ -5,7 +5,7 @@ function Videoplayer({stream,callAccepted,callEnded,userVideo,myVideo}) {
    
   return (
     <div>
-       {stream&&  <video ref={myVideo} autoPlay muted style={{  width: "250px"}} />}
+       <video ref={myVideo} autoPlay muted style={{  width: "250px"}} />
       <video ref={userVideo} autoPlay style={{ width: "250px" }} />  </div>
   )
 }
