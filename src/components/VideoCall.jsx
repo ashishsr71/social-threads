@@ -185,13 +185,13 @@ onClose();
         <ModalCloseButton />
         <ModalBody>
           <Box>
-            <p>This is a full-screen modal. You can add any content here.</p>
-            <Flex direction={"column"}>
+           
+           
           {stream&&  <video ref={myVideo} autoPlay muted style={{  width: "250px"}} />}
           {callAccepted&&!callEnded&&<video ref={userVideo} autoPlay style={{ width: "250px" }} />}  
            
-            
-          </Flex>
+          </Box> 
+          <Box>
           <Button colorScheme="green" mr={3} onClick={callUser}>
             call
           </Button>
