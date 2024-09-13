@@ -10,4 +10,4 @@ function Videoplayer({stream,callAccepted,callEnded,userVideo,myVideo}) {
   )
 }
 
-export default Videoplayer
+export default Videoplayer;

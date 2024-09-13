@@ -15,10 +15,30 @@ import {
     useColorModeValue,
     Flex,WrapItem,Avatar
   } from "@chakra-ui/react";
+import { useSelector } from 'react-redux';
 
 
 
-function SearchConver({searched,isOpen,onClose,setSelectedConversation}) {
+
+function SearchConver({searched,isOpen,onClose,setSelectedConversation,conversesations,setConverseations,current}) {
+    const userId=useSelector(state=>state.auth.userId);
+    const addConversesations=(newuser)=>{
+        let conversationExists = false;
+
+        for (let conv of conversesations) {
+            if (conv?.participants?.includes(newuser.userId)) {
+                conversationExists = true;
+                break; // Stop the loop if the conversation exists
+            }
+        }
+    
+        // If conversation does not exist, push the new one
+        if (!conversationExists) {
+            setConverseations(prev => [...prev, newuser]);
+        }
+    
+    };
+    
   return (
     <>
    <Modal isOpen={isOpen} onClose={onClose} size="lg">
@@ -29,7 +49,7 @@ function SearchConver({searched,isOpen,onClose,setSelectedConversation}) {
         <ModalBody>
 
      
-          {searched.length&& searched.map((user)=><Card user={user} setSelectedConversation={setSelectedConversation} onClose={onClose} />)}
+          {searched.length&& searched.map((user)=><Card user={user} setSelectedConversation={setSelectedConversation} onClose={onClose} addConversesations={addConversesations} userId={userId} />)}
           
         </ModalBody>
       </ModalContent>
@@ -40,7 +60,7 @@ function SearchConver({searched,isOpen,onClose,setSelectedConversation}) {
 
 export default SearchConver;
 
-const Card = ({ user,setSelectedConversation,onClose}) => (
+const Card = ({ user,setSelectedConversation,onClose,addConversesations,userId}) => (
 
     <Flex
         gap={4}
@@ -53,6 +73,15 @@ const Card = ({ user,setSelectedConversation,onClose}) => (
         }}
         onClick={() =>{
             onClose()
+            addConversesations({
+                _id: Math.random(),
+                userId: user._id||user?.userId,
+                userProfilePic: user.userImg||'',
+                username: user.username,
+                lastmessage:{},
+                participants:[{_id:userId,username:''},{_id:user.userId,username:user.username}]
+              
+            });
             setSelectedConversation({
                 _id: Math.random(),
                 userId: user._id||user?.userId,

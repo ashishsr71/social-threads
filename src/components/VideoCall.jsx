@@ -198,12 +198,12 @@ onClose();
           {!callEnded&&<Button colorScheme="red" mr={3} onClick={leaveCall}>
             End
           </Button>}
-          {call.isReceivingCall&&<Button colorScheme="blue" mr={3} onClick={answerCall}>
+          {call.isReceivingCall&&!connectionRef.current&&<Button colorScheme="blue" mr={3} onClick={answerCall}>
             ans
-          </Button>}
+          </Button>}  
           </Box>
         </ModalBody>
-
+  
         <ModalFooter>
           <Button colorScheme="blue" mr={3} onClick={onClose}>
             Close

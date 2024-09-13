@@ -13,7 +13,8 @@ function Conversesation({conversation,setSelectedConversation}) {
     const {token,userId}=useSelector(state=>state.auth);
     // const user={userId:'asdfsaf',username:'ashish'}
    
-    const lastMessage={seen:true,sender:'sdfdfd'};
+    const lastMessage=conversation.lastmessage;
+    
     const user=conversation.participants.find((r)=>r._id !=userId)
 //    to fetch conversesations
  

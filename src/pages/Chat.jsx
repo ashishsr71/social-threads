@@ -104,7 +104,7 @@ useEffect(()=>{
                   </Button>
               </Flex>
           </form>
-          <SearchConver searched={searched}  isOpen={isOpen} onClose={onClose} onOpen={onOpen} setSelectedConversation={setCurrent}/>
+          <SearchConver searched={searched}  isOpen={isOpen} onClose={onClose} onOpen={onOpen} setSelectedConversation={setCurrent} current={current} conversesations={conversesations} setConverseations={setConversesations}/>
           {loadingConversations &&
               [0, 1, 2, 3].map((_, i) => (
                   <Flex key={i} gap={4} alignItems={"center"} p={"1"} borderRadius={"md"}>
