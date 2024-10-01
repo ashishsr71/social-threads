@@ -85,7 +85,7 @@ if(!token){
 
 const ParticipantTracks = () => {
     const { participants } = useParticipants();
-  
+  console.log(participants)
     return (
       <div>
         {participants?.map((participant) => (
