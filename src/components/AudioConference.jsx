@@ -5,7 +5,12 @@ import {
     ParticipantTile,
     RoomAudioRenderer,
     useTracks,
-    useParticipants
+    useParticipants,
+    ParticipantLoop,
+    ParticipantName,
+    useEnsureTrackRef,
+    ParticipantAudioTile,
+    useTrackRefContext
   } from "@livekit/components-react";
   import "@livekit/components-styles";
   import { Track } from "livekit-client";
@@ -18,18 +23,18 @@ const serverUrl = 'wss://social-threads-app-8jyllp8e.livekit.cloud';
 
 
 export default function (){
-const trackRef=useRef();
-const [audio,setAudio]=useState(null);
+// const trackRef=useRef();
+// const [audio,setAudio]=useState(null);
 const[token,setToken]=useState(null)
-useEffect(()=>{
-    navigator.mediaDevices
-    .getUserMedia({ audio: true})
-    .then((stream) => {
-    setAudio(stream)
-    console.log(stream)
-    trackRef(stream)})
+// useEffect(()=>{
+//     navigator.mediaDevices
+//     .getUserMedia({ audio: true})
+//     .then((stream) => {
+//     setAudio(stream)
+//     console.log(stream)
+//     trackRef(stream)})
 
-},[])
+// },[])
 const createRoom=async()=>{
   const response=await  axios.get('http://localhost:4000/getlivetoken');
   setToken(response.data)
@@ -71,8 +76,10 @@ if(!token){
       {/* Your custom component with basic video conferencing functionality. */}
       {/* <MyAudioConference /> */}
       {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
-      {/* <RoomAudioRenderer /> */}
-      <ParticipantTracks/>
+      <RoomAudioRenderer />
+     
+     <ParticipantTracks/>
+    
       {/* Controls for the user to start/stop audio, video, and screen
       share tracks and to leave the room. */}
       <ControlBar />
@@ -84,20 +91,21 @@ if(!token){
 
 
 const ParticipantTracks = () => {
-    const { participants } = useParticipants();
-  console.log(participants)
+    const  participants  = useParticipants();
+// const trackRef=useTrackRefContext()
     return (
       <div>
-        {participants?.map((participant) => (
-          <div key={participant.identity}>
-            <h3>{participant.identity}</h3>
-            {participant.tracks.map((track) =>
-              track.source === 'microphone' ? (
-                <AudioTrack key={track.sid} track={track.track} />
-              ) : null
-            )}
-          </div>
-        ))}
+        {/* <useTrackRefContext> */}
+        <ParticipantLoop participants={participants}>
+         <ParticipantName/>
+        {/* <ParticipantAudioTile/> */}
+      
+        </ParticipantLoop>
+       
+        {/* <ParticipantTile trackRef={trackRef}/> */}
+           
+        
+        {/* </useTrackRefContext> */}
       </div>
     );
   };
