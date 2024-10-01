@@ -17,6 +17,7 @@ import Search from './components/Search'
 import Profile from './pages/Profile'
 
 import Chat from './pages/Chat';
+import AudioConference from './components/AudioConference';
 ;
 
 // component starts here
@@ -34,6 +35,7 @@ function App() {
   <Route path ='/search/users' element={<Auth><Search/></Auth>}/>
   <Route path='/createpost' element={<Auth><CreatePost/></Auth>} />
   <Route path ='/messages' element={<Auth> <Chat/></Auth>}/>
+  <Route path ='/live' element={<AudioConference/>}/>
   
  </Route>)))  
 
