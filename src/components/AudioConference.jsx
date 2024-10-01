@@ -60,7 +60,7 @@ if(!token){
 }
     return (
         <LiveKitRoom
-      
+      video={true}
       audio={true}
       token={token}
       serverUrl={serverUrl}
