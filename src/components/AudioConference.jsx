@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 // import { Room } from "livekit-client";
 import { useEffect, useRef, useState } from "react";
+import { Button } from "@chakra-ui/react";
 
 const serverUrl = 'wss://social-threads-app-8jyllp8e.livekit.cloud';
 
@@ -42,7 +43,8 @@ const joinRoom = async () => {
         roomName,
         identity,
       });
-      setToken(response.data.token);
+      console.log(response.data)
+      setToken(response.data);
     } catch (error) {
       console.error('Error joining room:', error);
     }
@@ -51,8 +53,9 @@ const joinRoom = async () => {
 
 if(!token){
     return (<>
-    <button onClick={joinRoom}>joinroom</button>
-    <button onClick={createRoom}>createroom</button>
+    <Button onClick={joinRoom}>joinroom</Button>
+    {"    "}
+    <Button onClick={createRoom}>createroom</Button>
     <h2>getting token</h2></>)
 }
     return (
