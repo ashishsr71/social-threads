@@ -38,7 +38,7 @@ const[token,setToken]=useState(null)
 
 // },[])
 const createRoom=async()=>{
-  const response=await  axios.get('http://localhost:4000/getlivetoken');
+  const response=await  axios.get(`${import.meta.env.VITE_API}/getlivetoken`);
   setToken(response.data)
 };
 
@@ -46,7 +46,7 @@ const joinRoom = async () => {
     const roomName='quickstart-room';
     const identity="meranaam"
     try {
-      const response = await axios.post('http://localhost:4000/getlivetoken/new', {
+      const response = await axios.post(`${import.meta.env.VITE_API}/getlivetoken/new`, {
         roomName,
         identity,
       });
