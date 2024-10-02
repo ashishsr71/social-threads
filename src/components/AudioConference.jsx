@@ -10,7 +10,9 @@ import {
     ParticipantName,
     useEnsureTrackRef,
     ParticipantAudioTile,
-    useTrackRefContext
+    useTrackRefContext,
+    TrackRefContext,
+    AudioConference
   } from "@livekit/components-react";
   import "@livekit/components-styles";
   import { Track } from "livekit-client";
@@ -76,13 +78,14 @@ if(!token){
       {/* Your custom component with basic video conferencing functionality. */}
       {/* <MyAudioConference /> */}
       {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
-      <RoomAudioRenderer />
-     
-     <ParticipantTracks/>
-    
+      {/* <RoomAudioRenderer />*/}
+     {/* <ParticipantTracks/> 
+    */}
+    <AudioConference/>
       {/* Controls for the user to start/stop audio, video, and screen
       share tracks and to leave the room. */}
-      <ControlBar />
+   
+      {/* <ControlBar />   */}
  
         </LiveKitRoom>
     )
@@ -90,23 +93,32 @@ if(!token){
 };
 
 
-const ParticipantTracks = () => {
-    const  participants  = useParticipants();
-// const trackRef=useTrackRefContext()
-    return (
-      <div>
-        {/* <useTrackRefContext> */}
-        <ParticipantLoop participants={participants}>
-         <ParticipantName/>
-        {/* <ParticipantAudioTile/> */}
+// const ParticipantTracks = () => {
+//     const  participants  = useParticipants();
+// // const trackRef=useTrackRefContext()
+//     return (
+//       <div>
+//         {/* <useTrackRefContext> */}
+//         {/* <ParticipantLoop participants={participants}> */}
+//          {/* <ParticipantName/> */}
+//         {/* <ParticipantAudioTile/> */}
       
-        </ParticipantLoop>
+//         {/* </ParticipantLoop> */}
+//         {/* <GridLayout> */}
+//         <TrackRefContext>
+
+//         {participants.map((participant) => (
+//     <ParticipantTile key={participant.sid} participant={participant} />
+//   ))}
+//        </TrackRefContext>
+
+//       {/* </GridLayout> */}
        
-        {/* <ParticipantTile trackRef={trackRef}/> */}
+//         {/* <ParticipantTile trackRef={trackRef}/> */}
            
         
-        {/* </useTrackRefContext> */}
-      </div>
-    );
-  };
+//         {/* </useTrackRefContext> */}
+//       </div>
+//     );
+//   };
 
