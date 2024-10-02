@@ -60,7 +60,8 @@ function Navbar() {
           size="lg"
           variant="outline"
           onClick={toggleMenu}
-        /></Link>
+        /></Link>\
+        <Link to='/live'>
        <IconButton bg={'black'}
          color={'white'}
           aria-label="Messages"
@@ -68,7 +69,7 @@ function Navbar() {
           size="lg"
           variant="outline"
           onClick={toggleMenu}
-        />
+        /></Link>
         {/* this is message icon */}
         <Link to='/messages'>
         <IconButton bg={'black'}
@@ -127,13 +128,14 @@ function Navbar() {
           size="lg"
           variant="outline"
         /></Link>
+        <Link to='/live'>
        <IconButton bg={'black'}
          color={'white'}
           aria-label="Messages"
           icon={<FaBell/>}
           size="lg"
           variant="outline"
-        />
+        /></Link>
         {/* this is message icon */}
         <Link to='/messages'>
         <IconButton bg={'black'}
