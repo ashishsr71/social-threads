@@ -6,7 +6,7 @@ import {
     ParticipantTile,
     
     useTracks,
-   
+   RoomAudioRenderer 
   } from "@livekit/components-react";
   import "@livekit/components-styles";
   import { Track } from "livekit-client";
@@ -74,7 +74,7 @@ if(!token){
       {/* Your custom component with basic video conferencing functionality. */}
       {/* <MyAudioConference /> */}
       {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
-      {/* <RoomAudioRenderer />*/}
+       <RoomAudioRenderer />
     
      <ParticipantTracks/> 
     
