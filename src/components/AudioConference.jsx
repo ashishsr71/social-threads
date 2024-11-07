@@ -1,99 +1,71 @@
 import {
   AudioConference,
-    ControlBar,
-    GridLayout,
-    LiveKitRoom,
-    ParticipantTile,
-    
-    useTracks,
-   RoomAudioRenderer 
-  } from "@livekit/components-react";
-  import "@livekit/components-styles";
-  import { Track } from "livekit-client";
+  LiveKitRoom,
+  ParticipantTile,
+} from "@livekit/components-react";
+import "@livekit/components-styles";
 import axios from "axios";
-// import { Room } from "livekit-client";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Box, Button, Grid, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
-
-
 const serverUrl = 'wss://social-threads-app-8jyllp8e.livekit.cloud';
 
+export default function () {
+  const { token: authtoken } = useSelector(state => state.auth);
+  const [token, setToken] = useState(null);
 
-export default function (){
-// const trackRef=useRef();
-// const [audio,setAudio]=useState(null);
-const {token:authtoken}=useSelector(state=>state.auth);
-const[token,setToken]=useState(null)
+  const createRoom = async () => {
+    const response = await axios.get(`${import.meta.env.VITE_API}/getlivetoken`, {
+      headers: { token: authtoken }
+    });
+    setToken(response.data);
+  };
 
-// useEffect(()=>{
-//     navigator.mediaDevices
-//     .getUserMedia({ audio: true})
-//     .then((stream) => {
-//     setAudio(stream)
-//     console.log(stream)
-//     trackRef(stream)})
-
-// },[])
-const createRoom=async()=>{
-  const response=await  axios.get(`${import.meta.env.VITE_API}/getlivetoken`,{headers:{token:authtoken}});
-  setToken(response.data)
-};
-
-const joinRoom = async () => {
-    const roomName='quickstart-room';
-    const identity="meranaam"
+  const joinRoom = async () => {
+    const roomName = 'quickstart-room';
+    const identity = "meranaam";
     try {
       const response = await axios.post(`${import.meta.env.VITE_API}/getlivetoken/new`, {
         roomName,
         identity,
-      },{headers:{token:authtoken}});
-      console.log(response.data)
+      }, { headers: { token: authtoken } });
       setToken(response.data);
     } catch (error) {
       console.error('Error joining room:', error);
     }
   };
 
+  if (!token) {
+    return (
+      <>
+        <Button onClick={joinRoom}>Join Room</Button>
+        <Button onClick={createRoom}>Create Room</Button>
+        <h2>Getting token</h2>
+      </>
+    );
+  }
 
-if(!token){
-    return (<>
-    <Button onClick={joinRoom}>joinroom</Button>
-    {"    "}
-    <Button onClick={createRoom}>createroom</Button>
-    <h2>getting token</h2></>)
-}
-    return (<LiveKitRoom
+  return (
+    <LiveKitRoom
       video={true}
       audio={true}
       token={token}
       serverUrl={serverUrl}
-      // Use the default LiveKit theme for nice styles.
       data-lk-theme="default"
       style={{ height: '100vh' }}
     >
-     
-       {/* <RoomAudioRenderer /> */}
-    <Box p={4} textAlign="center">
-      <Text fontSize="2xl" mb={4}>quickstart-room</Text>
-<AudioConference>
-<Grid templateColumns={{base:'repeat(2,1fr)',md:'repeat(4,1fr)'}} gap={4} autoRows="1fr"> 
-<ParticipantTile/>
-</Grid>
-
-
-</AudioConference>
-
-    </Box>
-     {/* <ParticipantTracks/>  */}
-    
-    
-      {/* <ControlBar />   */}
- 
-        </LiveKitRoom>
-    )
-
+      <Box p={4} textAlign="center">
+        <Text fontSize="2xl" mb={4}>quickstart-room</Text>
+        <AudioConference>
+          <Grid templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(5, 1fr)' }} gap={4}>
+            {/* ParticipantTile with custom styling for smaller size */}
+            <ParticipantTile style={{ width: '80px', height: '80px' }} />
+          </Grid>
+        </AudioConference>
+      </Box>
+    </LiveKitRoom>
+  );
 };
 
 
