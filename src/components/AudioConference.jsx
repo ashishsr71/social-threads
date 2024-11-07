@@ -13,8 +13,10 @@ import {
 import axios from "axios";
 // import { Room } from "livekit-client";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@chakra-ui/react";
+import { Box, Button, Grid, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
+
+
 
 const serverUrl = 'wss://social-threads-app-8jyllp8e.livekit.cloud';
 
@@ -71,21 +73,23 @@ if(!token){
       data-lk-theme="default"
       style={{ height: '100vh' }}
     >
-      {/* Your custom component with basic video conferencing functionality. */}
-      {/* <MyAudioConference /> */}
-      {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
-       <RoomAudioRenderer />
+     
+       {/* <RoomAudioRenderer /> */}
+    <Box p={4} textAlign="center">
+      <Text fontSize="2xl" mb={4}>quickstart-room</Text>
+<AudioConference>
+<Grid templateColumns={{base:'repeat(2,1fr)',md:'repeat(4,1fr)'}} gap={4} autoRows="1fr"> 
+<ParticipantTile/>
+</Grid>
+
+
+</AudioConference>
+
+    </Box>
+     {/* <ParticipantTracks/>  */}
     
-     <ParticipantTracks/> 
     
-    {/* <AudioConference  style={{ height: 'calc(100vh - var(--lk-control-bar-height))' }}>
-      <ParticipantTile/>
-      </AudioConference> */}
-  
-      {/* Controls for the user to start/stop audio, video, and screen
-      share tracks and to leave the room. */}
-   
-      <ControlBar />  
+      {/* <ControlBar />   */}
  
         </LiveKitRoom>
     )
