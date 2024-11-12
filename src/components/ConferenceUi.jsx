@@ -39,6 +39,7 @@ const ConferenceUi = ({participants}) => {
         isHost=JSON.parse(participants[0].metadata).role;
     }
     const handleMute = async (participantIdentity) => {
+        if(isHost!="host")return;
         await axios.post(`${import.meta.env.VITE_API}/mute`, {  roomName:"quickstart-room", participantIdentity }, {
             headers: { token }
           });
@@ -46,6 +47,7 @@ const ConferenceUi = ({participants}) => {
       };
         
       const handleUnmute = async (participantIdentity) => {
+        if(isHost!="host")return;
         await axios.post(`${import.meta.env.VITE_API}/unmute`, { roomName:"quickstart-room", participantIdentity }, {
             headers: { token }
           });
