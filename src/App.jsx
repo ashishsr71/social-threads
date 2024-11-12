@@ -18,6 +18,7 @@ import Profile from './pages/Profile'
 
 import Chat from './pages/Chat';
 import AudioConference from './components/AudioConference';
+import ConferenceUi from './components/ConferenceUi';
 ;
 
 // component starts here
@@ -36,6 +37,7 @@ function App() {
   <Route path='/createpost' element={<Auth><CreatePost/></Auth>} />
   <Route path ='/messages' element={<Auth> <Chat/></Auth>}/>
   <Route path ='/live' element={<Auth><AudioConference/></Auth>}/>
+  <Route path='/conf' element={<ConferenceUi/>}/>
   
  </Route>)))  
 
