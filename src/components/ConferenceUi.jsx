@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Grid, Avatar, Text, Badge, IconButton, Flex,keyframes } from "@chakra-ui/react";
 import { FiMic, FiMicOff } from "react-icons/fi";
 import { DisconnectButton } from '@livekit/components-react';
@@ -34,10 +34,12 @@ const users = [
 ];
 const ConferenceUi = ({participants}) => {
     const {token}=useSelector(state=>state.auth)
+    const [host,setHost]=useState("")
     let isHost;
     if(participants[0].metadata){
-        isHost=JSON.parse(participants[0].metadata).role;
-    }
+      isHost= JSON.parse(participants[0].metadata).role;
+    };
+    
     const handleMute = async (participantIdentity) => {
         if(isHost!="host")return;
         await axios.post(`${import.meta.env.VITE_API}/mute`, {  roomName:"quickstart-room", participantIdentity }, {
@@ -73,7 +75,7 @@ const ConferenceUi = ({participants}) => {
                   borderRadius="full"
                 >
                   <Avatar name={user.name} size="lg" />
-                  {!user.isMicroPhoneEnabled && (
+                  {!user?.permissions?.canPublish && (
                     <IconButton onClick={()=>{handleUnmute(user.identity)}}
                       icon={<FiMicOff />}
                       aria-label="Muted"
@@ -85,7 +87,7 @@ const ConferenceUi = ({participants}) => {
                       isRound
                     />
                   )}
-                      {user.isMicrophoneEnabled && (
+                      {user?.permissions?.canPublish && (
                     <IconButton onClick={()=>{handleMute(user.identity)}}
                       icon={<FiMic/>}
                       aria-label="Muted"
@@ -101,8 +103,10 @@ const ConferenceUi = ({participants}) => {
                 <Text fontSize="sm" mt={2} isTruncated>
                   {user.identity}
                 </Text>
-                <Badge colorScheme={user.role === "Host" ? "red" : "purple"} fontSize="0.6em">
-                  {isHost}
+                <Badge colorScheme={isHost === "host" ? "red" : "purple"} fontSize="0.6em">
+                  
+                  {user?.permissions?.canPublish&&<>Speaker</>}
+                  {!user?.permissions?.canPublish&&<>Listener</>}
                 </Badge>
               </Box>
             ))}
