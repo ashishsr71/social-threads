@@ -10,6 +10,7 @@ import { getPostsThunk } from '../Slices/postSlice';
 import { getforFeed } from '../Slices/postSlice';
 import { Link } from 'react-router-dom';
 import Comment from '../components/comment';
+import ConferencePage from './ConferencePage';
 
 // components starts here
 function Feed() {
@@ -40,6 +41,7 @@ if(postState.pending){
   {!user.token && <Navigate to='/login'/>}
 
 	<StoryFeed />
+	<ConferencePage/>
 	{postState.posts.length&& postState.posts.map((post)=>{
 			return<Link to={`/post/${post._id}`}>
 			<Flex gap={3} mb={4} py={5}>

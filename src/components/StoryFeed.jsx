@@ -18,7 +18,7 @@ export default function StoryFeed(){
   const storyStatus= useSelector(state=>state.story);
   const storie=storyStatus.stories;
   const user=useSelector(state=>state.auth)
-  console.log(storie);
+  // console.log(storie);
   const dispatch=useDispatch();
 useEffect(()=>{
 dispatch(storythunk({token:user.token}));
