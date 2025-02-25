@@ -89,18 +89,19 @@ const AuthSlice=createSlice({
             state.pending=false;
         }).addCase(refreshToken.pending,(state)=>{
             //    console.log('refresh pending')
-                state.pending=true
+                // state.pending=true
         }).addCase(refreshToken.fulfilled,(state,action)=>{
             state.token=action.payload.token;
             state.userId=action.payload.userId;
             state.pending=false
             // console.log(action.payload)
         }).addCase(refreshToken.rejected,(state,action)=>{
+            state.pending=false
             if(action.payload.msg){
                 return state.error=action.payload.msg
             }
             state.error=action?.error?.message
-            state.pending=false
+            
         })
         }
     
