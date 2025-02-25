@@ -18,12 +18,12 @@ function Feed() {
  const user= useSelector(state=>state.auth);
  const postState= useSelector(state=>state.post);
 	
-//  console.log(posts)
+
   const dispatch= useDispatch();
-// console.log(postState.posts[0].likes.length)x
+
 useEffect(()=>{
 	if(user.token&&user.userId){
-		// console.log(posts)
+		
 		dispatch( getforFeed({token:user.token}));
 	}
 
@@ -40,8 +40,8 @@ if(postState.pending){
   return (<>
   {!user.token && <Navigate to='/login'/>}
 
-	<StoryFeed />
-	<ConferencePage/>
+	{user.userId&&<StoryFeed />}
+	{user.userId&&<ConferencePage/>}
 	{postState.posts.length&& postState.posts.map((post)=>{
 			return<Link to={`/post/${post._id}`}>
 			<Flex gap={3} mb={4} py={5}>

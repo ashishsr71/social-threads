@@ -1,33 +1,31 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AiOutlineConsoleSql } from "react-icons/ai";
+
 
 
 // login thunk
 
 
-export const loginThunk=createAsyncThunk('login/thunk',async(data)=>{
-    // console.log(import.meta.env.VITE_API)
-const response= await axios.post(`${import.meta.env.VITE_API}/user/login`,data);
-// console.log(response)
+export const loginThunk=createAsyncThunk('login/thunk',async(data,{rejectWithValue})=>{
+   
+const response= await axios.post(`${import.meta.env.VITE_API}/user/login`,data,{withCredentials:true});
+
 return response.data;
 });
 
 
  export const signupThunk=createAsyncThunk('signup/thunk',async(data)=>{
  
-    const response= await axios.post(`${import.meta.env.VITE_API}/user/signup`,data);
-    console.log(response.data)
+    const response= await axios.post(`${import.meta.env.VITE_API}/user/signup`,data,{withCredentials:true});
+    // console.log(response.data)
     return response.data;
 });
 
-export const refreshToken= createAsyncThunk('refresh/token',async(_,{getState})=>{
-    const { refreshToken } = getState().auth;
-    console.log(refreshToken)
-    if(refreshToken){
-      const response = await axios.post(`${import.meta.env.VITE_API}/user/refreshtoken`, { refreshToken });
-      return response.data;};
-    return {msg:"you are logged out"}
+export const refreshToken= createAsyncThunk('refresh/token',async(_,{getState,rejectWithValue})=>{
+    const response = await axios.get(`${import.meta.env.VITE_API}/user/me`, {withCredentials:true});
+    // console.log(response.data)
+      return response.data;
+    
     
 });
 
@@ -90,16 +88,19 @@ const AuthSlice=createSlice({
             state.error=action.payload.message
             state.pending=false;
         }).addCase(refreshToken.pending,(state)=>{
-               console.log('refresh pending')
+            //    console.log('refresh pending')
+                state.pending=true
         }).addCase(refreshToken.fulfilled,(state,action)=>{
-            state.token=action.payload;
-            console.log(action.payload)
+            state.token=action.payload.token;
+            state.userId=action.payload.userId;
+            state.pending=false
+            // console.log(action.payload)
         }).addCase(refreshToken.rejected,(state,action)=>{
             if(action.payload.msg){
                 return state.error=action.payload.msg
             }
             state.error=action?.error?.message
-            console.log(action.error.message);
+            state.pending=false
         })
         }
     

@@ -15,7 +15,7 @@ import {
  import { Navigate, Link as RouterLink, useNavigate } from 'react-router-dom'
  import { useForm } from "react-hook-form"
 import { color } from 'framer-motion';
-import { loginThunk } from '../Slices/Auith';
+import { loginThunk, refreshToken } from '../Slices/Auith';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import Skeletons from '../components/Skeleton';
@@ -25,7 +25,7 @@ function Login() {
 const dispatch=useDispatch();
 const navigate=useNavigate();
 const user=useSelector(state=>state.auth);
-// console.log(user.error)
+
   const {
     register,
     handleSubmit,
@@ -33,18 +33,19 @@ const user=useSelector(state=>state.auth);
     formState: { errors },
   } = useForm()
   
-
   useEffect(()=>{
-    // console.log(user)
+    dispatch(refreshToken());
+  },[])
+  useEffect(()=>{
+    
     if(user.userId){
-      console.log("i am working")
+      
       navigate('/')
     }
     },[user])
 
 const onSubmit=(data)=>{
-// console.log(data.email)
-// console.log(data.password)
+
 dispatch(loginThunk(data));
 };
 

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Box, Grid, Avatar, Text, Badge, IconButton, Flex,keyframes } from "@chakra-ui/react";
 import { FiMic, FiMicOff } from "react-icons/fi";
 import { DisconnectButton } from '@livekit/components-react';
-import { RoomEvent } from 'livekit-client';
+// import { RoomEvent } from 'livekit-client';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
@@ -20,21 +20,10 @@ const pulseRing = keyframes`
     box-shadow: 0 0 0 0 rgba(72, 187, 255, 0);
   }
 `;
-const users = [
-  { name: "Dantley", role: "Host", isMuted: true },
-  { name: "Spaces", role: "Speaker" },
-  { name: "Ileana", role: "Speaker", isMuted: true },
-  { name: "Esther", role: "Speaker" },
-  { name: "Maya", role: "Speaker", isMuted: true },
-  { name: "Danny", role: "Speaker", isMuted: true },
-  { name: "Alex", role: "Speaker", isMuted: true },
-  { name: "Jon", role: "Listener" },
-  { name: "Shirin", role: "Listener" },
-  { name: "MC Hammer", role: "Listener" },
-];
+
 const ConferenceUi = ({participants}) => {
     const {token}=useSelector(state=>state.auth)
-    const [host,setHost]=useState("")
+    // const [host,setHost]=useState("")
     let isHost;
     if(participants[0].metadata){
       isHost= JSON.parse(participants[0].metadata).role;
@@ -42,7 +31,7 @@ const ConferenceUi = ({participants}) => {
     
     const handleMute = async (participantIdentity) => {
         if(isHost!="host")return;
-        await axios.post(`${import.meta.env.VITE_API}/mute`, {  roomName:"quickstart-room", participantIdentity }, {
+        await axios.post(`${import.meta.env.VITE_API}/mute`, {  roomName:"quickstart-room", participantIdentity ,isHost}, {
             headers: { token }
           });
         console.log(`Muted ${participantIdentity}`);
@@ -50,7 +39,7 @@ const ConferenceUi = ({participants}) => {
         
       const handleUnmute = async (participantIdentity) => {
         if(isHost!="host")return;
-        await axios.post(`${import.meta.env.VITE_API}/unmute`, { roomName:"quickstart-room", participantIdentity }, {
+        await axios.post(`${import.meta.env.VITE_API}/unmute`, { roomName:"quickstart-room", participantIdentity,isHost }, {
             headers: { token }
           });
         console.log(`Unmuted ${participantIdentity}`);

@@ -7,6 +7,7 @@ import {
   ParticipantTile,
   RoomAudioRenderer,
   TrackRefContext,
+  TrackToggle,
   useLocalParticipant,
   useParticipants,
   useRemoteParticipants,
@@ -14,12 +15,13 @@ import {
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { Box, Button, Grid, Text,VStack,GridItem,Badge,AvatarBadge, IconButton, Tooltip, Avatar } from "@chakra-ui/react";
+import { useState } from "react";
+import { Box, Button, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-import { MdMic, MdMicOff, MdVolumeUp } from 'react-icons/md';
-// import { Participant, RoomEvent } from "livekit-client";
+
+
 import ConferenceUi from "./ConferenceUi";
+import { Track } from "livekit-client";
 
 const serverUrl = 'wss://social-threads-app-8jyllp8e.livekit.cloud';
 
@@ -34,13 +36,14 @@ export default function () {
     setToken(response.data);
   };
 
-  const joinRoom = async () => {
+  const joinRoom = async (roomId) => {
     const roomName = 'quickstart-room';
     const identity = "meranaam";
     try {
       const response = await axios.post(`${import.meta.env.VITE_API}/getlivetoken/new`, {
         roomName,
         identity,
+        roomId
       }, { headers: { token: authtoken } });
       setToken(response.data);
     } catch (error) {
@@ -70,17 +73,10 @@ export default function () {
       <Box p={4} textAlign="center">
         <Text fontSize="2xl" mb={4}>quickstart-room</Text>
         <RoomAudioRenderer/>
-        {/* <AudioConference >  */}
-            {/* <Grid templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(5, 1fr)' }} gap={4}>  */}
-           
-            {/* <ParticipantAudioTile onParticipantClick={(e)=>{console.log(e)}} style={{ width: '40px', height: '40px' }}  /> */}
-          {/* </Grid> */}
-          {/* <Grid templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(5, 1fr)' }} gap={4}> */}
-            {/* Use ParticipantLoop to render all participants */}
+       
         <ParticipantTracks/>
-          {/* </Grid> */}
-       {/* </AudioConference> */}
-       <ControlBar controls={{audio:true}}/>
+       <TrackToggle source={Track.Source.Microphone} initialState={false}/>
+       {/* <ControlBar controls={{audio:true}}/> */}
       </Box>
       
     </LiveKitRoom>

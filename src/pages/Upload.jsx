@@ -3,15 +3,14 @@ import axios from 'axios';
 function Upload() {
     const [image,setImage]=useState(null);
     const [video,setVideo]=useState(null)
-    //  const [singature,setSignature]=useState('');
-    //  const [timestamp,setTimestamp]=useState(0)
+    
      useEffect(()=>{
       async function uplod(){
             let signature='';
             let timestamp=0; 
             if(image || video){
                
-              await  axios.get('http://localhost:4000/getsignature').then(res=>{
+              await  axios.get('http://localhost:4000/getsignature',{withCredentials:true}).then(res=>{
                    signature=res.data.signature;
                    timestamp=res.data.timestamp;
                 })
@@ -23,9 +22,9 @@ function Upload() {
             data.append("api_key",171627853614734)
            
          const {data:response} =   await axios.post("https://api.cloudinary.com/v1_1/dizyncuqs/image/upload",data);
-            console.log(response)
+            // console.log(response)
          const responses=await axios.post('http://localhost:4000/upload',response);
-         console.log(responses)
+         // console.log(responses)
                 
               
             

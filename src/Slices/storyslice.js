@@ -3,13 +3,13 @@ import axios from "axios";
 
 // const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjYxZjI0ZTlmZjkzZjdjYTk5Yzg2MjIiLCJpYXQiOjE3MTc3ODEyMTUsImV4cCI6MTcxNzg2NzYxNX0.RhoMQaezDBYeWGDe24ArjCSeNtX1eGQ2234E8SYWnSA"
 export const storythunk= createAsyncThunk('story/thunk',async({token})=>{
-    const response= await axios.get(`${import.meta.env.VITE_API}/user/getStory`,{ 'headers': { token}});
+    const response= await axios.get(`${import.meta.env.VITE_API}/user/getStory`,{ 'headers': { token},withCredentials:true});
     // console.log(response.data)
     return response.data;
 });
 
 export const addStory= createAsyncThunk('story/add',async({token,data})=>{
-    const response= await axios.post(`${import.meta.env.VITE_API}/user/addStory`,data,{ 'headers': { token}});
+    const response= await axios.post(`${import.meta.env.VITE_API}/user/addStory`,data,{ 'headers': { token},withCredentials:true});
     // console.log(response.data)
     return response.data;
 });

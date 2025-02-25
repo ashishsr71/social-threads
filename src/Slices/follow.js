@@ -7,7 +7,7 @@ import { createAsyncThunk,createSlice } from "@reduxjs/toolkit";
 export const getFollow= createAsyncThunk("follow/followers",async({token})=>{
     // const id =data.id;
     // const token=data.token;
-    const response=await  axios.get(`${import.meta.env.VITE_API}/user/getfollow`,{headers:{token}});
+    const response=await  axios.get(`${import.meta.env.VITE_API}/user/getfollow`,{headers:{token},withCredentials:true});
     // console.log(response)
     return response.data;
 });
@@ -16,13 +16,13 @@ export const getFollow= createAsyncThunk("follow/followers",async({token})=>{
 export const followSomeone=createAsyncThunk('follow/someone',async(data)=>{
     const id=data.id;
     const token=data.token;
-    const response= await axios.post(`${import.meta.env.VITE_API}/user/follow/${id}`,{},{headers:{token}});
+    const response= await axios.post(`${import.meta.env.VITE_API}/user/follow/${id}`,{},{headers:{token},withCredentials:true});
     return response.data;
 });
 
 // this thunk will get you the useryou want to get information
 export const getUser= createAsyncThunk('get/someone',async({id,token})=>{
-    const response=await axios.get(`${import.meta.env.VITE_API}/user/getuser/${id}`,{headers:{token}});
+    const response=await axios.get(`${import.meta.env.VITE_API}/user/getuser/${id}`,{headers:{token},withCredentials:true});
     return response.data;
 })
 

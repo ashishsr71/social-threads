@@ -4,15 +4,15 @@ import axios from "axios";
 
 
 export const addComment= createAsyncThunk('add/comment',async({id,token,body})=>{
-const response= await axios.post(`${import.meta.env.VITE_API}/user/newcomment/${id}`,body,{headers:{token}});
+const response= await axios.post(`${import.meta.env.VITE_API}/user/newcomment/${id}`,body,{withCredentials:true,headers:{token}});
 return response.data;
 });
 export const getAllcomments= createAsyncThunk('all/comments',async({id,token})=>{
-const response= await axios.get(`${import.meta.env.VITE_API}/user/getcomments/${id}`,{headers:{token}});
+const response= await axios.get(`${import.meta.env.VITE_API}/user/getcomments/${id}`,{headers:{token},withCredentials:true});
 return response.data;
 });
 export const replyComment=createAsyncThunk("reply/comment",async({id,token,body})=>{
-    const response= await axios.put(`${import.meta.env.VITE_API}/user/replycomment/${id}`,body,{headers:{token}});
+    const response= await axios.put(`${import.meta.env.VITE_API}/user/replycomment/${id}`,body,{headers:{token},withCredentials:true});
     return response.data;
 })
 

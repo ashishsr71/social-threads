@@ -20,12 +20,7 @@ const refreshTokenMiddleware = (storeApi) => (next) => async (action) => {
     }
   };
 
-//   const middleware = createMiddleware({
-//     preloadedState: {},
-//     thunk: refreshTokenMiddleware,
-//   });
 
-// store configurtion
 const store= configureStore({
     reducer:{
      story: storyreducer,
@@ -34,7 +29,7 @@ const store= configureStore({
      follow:followReducer,
      comment:commentReducer
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(refreshTokenMiddleware),
+    // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(refreshTokenMiddleware),
 });
 
 export default store;

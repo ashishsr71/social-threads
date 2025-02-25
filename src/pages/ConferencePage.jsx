@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, HStack, Avatar, Text, Flex } from "@chakra-ui/react";
-import { ChevronRightIcon } from "@chakra-ui/icons";
+// import { ChevronRightIcon } from "@chakra-ui/icons";
 import ConferenceTile from "../components/ConferenceTile";
-
+import axios from "axios"
+import { useSelector } from "react-redux";
+import { EventSourcePolyfill } from 'event-source-polyfill';
 
 const MotionFlex = motion(Flex);
 const data = [
@@ -34,8 +36,54 @@ const data = [
       text: "+300 - tech meetup!",
     },
   ];
+
+
+
+
+ 
 function ConferencePage() {
     const scrollRef = useRef(null);
+    const [conferences,setConferences]=useState([]);
+    const token=useSelector(state=>state.auth.token);
+    console.log(conferences)
+    // console.log(token)
+    useEffect(()=>{
+
+      // initally fetch the conferences for a user
+      const fetchConferences=async()=>{
+     const {data}=await axios.get(`${import.meta.env.VITE_API}/conferences`,{withCredentials:true,headers:{
+      token,
+     }});
+     setConferences([...data]);
+      };
+      fetchConferences();
+      const eventSource =  new EventSourcePolyfill(`${import.meta.env.VITE_API}/events`, {withCredentials:true,
+        headers: {
+            token
+        },
+        heartbeatTimeout: 60000
+    });
+   
+  eventSource.onmessage=(event)=>{
+    const data=JSON.parse(event.data);
+    
+    if(data.type!="heartbeat"){
+      console.log(data)
+      setConferences(prev=>prev.push(data));
+    }
+    
+  }
+  eventSource.onerror=(event)=>{
+
+    console.log("sse error",event);
+    eventSource.close();
+  };
+
+  return ()=>{
+    eventSource.close();
+  }
+    },[]);
+
 
   return (
     <Box overflow="hidden" py={2} px={4}>
@@ -46,7 +94,7 @@ function ConferencePage() {
         cursor="grab"
       >
         <HStack spacing={3}>
-          {data.map((item) => (<ConferenceTile item={item} key={item.id}/>
+          {conferences.length&&conferences.length>0&&conferences.map((item) => (<ConferenceTile item={item} key={item.id}/>
           ))}
         </HStack>
       </MotionFlex>

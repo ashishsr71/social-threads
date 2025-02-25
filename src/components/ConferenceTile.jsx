@@ -16,12 +16,12 @@ function ConferenceTile({item}) {
                   whileTap={{ cursor: "grabbing" }}
                 >
                   <HStack spacing={-2}>
-                    {item.users.map((user) => (
-                      <Avatar key={user.id} src={user.src} size="sm" border="2px solid white" />
-                    ))}
+                    {item.participants.length>0&&item?.users?.map((user,i) => (<>
+                     {i<4||user.role=="Host" && <Avatar key={user.userId} src={user.imgUrl} size="sm" border="2px solid white" />}
+                     </>))}
                   </HStack>
                   <Text fontSize="sm" isTruncated>
-                    {item.text}
+                    {item._id}
                   </Text>
                   <ChevronRightIcon boxSize={5} />
                 </HStack>
@@ -29,4 +29,4 @@ function ConferenceTile({item}) {
   </>)
 }
 
-export default ConferenceTile
+export default ConferenceTile;

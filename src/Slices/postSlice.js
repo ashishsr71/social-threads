@@ -3,7 +3,7 @@ import axios from "axios";
 
 
  export const createPostThunk= createAsyncThunk('create/post',async({data,token})=>{
-    const response =await axios.post(`${import.meta.env.VITE_API}/user/createpost`,data,{headers:{token:token}});
+    const response =await axios.post(`${import.meta.env.VITE_API}/user/createpost`,data,{headers:{token:token},withCredentials:true});
     // console.log(response);
     return response.data;
 });
@@ -13,14 +13,14 @@ export const deletePostThunk= createAsyncThunk('delete/post',async(id)=>{
 });
 
 export const likePostThunk= createAsyncThunk('like/post',async({id,token})=>{
-    const response = await axios.put(`${import.meta.env.VITE_API}/user/likepost/${id}`,{},{headers:{token:token}});
+    const response = await axios.put(`${import.meta.env.VITE_API}/user/likepost/${id}`,{},{headers:{token:token},withCredentials:true});
    
     return response.data
 });
 // get the posts of the user itself
 export const getPostsThunk= createAsyncThunk('get/posts',async(token,{getState,rejectWithValue})=>{
     
-        const response = await  axios.get(`${import.meta.env.VITE_API}/user/getposts`,{headers:{token:token}});
+        const response = await  axios.get(`${import.meta.env.VITE_API}/user/getposts`,{headers:{token:token},withCredentials:true});
         // console.log(response.data)
        
             return response.data;
@@ -29,24 +29,24 @@ export const getPostsThunk= createAsyncThunk('get/posts',async(token,{getState,r
 
 export const getforFeed= createAsyncThunk('get/feed',async({token},{getState,rejectWithValue})=>{
     
-    const response = await  axios.get(`${import.meta.env.VITE_API}/user/getfollowposts`,{headers:{token:token}});
+    const response = await  axios.get(`${import.meta.env.VITE_API}/user/getfollowposts`,{headers:{token:token},withCredentials:true});
     // console.log(response.data)
    
         return response.data;
 });
 
 export const getSinlgePost=createAsyncThunk('get/single',async({id,token})=>{
-    const response = await axios.get(`${import.meta.env.VITE_API}/user/getpost/${id}`,{headers:{token:token}});
+    const response = await axios.get(`${import.meta.env.VITE_API}/user/getpost/${id}`,{headers:{token:token,withCredentials:true}});
      return response.data;
 });
 
 export const getOtherUserPost=createAsyncThunk('get/otheruser',async({id,token})=>{
-    const response = await axios.get(`${import.meta.env.VITE_API}/user/getotherposts/${id}`,{headers:{token:token}});
+    const response = await axios.get(`${import.meta.env.VITE_API}/user/getotherposts/${id}`,{headers:{token:token},withCredentials:true});
      return response.data;
 });
 
 export const rePost=createAsyncThunk('repost/thunk',async({token,id})=>{
-const response=await axios.post(`${import.meta.env.VITE_API}/user/repost/${id}`,{},{headers:{token:token}});
+const response=await axios.post(`${import.meta.env.VITE_API}/user/repost/${id}`,{},{headers:{token:token},withCredentials:true});
 return response.data;
 });
 

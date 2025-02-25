@@ -3,9 +3,11 @@ import { Flex,Box,  Input, InputGroup, InputLeftElement, InputRightElement } fro
 import { SearchIcon } from '@chakra-ui/icons';
 import SearchModal from './SearchModal';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 // component starts here
 function Search() {
+  const {token}=useSelector(state=>state.auth);
     const [value,setValue]=useState("");
     const [result,setResult]=useState([]);
     const [error,setError]=useState(null);
@@ -24,9 +26,9 @@ function Search() {
     useEffect(()=>{
       if(value.length===0)return;
      const getData=setTimeout(() => {
-      console.log("hii form fimeout")
-      axios.get(`${import.meta.env.VITE_API}/search?username=${value}`).then(res=>{
-      //  console.log(res.data.length)
+      // console.log(token)
+      axios.get(`${import.meta.env.VITE_API}/search?username=${value}`,{headers:{token}}).then(res=>{
+     
        if(res.data.length<1){
          setIsEmpty(true)
        }
