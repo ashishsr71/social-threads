@@ -16,34 +16,36 @@ import {
 import "@livekit/components-styles";
 import axios from "axios";
 import { useState } from "react";
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box, Button, Text, HStack, Input } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
 
 import ConferenceUi from "./ConferenceUi";
 import { Track } from "livekit-client";
-
+import { useParams } from "react-router-dom";
+// Input
 const serverUrl = 'wss://social-threads-app-8jyllp8e.livekit.cloud';
 
 export default function () {
+  const {roomId}=useParams();
   const { token: authtoken } = useSelector(state => state.auth);
   const [token, setToken] = useState(null);
- 
+ const [roomName,setRoomName]=useState("");
+ const[isOpen,setIsOpen]=useState(false);
   const createRoom = async () => {
-    const response = await axios.get(`${import.meta.env.VITE_API}/getlivetoken`, {
+    const response = await axios.post(`${import.meta.env.VITE_API}/getlivetoken`,{roomName}, {
       headers: { token: authtoken }
     });
     setToken(response.data);
+    setRoomName("")
   };
 
   const joinRoom = async (roomId) => {
-    const roomName = 'quickstart-room';
-    const identity = "meranaam";
+   
+    
     try {
       const response = await axios.post(`${import.meta.env.VITE_API}/getlivetoken/new`, {
-        roomName,
-        identity,
-        roomId
+       roomId
       }, { headers: { token: authtoken } });
       setToken(response.data);
     } catch (error) {
@@ -54,9 +56,19 @@ export default function () {
   if (!token) {
     return (
       <>
-        <Button onClick={joinRoom}>Join Room</Button>
-        <Button onClick={createRoom}>Create Room</Button>
-        <h2>Getting token</h2>
+      <Box>
+        <HStack wrap="wrap" gap={12}>
+        <Button onClick={()=>{
+          joinRoom(roomId);
+        }}>Join Room</Button>
+      <Button onClick={()=>{setIsOpen(prev=>!prev)}}>Create Room</Button></HStack></Box>
+        {isOpen&&<Input value={roomName} type="text" placeholder="enter space name" my={8} onChange={(e)=>{setRoomName(e.target.value)}}></Input>}
+        <Button size={"md"} px={10} my={5} onClick={()=>{
+          if(roomName.length<3){
+            return
+          }
+          createRoom()
+        }}>Create</Button>
       </>
     );
   }
@@ -95,6 +107,6 @@ console.log(room)
  
 
 
-  return (<>{participants.length>0&&<ConferenceUi participants={participants}/>}</>)
+  return (<>{participants.length>0&&<ConferenceUi participants={participants} room={room}/>}</>)
 }
 

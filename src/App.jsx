@@ -37,7 +37,7 @@ function App() {
   <Route path ='/search/users' element={<Auth><Search/></Auth>}/>
   <Route path='/createpost' element={<Auth><CreatePost/></Auth>} />
   <Route path ='/messages' element={<Auth> <Chat/></Auth>}/>
-  <Route path ='/live' element={<Auth><AudioConference/></Auth>}/>
+  <Route path ='/live/:roomId' element={<Auth><AudioConference/></Auth>}/>
   <Route path='/conf' element={<ConferenceUi/>}/>
   <Route path='/confern' element={<ConferencePage/>}/>
  </Route>)))  

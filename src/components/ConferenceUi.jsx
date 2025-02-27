@@ -21,7 +21,7 @@ const pulseRing = keyframes`
   }
 `;
 
-const ConferenceUi = ({participants}) => {
+const ConferenceUi = ({participants,room}) => {
     const {token}=useSelector(state=>state.auth)
     // const [host,setHost]=useState("")
     let isHost;
@@ -31,7 +31,7 @@ const ConferenceUi = ({participants}) => {
     
     const handleMute = async (participantIdentity) => {
         if(isHost!="host")return;
-        await axios.post(`${import.meta.env.VITE_API}/mute`, {  roomName:"quickstart-room", participantIdentity ,isHost}, {
+        await axios.post(`${import.meta.env.VITE_API}/mute`, {  roomId:room.name, participantIdentity ,isHost}, {
             headers: { token }
           });
         console.log(`Muted ${participantIdentity}`);
@@ -39,10 +39,14 @@ const ConferenceUi = ({participants}) => {
         
       const handleUnmute = async (participantIdentity) => {
         if(isHost!="host")return;
-        await axios.post(`${import.meta.env.VITE_API}/unmute`, { roomName:"quickstart-room", participantIdentity,isHost }, {
+        await axios.post(`${import.meta.env.VITE_API}/unmute`, { roomId:room.name, participantIdentity,isHost }, {
             headers: { token }
           });
         console.log(`Unmuted ${participantIdentity}`);
+      };
+
+      const handleLeave=async(roomId)=>{
+        const response=await axios.post(`${import.meta.env.VITE_API}/leave`,{roomId},{headers:{token},withCredentials:true});
       };
 
     return (
@@ -102,7 +106,7 @@ const ConferenceUi = ({participants}) => {
           </Grid>
     
           <Text color="red.400" fontSize="md" mt={6} cursor="pointer">
-            <DisconnectButton>leave</DisconnectButton>
+            <DisconnectButton onClick={()=>{console.log("hiii")}}>leave</DisconnectButton>
           </Text>
         </Box>
       );

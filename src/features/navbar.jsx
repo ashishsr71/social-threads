@@ -61,7 +61,7 @@ function Navbar() {
           variant="outline"
           onClick={toggleMenu}
         /></Link>\
-        <Link to='/live'>
+        <Link to='/live/createRoom'>
        <IconButton bg={'black'}
          color={'white'}
           aria-label="Messages"
@@ -128,7 +128,7 @@ function Navbar() {
           size="lg"
           variant="outline"
         /></Link>
-        <Link to='/live'>
+        <Link to='/live/createRoom'>
        <IconButton bg={'black'}
          color={'white'}
           aria-label="Messages"
