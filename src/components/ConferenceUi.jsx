@@ -46,7 +46,9 @@ const ConferenceUi = ({participants,room}) => {
       };
 
       const handleLeave=async(roomId)=>{
+        if(isHost!="host")return;
         const response=await axios.post(`${import.meta.env.VITE_API}/leave`,{roomId},{headers:{token},withCredentials:true});
+        console.log(response.data);
       };
 
     return (
@@ -106,7 +108,7 @@ const ConferenceUi = ({participants,room}) => {
           </Grid>
     
           <Text color="red.400" fontSize="md" mt={6} cursor="pointer">
-            <DisconnectButton onClick={()=>{console.log("hiii")}}>leave</DisconnectButton>
+            <DisconnectButton onClick={()=>{handleLeave(room.name)}}>leave</DisconnectButton>
           </Text>
         </Box>
       );
