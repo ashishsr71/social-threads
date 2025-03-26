@@ -23,7 +23,7 @@ const pulseRing = keyframes`
 
 const ConferenceUi = ({participants,room}) => {
     const {token}=useSelector(state=>state.auth)
-    // const [host,setHost]=useState("")
+    
     let isHost;
     if(participants[0].metadata){
       isHost= JSON.parse(participants[0].metadata).role;
@@ -54,7 +54,7 @@ const ConferenceUi = ({participants,room}) => {
     return (
         <Box bg="black" color="white" p={4} textAlign="center">
           <Text fontSize="lg" fontWeight="bold">
-            Dantley Davis's space
+           Space
           </Text>
           <Text fontSize="sm" color="purple.400" mt={1}>
             Spaces update + what's coming soon!

@@ -34,7 +34,8 @@ const user=useSelector(state=>state.auth);
   } = useForm()
   
   useEffect(()=>{
-    dispatch(refreshToken());
+    if(!user.userId){
+    dispatch(refreshToken());}
   },[])
   useEffect(()=>{
     

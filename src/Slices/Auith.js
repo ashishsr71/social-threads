@@ -23,13 +23,18 @@ return response.data;
 
 export const refreshToken= createAsyncThunk('refresh/token',async(_,{getState,rejectWithValue})=>{
     const response = await axios.get(`${import.meta.env.VITE_API}/user/me`, {withCredentials:true});
-    // console.log(response.data)
+   console.log(response)
       return response.data;
     
     
 });
 
+export const logOutFrom=createAsyncThunk("logout/server",async()=>{
+    console.log("action dispatched")
+const response=await axios.post(`${import.meta.env.VITE_API}/user/logout`,{}, {withCredentials:true});
 
+return response.data;
+});
 
 
 
@@ -60,7 +65,7 @@ const AuthSlice=createSlice({
             state.pending=true;
         })
         .addCase(loginThunk.fulfilled,(state,action)=>{
-            localStorage.setItem('token',action.payload?.token);
+            
             return {...state,userId:action.payload?.userId,
                 pending:false,token:action.payload?.token,
                 error:'',refreshToken:action.payload?.refreshToken
@@ -97,11 +102,15 @@ const AuthSlice=createSlice({
             // console.log(action.payload)
         }).addCase(refreshToken.rejected,(state,action)=>{
             state.pending=false
-            if(action.payload.msg){
-                return state.error=action.payload.msg
+            if(action.payload){
+                return state.error=action.payload
             }
             state.error=action?.error?.message
             
+        }).addCase(logOutFrom.fulfilled,(state)=>{
+            state.refreshToken=null;
+            state.token=null;
+            state.userId=null;
         })
         }
     

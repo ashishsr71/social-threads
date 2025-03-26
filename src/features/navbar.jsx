@@ -4,7 +4,7 @@ import { Flex,Button ,useColorModeValue,Box,  Input, InputGroup, InputLeftElemen
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { logout } from '../Slices/Auith';
+import { logout, logOutFrom } from '../Slices/Auith';
 // import { BellIcon, EmailIcon } from '@chakra-ui/icons';
 // import Search from '../components/Search';
 import { FaUser,FaBell, FaFeatherAlt  } from 'react-icons/fa'
@@ -12,25 +12,30 @@ import { AiOutlineHome } from 'react-icons/ai'
 import {RiSendPlaneLine, RiSearchLine } from 'react-icons/ri';
 import { HamburgerIcon } from '@chakra-ui/icons';
 // component starts here
+
 function Navbar() {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const [isMenuOpen,setMenuOpen]=useState(false);
-  // const dispatch= useDispatch();
+  const dispatch=useDispatch();
   const user=useSelector(state=>state.auth);
   const footerBgColor = useColorModeValue('light.footerBg', 'dark.footerBg');
-
+  
+  const handleLogout=()=>{
+    // console.log("hii htere")
+  dispatch(logOutFrom());
+  };
 
 
 
   const toggleMenu = () => {
-    // console.log('iam working')
+   
     setMenuOpen(!isMenuOpen);
   };
   return (
     <>
-    
+    <div style={{display:"flex",flexWrap:"wrap",justifyContent:"space-between", padding:"5px"}}>
     {isMobile&&<HamburgerIcon onClick={toggleMenu}/>}
-     {/* <button onClick={()=>{dispatch(logout())}}>logout</button> */}
+     {user.userId&&<button onClick={handleLogout}>logout</button>}</div>
 {<Outlet/>}
 
 
