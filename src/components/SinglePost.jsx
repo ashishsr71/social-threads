@@ -1,27 +1,48 @@
 import React, { useEffect, useState } from 'react'
-import { Avatar, Box, Flex,  Menu, MenuButton, MenuItem, MenuList, Portal, Text, VStack ,Image} from '@chakra-ui/react';
+import { Avatar, Box, Flex,  Menu, MenuButton, MenuItem, MenuList, Portal, Text, VStack ,Image, Button} from '@chakra-ui/react';
 import { BsThreeDots } from "react-icons/bs";
 import Actions from './Actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getSinlgePost } from '../Slices/postSlice';
 import ShowComment from './ShowComment';
-
+import { useBreakpointValue } from "@chakra-ui/react";
+import axios from 'axios';
 
 function SinglePost() {
+	const menuPosition = useBreakpointValue({ base: { top: "100", left: "53" }, md: { top: "200px", left: "150" } });
+    const navigate=useNavigate();
     const [liked,setliked]=useState(true)
     const dispatch=useDispatch();
     const {id}=useParams();
-    const token=useSelector(state=>state.auth.token);
+    const {token,userId}=useSelector(state=>state.auth);
     const postState =useSelector(state=>state.post);
     const post =postState.currentPost;
+	// console.log(post);
+	const [open,setOpen]=useState(false);
     useEffect(()=>{
         dispatch(getSinlgePost({token,id}));
     },[])
-     
+    
+const deletePost=async(postId)=>{
+if(!post.userId._id==userId)return;
+try {
+	const response=await axios.delete(`${import.meta.env.VITE_API}/user/deletepost/${postId}`,{withCredentials:true,headers:{
+		token
+	}});
+	console.log(response.data);
+} catch (error) {
+	console.log("error in deleting post" + error);
+}
+
+
+};	
+
+
+
   return (<>{!postState.pending&&post &&<Flex gap={3} mb={4} py={5}>
 		<Flex flexDirection={"column"} alignItems={"center"}>
-			<Avatar size='md' name='Mark Zuckerberg' src='/zuck-avatar.png' />
+			<Avatar size='md' name='Mark Zuckerberg' src={post.userId.userImg} />
 			<Box w='1px' h={"full"} bg='gray.light' my={2}></Box>
 			<Box position={"relative"} w={"full"}>
 				<Avatar
@@ -56,8 +77,8 @@ function SinglePost() {
 		<Flex flex={1} flexDirection={"column"} gap={2}>
 			<Flex justifyContent={"space-between"} w={"full"}>
 				<Flex w={"full"} alignItems={"center"}>
-				<Link to={`/user/${post.userId}`}>	<Text fontSize={"sm"} fontWeight={"bold"}>
-				{ post?.username && <>{post.username}</>  }
+				<Link to={`/user/${post.userId._id}`}>	<Text fontSize={"sm"} fontWeight={"bold"}>
+				{ post?.userId.username && <>{post.userId.username}</>  }
 				
 					</Text></Link>
 					{/* <Image src='/verified.png' w={4} h={4} ml={1} /> */}
@@ -66,13 +87,21 @@ function SinglePost() {
 					<Text fontStyle={"sm"} color={"gray.light"}>
 						1d
 					</Text>
-					<BsThreeDots />
+					<BsThreeDots cursor="pointer" onClick={()=>{setOpen(!open)
+						
+					}}/>
+               
 				</Flex>
 			</Flex>
 
 			<Text fontSize={"sm"}>{post?.text}</Text>
 			 
-				<Box borderRadius={6} overflow={"hidden"} border={"1px solid"} borderColor={"gray.light"}>
+				<Box position="relative" borderRadius={6} overflow={"hidden"} border={"1px solid"} borderColor={"gray.light"}>
+				{open&&<Flex position="absolute" direction={'column'} w={{ base: "150px", md: "200px" }} zIndex={50} top={menuPosition?.top} left={menuPosition?.left} bg="black" borderRadius={20} wrap={"wrap"} maxH={{ base: "200px", md: "300px" }} justifyContent={"space-between"}  >
+				{post.userId._id==userId&&<Button  maxW={100} alignSelf={"center"} m={2} onClick={()=>{navigate("..")}} >Delete</Button>}
+				{post.userId._id==userId&&<Button  maxW={100} alignSelf={"center"} m={2} >Update</Button>}
+				<Button  maxW={100} alignSelf={"center"} m={2} >Repost</Button>
+				</Flex>}
 					<Image src={post?.media?.secure_url} w={"full"} />
 				</Box>
 			

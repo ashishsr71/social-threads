@@ -20,6 +20,7 @@ import Chat from './pages/Chat';
 import AudioConference from './components/AudioConference';
 import ConferenceUi from './components/ConferenceUi';
 import ConferencePage from './pages/ConferencePage';
+import ForgotPassword from './pages/ForgotPassword';
 ;
 
 // component starts here
@@ -40,6 +41,7 @@ function App() {
   <Route path ='/live/:roomId' element={<Auth><AudioConference/></Auth>}/>
   <Route path='/conf' element={<ConferenceUi/>}/>
   <Route path='/confern' element={<ConferencePage/>}/>
+  <Route path="/forgot-password" element={<ForgotPassword/>}/>
  </Route>)))  
 
   return (

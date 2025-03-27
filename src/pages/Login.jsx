@@ -66,7 +66,7 @@ dispatch(loginThunk(data));
         <Stack align={'center'}>
           <Heading fontSize={'4xl'}>Sign in to your account</Heading>
           <Text fontSize={'lg'} color={'gray.600'}>
-            to enjoy all of our cool <Text color={'blue.400'}>features</Text> ✌️
+             <Text color={'blue.400'}>features</Text> ✌️
           </Text>
         </Stack>
         <Box
@@ -99,7 +99,7 @@ dispatch(loginThunk(data));
                 align={'start'}
                 justify={'space-between'}>
                 <Checkbox>Remember me</Checkbox>
-                <Text color={'blue.400'}>Forgot password?</Text>
+               <Link to={"/forgot-password"} as={RouterLink}> <Text color={'blue.400'}>Forgot password?</Text></Link>
               </Stack>
              {!user.pending &&<Button
               type="submit"

@@ -16,16 +16,16 @@ import AddProfile from './AddProfile';
 
 
 function LoggedUser() {
-const [liked,setliked]=useState(false);
+
    const {onOpen,onClose,isOpen}=useDisclosure()
 	const dispatch = useDispatch();
-	
+	const [mode,setMode]=useState("Threads");
 	const user=useSelector(state=>state.auth);
 	const followStat=useSelector(state=>state.follow);
 	const postState=useSelector(state=>state.post);
 	const[imag,setImg]=useState(followStat.userImg)
 	const posts=postState.posts;
-	console.log(posts)
+	// console.log(posts)
     //  console.log(followStat.userImg);
 	// console.log(followStat.followers.length);
 	// console.log(posts);
@@ -36,6 +36,13 @@ const [liked,setliked]=useState(false);
 			};
             
 	},[]);
+	const setReplies=(type)=>{
+    if(mode==type){
+		return;
+	};
+	
+	setMode(type);
+	};
     if(postState.pending){
 		return <h2>...loading</h2>
 	};
@@ -96,18 +103,19 @@ const [liked,setliked]=useState(false);
                   
       </Flex> 
       <Flex w={"full"}>
-				<Flex flex={1} borderBottom={"1.5px solid white"} justifyContent={"center"} pb='3' cursor={"pointer"}>
-					<Text fontWeight={"bold"}> Threads</Text>
+				<Flex flex={1} borderBottom={mode=="Threads"?"1.5px solid white":"1px solid gray"} justifyContent={"center"} pb='3' cursor={"pointer"} onClick={()=>{setReplies("Threads")}}>
+					<Text fontWeight={"bold"} > Threads</Text>
 				</Flex>
 				<Flex
 					flex={1}
-					borderBottom={"1px solid gray"}
+					borderBottom={mode=="Replies"?"1.5px solid white":"1px solid gray"}
 					justifyContent={"center"}
 					color={"gray.light"}
 					pb='3'
 					cursor={"pointer"}
+					onClick={()=>{setReplies("Replies")}}
 				>
-					<Text fontWeight={"bold"}> Replies</Text>
+					<Text fontWeight={"bold"} > Replies</Text>
 				</Flex>
 			</Flex>
     </VStack>
