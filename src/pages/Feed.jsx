@@ -47,7 +47,7 @@ if(postState.pending){
 			<Flex gap={3} mb={4} py={5}>
 		
 			<Flex flexDirection={"column"} alignItems={"center"}>
-				<Avatar size='md' name='Mark Zuckerberg' src='/zuck-avatar.png' />
+				<Avatar size='md' name={post.userId.username} src={post?.userId?.userImg} />
 				<Box w='1px' h={"full"} bg='gray.light' my={2}></Box>
 				<Box position={"relative"} w={"full"} cursor={'pointer'
 
@@ -59,7 +59,7 @@ if(postState.pending){
 				<Flex justifyContent={"space-between"} w={"full"}>
 					<Flex w={"full"} alignItems={"center"}>
 						<Text fontSize={"sm"} fontWeight={"bold"}>
-							{post.username}
+							{post?.userId?.username}
 						</Text>
 						{/* <Image src='/verified.png' w={4} h={4} ml={1} /> */}
 					</Flex>
