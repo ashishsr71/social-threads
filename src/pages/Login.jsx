@@ -31,7 +31,10 @@ const user=useSelector(state=>state.auth);
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm()
+  } = useForm({defaultValues:{
+    email:"ashish@gmail.com",
+    password:"ashish"
+  }});
   
   useEffect(()=>{
     if(!user.userId){
