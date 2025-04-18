@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Avatar, Box, Flex,  Menu, MenuButton, MenuItem, MenuList, Portal, Text, VStack ,Image, Button} from '@chakra-ui/react';
+import { Avatar, Box, Flex,  Text,Image, Button} from '@chakra-ui/react';
 import { BsThreeDots } from "react-icons/bs";
 import Actions from './Actions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import { getSinlgePost } from '../Slices/postSlice';
 import ShowComment from './ShowComment';
 import { useBreakpointValue } from "@chakra-ui/react";
 import axios from 'axios';
+import useShowToast from '../hooks/useShowToast';
 
 function SinglePost() {
 	const menuPosition = useBreakpointValue({ base: { top: "100", left: "53" }, md: { top: "200px", left: "150" } });
@@ -18,8 +19,9 @@ function SinglePost() {
     const {token,userId}=useSelector(state=>state.auth);
     const postState =useSelector(state=>state.post);
     const post =postState.currentPost;
-	// console.log(post);
+	const toast=useShowToast();
 	const [open,setOpen]=useState(false);
+
     useEffect(()=>{
         dispatch(getSinlgePost({token,id}));
     },[])
@@ -30,8 +32,10 @@ try {
 	const response=await axios.delete(`${import.meta.env.VITE_API}/user/deletepost/${postId}`,{withCredentials:true,headers:{
 		token
 	}});
+	navigate("..")
 	console.log(response.data);
 } catch (error) {
+	toast("error deleting","something went wrong");
 	console.log("error in deleting post" + error);
 }
 
@@ -98,7 +102,9 @@ try {
 			 
 				<Box position="relative" borderRadius={6} overflow={"hidden"} border={"1px solid"} borderColor={"gray.light"}>
 				{open&&<Flex position="absolute" direction={'column'} w={{ base: "150px", md: "200px" }} zIndex={50} top={menuPosition?.top} left={menuPosition?.left} bg="black" borderRadius={20} wrap={"wrap"} maxH={{ base: "200px", md: "300px" }} justifyContent={"space-between"}  >
-				{post.userId._id==userId&&<Button  maxW={100} alignSelf={"center"} m={2} onClick={()=>{navigate("..")}} >Delete</Button>}
+				{post.userId._id==userId&&<Button  maxW={100} alignSelf={"center"} m={2} onClick={()=>{
+					deletePost(post._id)
+					}} >Delete</Button>}
 				{post.userId._id==userId&&<Button  maxW={100} alignSelf={"center"} m={2} >Update</Button>}
 				<Button  maxW={100} alignSelf={"center"} m={2} >Repost</Button>
 				</Flex>}

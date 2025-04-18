@@ -49,14 +49,19 @@ export const rePost=createAsyncThunk('repost/thunk',async({token,id})=>{
 const response=await axios.post(`${import.meta.env.VITE_API}/user/repost/${id}`,{},{headers:{token:token},withCredentials:true});
 return response.data;
 });
-
+export const getReplies=createAsyncThunk('get/replies',async({token})=>{
+    const response=await axios.get(`${import.meta.env.VITE_API}/user/get-replies`,{headers:{token:token},withCredentials:true});
+    // console.log(response.data)
+    return response.data;
+    });
+    
 
 
 
 
 const postSlice= createSlice({
     name:"post",
-    initialState:{currentPost:null,posts:[],error:null,totalPosts:0,pending:false,likePending:false},
+    initialState:{currentPost:null,posts:[],error:null,totalPosts:0,pending:false,likePending:false,replies:[]},
     reducers:{},
     extraReducers:(builders)=>{
         builders.addCase(createPostThunk.pending,(state,action)=>{
@@ -134,8 +139,20 @@ state.error=true;
    
     
 
-}).addCase(rePost.fulfilled,(state,action)=>{
-  console.log(action.payload);
+}).addCase(getReplies.pending,(state,action)=>{
+    state.pending=true;
+    //  console.log('getpost request pending')
+}).addCase(getReplies.fulfilled,(state,action)=>{
+    // console.log('req fullfilled')
+    // console.log(action.payload)
+    state.pending=false;
+//    state.myPosts=[...action.payload];
+   state.posts=[...action.payload.posts]
+   state.replies=[...action.payload.comments]
+}).addCase(getReplies.rejected,(state,action)=>{
+    //  console.log(action.error)
+    state.pending=false;
+    // console.log(action.error.message)
 })
     }
 

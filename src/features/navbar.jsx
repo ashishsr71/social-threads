@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { logout, logOutFrom } from '../Slices/Auith';
 // import { BellIcon, EmailIcon } from '@chakra-ui/icons';
 // import Search from '../components/Search';
-import { FaUser,FaBell, FaFeatherAlt  } from 'react-icons/fa'
+import { FaUser,FaBell, FaFeatherAlt, FaUsers  } from 'react-icons/fa'
 import { AiOutlineHome } from 'react-icons/ai'
 import {RiSendPlaneLine, RiSearchLine } from 'react-icons/ri';
 import { HamburgerIcon } from '@chakra-ui/icons';
@@ -70,7 +70,7 @@ function Navbar() {
        <IconButton bg={'black'}
          color={'white'}
           aria-label="Messages"
-          icon={<FaBell/>}
+          icon={<FaUsers/>}
           size="lg"
           variant="outline"
           onClick={toggleMenu}
@@ -137,7 +137,7 @@ function Navbar() {
        <IconButton bg={'black'}
          color={'white'}
           aria-label="Messages"
-          icon={<FaBell/>}
+          icon={<FaUsers/>}
           size="lg"
           variant="outline"
         /></Link>

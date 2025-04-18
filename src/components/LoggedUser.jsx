@@ -9,7 +9,7 @@ import { BsThreeDots } from "react-icons/bs";
 import Actions from './Actions';
 import { Link } from 'react-router-dom';
 import { getFollow } from '../Slices/follow';
-import { getforFeed, getPostsThunk } from '../Slices/postSlice';
+import { getforFeed, getPostsThunk, getReplies } from '../Slices/postSlice';
 import Comment from './comment';
 import AddProfile from './AddProfile';
 
@@ -31,11 +31,20 @@ function LoggedUser() {
 	// console.log(posts);
 	useEffect(()=>{
 		    if(user.token){
-				dispatch(getFollow({token:user.token}));
-				dispatch(getPostsThunk(user.token));
+				
+				if(mode=="Threads"){
+					dispatch(getPostsThunk(user.token));
+				}else{
+					dispatch(getReplies({token:user.token}));
+				}
+				
+				
 			};
             
-	},[]);
+	},[mode]);
+	useEffect(()=>{
+		dispatch(getFollow({token:user.token}));
+	},[user])
 	const setReplies=(type)=>{
     if(mode==type){
 		return;
@@ -43,9 +52,9 @@ function LoggedUser() {
 	
 	setMode(type);
 	};
-    if(postState.pending){
-		return <h2>...loading</h2>
-	};
+    // if(postState.pending){
+	// 	return <h2>...loading</h2>
+	// };
 
 
 	// const handleFollow=()=>{
@@ -103,12 +112,12 @@ function LoggedUser() {
                   
       </Flex> 
       <Flex w={"full"}>
-				<Flex flex={1} borderBottom={mode=="Threads"?"1.5px solid white":"1px solid gray"} justifyContent={"center"} pb='3' cursor={"pointer"} onClick={()=>{setReplies("Threads")}}>
+				<Flex flex={1} borderBottom={mode=="Threads"?"1px solid gray":"1.5px solid white"} justifyContent={"center"} pb='3' cursor={"pointer"} onClick={()=>{setReplies("Threads")}}>
 					<Text fontWeight={"bold"} > Threads</Text>
 				</Flex>
 				<Flex
 					flex={1}
-					borderBottom={mode=="Replies"?"1.5px solid white":"1px solid gray"}
+					borderBottom={mode=="Replies"?"1px solid gray":"1.5px solid white"}
 					justifyContent={"center"}
 					color={"gray.light"}
 					pb='3'
@@ -119,7 +128,8 @@ function LoggedUser() {
 				</Flex>
 			</Flex>
     </VStack>
-	{posts?.length&& posts.map((post)=>{
+	{postState.pending&&<h2>...loading</h2>}
+	{!postState.pending&&posts?.length&& posts.map((post)=>{
 		return     <Link to={`/post/${post._id}`}>
 		<Flex gap={3} mb={4} py={5}>
 			<Flex flexDirection={"column"} alignItems={"center"}>
