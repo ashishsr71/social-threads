@@ -26,7 +26,7 @@ const socket=useSocket(import.meta.env.VITE_API,userId)
 useEffect(()=>{
     
     axios.get(`${import.meta.env.VITE_API}/user/getconver`,{headers:{token}}).then(res=>{
-        console.log(res.data)
+        // console.log(res.data)
         setConversesations(res.data)});
         setloadingConversesations(false);
     
@@ -43,17 +43,20 @@ socket.on('message',(message)=>{
     }
    
 })
-// socket.on('seen',(conver)=>{
-//   if(current._id==conver[0].conversesationId){
-//     setMessages(conver)
-//   }
- 
+socket.on('seen',(conv)=>{
+    const newarr=conv.reverse();
+  if(current._id===newarr[0].conversesationId){
+     console.log("hii there")
+//    console.log(newMessages)
+   setMessages(newarr)
+  }
+
     
-// });
+});
 
 return ()=>{socket.off('message')}
 
-},[socket,current]);
+},[socket]);
 
 
 // this effect will let you get messages of particular conversesattion

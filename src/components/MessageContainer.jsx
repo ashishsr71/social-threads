@@ -65,7 +65,7 @@ function MessageContainer({socket,messages,current,setMessages}) {
                     direction={"column"}
                     ref={messages?.length- 1 === messages.indexOf(message) ? messageEndRef : null}
                 >
-                    <MessageEach message={message} ownMessage={userId === message.senderId} />
+                    <MessageEach key={message._id}message={message} ownMessage={userId === message.senderId} />
                 </Flex>
             ))}
     </Flex>
