@@ -28,7 +28,7 @@ function LoggedUser() {
 	// console.log(posts)
     //  console.log(followStat.userImg);
 	// console.log(followStat.followers.length);
-	// console.log(posts);
+	console.log(posts);
 	useEffect(()=>{
 		    if(user.token){
 				
@@ -112,12 +112,12 @@ function LoggedUser() {
                   
       </Flex> 
       <Flex w={"full"}>
-				<Flex flex={1} borderBottom={mode=="Threads"?"1px solid gray":"1.5px solid white"} justifyContent={"center"} pb='3' cursor={"pointer"} onClick={()=>{setReplies("Threads")}}>
+				<Flex flex={1} borderBottom={mode=="Threads"?"1.5px solid gray":"1px solid white"} justifyContent={"center"} pb='3' cursor={"pointer"} onClick={()=>{setReplies("Threads")}}>
 					<Text fontWeight={"bold"} > Threads</Text>
 				</Flex>
 				<Flex
 					flex={1}
-					borderBottom={mode=="Replies"?"1px solid gray":"1.5px solid white"}
+					borderBottom={mode=="Replies"?"1.5px solid gray":"1px solid white"}
 					justifyContent={"center"}
 					color={"gray.light"}
 					pb='3'

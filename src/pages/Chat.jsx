@@ -4,7 +4,7 @@ import { Box, Button, Flex, Input, Skeleton, SkeletonCircle, Text, useColorModeV
 import { GiConversation } from "react-icons/gi";
 import Conversesation from '../components/Conversesation';
 import MessageContainer from '../components/MessageContainer';
-import MessageEach from '../components/MessageEach';
+
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import useSocket from '../hooks/socket';
@@ -37,10 +37,19 @@ useEffect(()=>{
 useEffect(()=>{
 if(!socket)return;
 socket.on('message',(message)=>{
-    console.log(message)
-    setMessages(prev=>[...prev,message])
+    // console.log(message)
+    if(current._id==message.conversesationId){
+        setMessages(prev=>[...prev,message])
+    }
+   
 })
-
+// socket.on('seen',(conver)=>{
+//   if(current._id==conver[0].conversesationId){
+//     setMessages(conver)
+//   }
+ 
+    
+// });
 
 return ()=>{socket.off('message')}
 
@@ -51,7 +60,7 @@ return ()=>{socket.off('message')}
 
 useEffect(()=>{
  if(!current._id)return;
- axios.get(`${import.meta.env.VITE_API}/user/getcurrent/${current._id}`,{headers:{token}}).then(res=>{
+ axios.get(`${import.meta.env.VITE_API}/user/getcurrent/${current._id}/:${current.userId}`,{headers:{token}}).then(res=>{
     console.log(res.data);
     setMessages(res.data);
  });

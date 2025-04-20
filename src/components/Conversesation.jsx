@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { Flex, Box, Text,useBreakpointValue ,useColorModeValue,WrapItem,Avatar,Stack,} from '@chakra-ui/react';
 // BsCheck2All
-import { AddIcon, SearchIcon, ArrowBackIcon } from '@chakra-ui/icons';
+// import { AddIcon, SearchIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import { BsCheck2All } from 'react-icons/bs';
-import axios from 'axios';
+// import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { BsFillImageFill } from 'react-icons/bs';
 
 
 function Conversesation({conversation,setSelectedConversation}) {
-    const sideBarWidth = useBreakpointValue({ base: "100%", md: "300px" }); 
-    const {token,userId}=useSelector(state=>state.auth);
+    // const sideBarWidth = useBreakpointValue({ base: "100%", md: "300px" }); 
+    const {userId}=useSelector(state=>state.auth);
     // const user={userId:'asdfsaf',username:'ashish'}
    
     const lastMessage=conversation.lastmessage;
     
     const user=conversation.participants.find((r)=>r._id !=userId)
-//    to fetch conversesations
- 
+
 
 
   return (
