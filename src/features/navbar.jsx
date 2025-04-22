@@ -74,7 +74,7 @@ function Navbar() {
 
   return (
     <>
-      {/* Top Bar */}
+   
       <Flex
         justify="space-between"
         align="center"
@@ -85,26 +85,61 @@ function Navbar() {
         position="sticky"
         top={0}
         zIndex={30}
-        bg={useColorModeValue('white', 'gray.900')}
+        bg={"transparent"}
         boxShadow="sm"
       >
-        <Box display={{ base: 'block', md: 'none' }}>
-          <IconButton
-            icon={<HamburgerIcon />}
-            onClick={toggleMenu}
-            variant="ghost"
-            aria-label="Toggle menu"
-          />
-        </Box>
+    <Box display={{ base: 'block', md: 'none' }}>
+  <Box
+    onClick={toggleMenu}
+    position="relative"
+    w="60px"
+    h="60px"
+    borderRadius="full"
+    cursor="pointer"
+    bg="transparent"
+    display="flex"
+    alignItems="center"
+    justifyContent="center"
+    _hover={{ transform: "scale(1.05)" }}
+    transition="0.3s ease"
+  >
+    
+    <Box
+      position="absolute"
+      w="100%"
+      h="100%"
+      borderRadius="full"
+      bg="conic-gradient(from 180deg at 50% 50%, #00f0ff, #7a00ff, #ff00c8, #00f0ff)"
+      filter="blur(4px)"
+      animation="spin 4s linear infinite"
+    />
 
-        <Text fontWeight="bold" fontSize="lg">
-          MyApp
-        </Text>
+ 
+    <Box
+      zIndex={1}
+      w="42px"
+      h="42px"
+      bg={useColorModeValue('white', 'gray.900')}
+      borderRadius="full"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      boxShadow="md"
+    >
+      <HamburgerIcon color="blue.500" boxSize={6} />
+    </Box>
+  </Box>
+</Box>
 
-        <Box width="40px" />
+
+        {/* <Text fontWeight="bold" fontSize="lg">
+       
+        </Text> */}
+
+      
       </Flex>
 
-      {/* Content Padding (for floating nav) */}
+      
       <Box
   pb={{
     base: '0px',
@@ -113,7 +148,7 @@ function Navbar() {
 >
   <Outlet />
 </Box>
-      {/* Floating Nav - Mobile */}
+     
       {isMobile && isMenuOpen && user.userId && (
         <Flex {...navbarStyle}>
           {navLinks.map((item, index) =>
@@ -151,7 +186,7 @@ function Navbar() {
         </Flex>
       )}
 
-      {/* Floating Nav - Desktop (md and up) */}
+     
       {!isMobile && user.token && user.userId && (
         <Flex {...navbarStyle}>
           {navLinks.map((item, index) =>
@@ -186,7 +221,7 @@ function Navbar() {
         </Flex>
       )}
 
-      {/* Settings Modal */}
+     
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>

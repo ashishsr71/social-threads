@@ -12,6 +12,7 @@ import { getFollow } from '../Slices/follow';
 import { getforFeed, getPostsThunk, getReplies } from '../Slices/postSlice';
 import Comment from './comment';
 import AddProfile from './AddProfile';
+import Reply from './Replie';
 
 
 
@@ -25,8 +26,10 @@ function LoggedUser() {
 	const postState=useSelector(state=>state.post);
 	const[imag,setImg]=useState(followStat.userImg)
 	const posts=postState.posts;
+	const replies=postState.replies;
+	console.log(replies)
 	// console.log(posts)
-    //  console.log(followStat.userImg);
+    //  console.log(followStat.username);
 	// console.log(followStat.followers.length);
 	console.log(posts);
 	useEffect(()=>{
@@ -193,6 +196,11 @@ function LoggedUser() {
 				</Flex>
 
 			<Comment post={post} key={post._id}/>
+			{mode=="Replies"&&replies.map((replie)=>{
+			 if(replie.postId==post._id){
+				return <Reply key={replie._id} repliedTo={"user"} replyText={replie.replie} post={post} to={replie.to} userImg={followStat.username} />
+			 }
+			})}
 			</Flex>
 		</Flex>
 	</Link>

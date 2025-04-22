@@ -51,7 +51,7 @@ function UseHeader() {
             </Flex>
       </Box>
       <Box >
-            <Avatar name='mark jukerbak' size={"xl"}></Avatar>
+            <Avatar name='mark jukerbak' size={"xl"} src={otherUser.userImg}></Avatar>
         
       </Box>
       

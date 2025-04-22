@@ -1,57 +1,80 @@
-import React, { useEffect, useState } from 'react'
-import { Text,Box,Flex ,Icon} from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import {
+  Box,
+  Flex,
+  Icon,
+  Text,
+} from '@chakra-ui/react';
+import { FaRegComment, FaHeart, FaRetweet, FaShare } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { getAllcomments } from '../Slices/commentSlice';
 
+function Comment({ post }) {
+  const [comments, setComments] = useState([]);
+  const dispatch = useDispatch();
+  const token = useSelector(state => state.auth.token);
+  const comState = useSelector(state => state.comment);
+  const postState = useSelector(state => state.post);
+  const po = postState.posts.find(p => p._id === post._id);
 
-function Comment({post}) {
-const [open,setOpen]=useState(false);
-
-const dispatch= useDispatch();
-const token=useSelector(state=>state.auth.token);
-const comState=useSelector(state=>state.comment);
-const postState=useSelector(state=>state.post)
-const [comments,setCom]=useState([]);
-//  const [likes,setLikes]=useState(post.likes.length);
-const po=postState.posts.find(p=>p._id==post._id);
- useEffect(()=>{
- axios.get(`${import.meta.env.VITE_API}/user/getcomments/${post._id}`,{headers:{token}}).then(res=>{
-  // console.log(res.data)
-  setCom(res.data)});
-
- },[comState]);
-  
-//  useEffect(()=>{
-//   axios.get(`${import.meta.env.VITE_API}/user/getpost/${post._id}`,{headers:{token}}).then(res=>{
-//    console.log(res.data)
-//    setLikes(res.data.likes.length)});
- 
-//   },[postState]);
-
-
-const handleOpen=()=>{
-  setOpen(!open);
-};
-
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_API}/user/getcomments/${post._id}`, {
+        headers: { token },
+      })
+      .then(res => {
+        setComments(res.data);
+      });
+  }, [comState]);
 
   return (
-    <>
-    <Flex gap={2} alignItems={"center"}>
-    {comments.length >0&&  <Text color={"gray.light"} fontSize='sm' onClick={handleOpen}>
-{comments.length} replies
-      </Text>}
-      <Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"}></Box>
-      <Text color={"gray.light"} fontSize='sm'>
-  {/* {likes&&<>{likes}</>} likes */}
-  {po&&po.likes.length}likes
- 
-      </Text>
-    
+    <Flex
+      mt={2}
+      gap={6}
+      color="gray.500"
+      fontSize="sm"
+      align="center"
+    >
+      <Flex
+        align="center"
+        gap={2}
+        cursor="pointer"
+        _hover={{ color: 'gray.300' }}
+      >
+        <Icon as={FaRegComment} boxSize={3.5} />
+        {comments.length > 0 && <Text>{comments.length}</Text>}
+      </Flex>
+
+      <Flex
+        align="center"
+        gap={2}
+        cursor="pointer"
+        _hover={{ color: 'gray.300' }}
+      >
+        <Icon as={FaRetweet} boxSize={3.5} />
+      </Flex>
+
+      <Flex
+        align="center"
+        gap={2}
+        cursor="pointer"
+        _hover={{ color: 'gray.300' }}
+      >
+        <Icon as={FaHeart} boxSize={3.5} />
+        <Text>{po?.likes.length || 0}</Text>
+      </Flex>
+
+      <Flex
+        align="center"
+        gap={2}
+        cursor="pointer"
+        _hover={{ color: 'gray.300' }}
+      >
+        <Icon as={FaShare} boxSize={3.5} />
+      </Flex>
     </Flex>
-   </>
-  )
+  );
 }
 
 export default Comment;
-
+  

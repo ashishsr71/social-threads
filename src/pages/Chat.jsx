@@ -125,12 +125,14 @@ useEffect(()=>{
 
 
   return (<Box
-  position={"absolute"}
-  left={"50%"}
-  w={{ base: "100%", md: "80%", lg: "750px" }}
-  p={4}
-  transform={"translateX(-50%)"}
->
+    position={"absolute"}
+    left={"50%"}
+    w={{ base: "100%", md: "80%", lg: "750px" }}
+    p={4}
+    pb={{ base: "100px", md: "120px" }} // <-- Add this line
+    transform={"translateX(-50%)"}
+  >
+  
   <Flex
       gap={4}
       flexDirection={{ base: "column", md: "row" }}

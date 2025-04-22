@@ -1,37 +1,72 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllcomments } from '../Slices/commentSlice';
-import { Text,Box,Flex ,Icon} from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Icon,
+  Text,
+  Avatar
+} from '@chakra-ui/react';
 import { FiCornerUpLeft } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
+function ShowComment({ post }) {
+  const dispatch = useDispatch();
+  const { token ,userId} = useSelector((state) => state.auth);
+  const comments = useSelector((state) => state.comment.allComments);
 
+  useEffect(() => {
+    dispatch(getAllcomments({ id: post._id, token }));
+  }, [dispatch, post._id, token]);
 
-
-function ShowComment({post}) {
-    const dispatch=useDispatch();
-    const {token}=useSelector(state=>state.auth);
-const comments=useSelector(state=>state.comment.allComments);
-
-    useEffect(()=>{
-   dispatch(getAllcomments({id:post._id,token}));
-    },[]);
   return (
-    <Box p={4}>
-    <Flex direction='column'>
-    { comments.length>0&&comments.map(comment=>{return <ColumnWithReplyIcon text={comment?.replie} by={comment.by}/>  }) }    </Flex></Box>
-  )
+    <Box pt={2}>
+      <Flex direction="column">
+        {comments.length > 0 &&
+          comments.map((comment) => (
+            <ColumnWithReplyIcon
+              key={comment._id}
+              text={comment?.replie}
+              by={comment?.by}
+              userId={userId}
+            />
+          ))}
+      </Flex>
+    </Box>
+  );
 }
 
 export default ShowComment;
 
+const ColumnWithReplyIcon = ({ text, by ,userId}) => (
+  <Flex
+    direction="row"
+    align="flex-start"
+    px={4}
+    py={3}
+    borderBottom="1px solid"
+    borderColor="gray.700"
+    gap={3}
+  >
+    {/* Optional: Avatar placeholder */}
+    <Avatar
+      name={by?.username}
+      size="sm"
+      bg="gray.600"
+      color="white"
       
-      
-const ColumnWithReplyIcon = ({ text ,by}) => (
-    <Flex direction="row" align="center" p={4} borderWidth={1} borderRadius="md" m={2}>
-      <Text position="relative" top={-15} left={-2} >{by.username}</Text>
-      <Flex direction="row" align="center">
-      <Text mb={2} ml={4}>{text}</Text>
-      <Icon as={FiCornerUpLeft} mt={-2} ml={2} alignSelf='center'/></Flex>
+    />
+    <Flex direction="column" flex="1">
+      <Flex align="center" gap={1}>
+        <Link to={userId==by.userId?`/profile`:`/user/${by.userId}`}><Text fontWeight="bold" fontSize="sm">
+          {by?.username}
+        </Text></Link>
+        <Icon as={FiCornerUpLeft} boxSize={3} color="gray.500" cursor={'pointer'} />
+      </Flex>
+      <Text fontSize="sm" color="gray.300" mt={1}>
+        {text}
+      </Text>
     </Flex>
-  );
-  
+  </Flex>
+);

@@ -1,75 +1,127 @@
 import {
-  AudioConference,
-  ControlBar,
   LiveKitRoom,
-  ParticipantAudioTile,
-  ParticipantLoop,
-  ParticipantTile,
   RoomAudioRenderer,
-  TrackRefContext,
-  TrackToggle,
-  useLocalParticipant,
   useParticipants,
-  useRemoteParticipants,
-  useRoomInfo
+  useRoomInfo,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
+import {
+  Box,
+  Button,
+  Input,
+  Text,
+  VStack,
+  HStack,
+  Select,
+  Textarea,
+  Flex,
+} from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useState } from "react";
-import { Box, Button, Text, HStack, Input } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-
-
-import ConferenceUi from "./ConferenceUi";
-import { Track } from "livekit-client";
 import { useParams } from "react-router-dom";
-// Input
-const serverUrl = 'wss://social-threads-app-8jyllp8e.livekit.cloud';
+import ConferenceUi from "./ConferenceUi";
 
-export default function () {
-  const {roomId}=useParams();
-  const { token: authtoken } = useSelector(state => state.auth);
+const serverUrl = "wss://social-threads-app-8jyllp8e.livekit.cloud";
+
+export default function RoomScheduler() {
+  const { roomId } = useParams();
+  const { token: authtoken } = useSelector((state) => state.auth);
   const [token, setToken] = useState(null);
- const [roomName,setRoomName]=useState("");
- const[isOpen,setIsOpen]=useState(false);
-  const createRoom = async () => {
-    const response = await axios.post(`${import.meta.env.VITE_API}/getlivetoken`,{roomName}, {
-      headers: { token: authtoken }
-    });
-    setToken(response.data);
-    setRoomName("")
-  };
+  const [title, setTitle] = useState("");
+  const [selectedTime, setSelectedTime] = useState("11:30 - 12:00");
+  const [details, setDetails] = useState("");
 
-  const joinRoom = async (roomId) => {
-   
-    
+  const suggestedTimes = ["11:30 - 12:00", "12:10 - 12:40"];
+
+  // 🔹 Create Room
+  const createRoom = async () => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API}/getlivetoken/new`, {
-       roomId
-      }, { headers: { token: authtoken } });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API}/getlivetoken`,
+        { roomName: title },
+        {
+          headers: { token: authtoken },
+        }
+      );
       setToken(response.data);
     } catch (error) {
-      console.error('Error joining room:', error);
+      console.error("Error creating room:", error);
     }
   };
 
+  // 🔹 Join Room from params
+  const joinRoom = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API}/getlivetoken/new`,
+        { roomId },
+        {
+          headers: { token: authtoken },
+        }
+      );
+      setToken(response.data);
+    } catch (error) {
+      console.error("Error joining room:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (roomId) joinRoom();
+  }, [roomId]);
+
   if (!token) {
     return (
-      <>
-      <Box>
-        <HStack wrap="wrap" gap={12}>
-        <Button onClick={()=>{
-          joinRoom(roomId);
-        }}>Join Room</Button>
-      <Button onClick={()=>{setIsOpen(prev=>!prev)}}>Create Room</Button></HStack></Box>
-        {isOpen&&<Input value={roomName} type="text" placeholder="enter space name" my={8} onChange={(e)=>{setRoomName(e.target.value)}}></Input>}
-        <Button size={"md"} px={10} my={5} onClick={()=>{
-          if(roomName.length<3){
-            return
-          }
-          createRoom()
-        }}>Create</Button>
-      </>
+      <Flex bg="#111" color="white" h="100vh" align="center" justify="center">
+        <Box bg="#1c1c1e" p={8} borderRadius="md" w="600px">
+          <Text fontSize="xl" mb={4}>
+            {roomId=="createRoom" ? "Create New Meeting" : "join meeting"}
+          </Text>
+          <VStack spacing={4} align="stretch">
+            {roomId=="createRoom" && (
+              <>
+                <Input
+                  placeholder="Meeting title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                {/* <Select
+                  value={selectedTime}
+                  onChange={(e) => setSelectedTime(e.target.value)}
+                >
+                  {suggestedTimes.map((t) => (
+                    <option key={t}>{t}</option>
+                  ))}
+                </Select> */}
+                <Textarea
+                  placeholder="Meeting details (optional)"
+                  value={details}
+                  onChange={(e) => setDetails(e.target.value)}
+                />
+              </>
+            )}
+
+            <HStack justify="space-between">
+              <Button variant="ghost" colorScheme="gray">
+                Cancel
+              </Button>
+              <Button
+                colorScheme="blue"
+                onClick={() => {
+                  if (roomId!="createRoom") {
+                    joinRoom();
+                    return;
+                  } 
+                    createRoom();
+                  
+                }}
+              >
+                {roomId!="createRoom" ? "Join" : "Send"}
+              </Button>
+            </HStack>
+          </VStack>
+        </Box>
+      </Flex>
     );
   }
 
@@ -80,33 +132,28 @@ export default function () {
       token={token}
       serverUrl={serverUrl}
       data-lk-theme="default"
-      style={{ height: '100vh' }}
+      style={{ height: "100vh" }}
     >
-      <Box p={4} textAlign="center">
-        <Text fontSize="2xl" mb={4}>quickstart-room</Text>
-        <RoomAudioRenderer/>
-       
-        <ParticipantTracks/>
-       <TrackToggle source={Track.Source.Microphone} initialState={false}/>
-       {/* <ControlBar controls={{audio:true}}/> */}
+      <Box p={4} textAlign="center" bg="#111" color="white">
+        <Text fontSize="2xl" mb={4}>
+          {title || "Meeting Room"}
+        </Text>
+        <RoomAudioRenderer />
+        <ParticipantTracks />
       </Box>
-      
     </LiveKitRoom>
   );
-};
-
-
-const ParticipantTracks = () => {
- 
-
-const  participants=useParticipants()
-const room=useRoomInfo()
-console.log(participants)
-console.log(room)
-
- 
-
-
-  return (<>{participants.length>0&&<ConferenceUi participants={participants} room={room}/>}</>)
 }
 
+const ParticipantTracks = () => {
+  const participants = useParticipants();
+  const room = useRoomInfo();
+
+  return (
+    <>
+      {participants.length > 0 && (
+        <ConferenceUi participants={participants} room={room} />
+      )}
+    </>
+  );
+};
