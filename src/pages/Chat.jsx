@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useRef } from 'react'
 import { SearchIcon } from "@chakra-ui/icons";
 import { Box, Button, Flex, Input, Skeleton, SkeletonCircle, Text, useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import { GiConversation } from "react-icons/gi";
@@ -12,9 +12,10 @@ import SearchConver from '../components/SearchConver';
 
 // component starts here
 function Chat() {
+   
     const { isOpen, onOpen, onClose } = useDisclosure();
-  const {token,userId}=useSelector(state=>state.auth);
-const socket=useSocket(import.meta.env.VITE_API,userId)
+    const {token,userId}=useSelector(state=>state.auth);
+    const socket=useSocket(import.meta.env.VITE_API,userId)
     const [loadingConversations,setloadingConversesations]=useState(true);
     const[conversesations,setConversesations]=useState([]);
     const[messages,setMessages]=useState([]);
@@ -22,7 +23,23 @@ const socket=useSocket(import.meta.env.VITE_API,userId)
     const [searchingUser,setSearchingUser]=useState(false);
     const[serchText,setSearchText]=useState('');
     const [searched,setSearched]=useState([]);
+    const messagesRef = useRef(messages);
 // this will get all conversesations
+
+useEffect(()=>{
+    messagesRef.current=messages
+    },[messages])
+
+    
+const sendSeenMessage=async(messageId)=>{
+const {data}=await axios.put(`${import.meta.env.VITE_API}/user/seen`,{messageId},{
+    headers:{
+        token
+    },withCredentials:true
+});
+// console.log(data);
+return data;
+};
 useEffect(()=>{
     
     axios.get(`${import.meta.env.VITE_API}/user/getconver`,{headers:{token}}).then(res=>{
@@ -39,14 +56,19 @@ if(!socket)return;
 socket.on('message',(message)=>{
     // console.log(message)
     if(current._id==message.conversesationId){
+    //   console.log(message)
         setMessages(prev=>[...prev,message])
+        setTimeout(() => {
+            sendSeenMessage(message._id);
+        }, 1000);
+       
     }
    
 })
 socket.on('seen',(conv)=>{
     const newarr=conv.reverse();
   if(current._id===newarr[0].conversesationId){
-     console.log("hii there")
+    //  console.log("hii there")
 //    console.log(newMessages)
    setMessages(newarr)
   }
@@ -54,7 +76,23 @@ socket.on('seen',(conv)=>{
     
 });
 
-return ()=>{socket.off('message')}
+socket.on('sone', (message) => {
+    if (current._id === message.conversesationId) {
+      const updatedMessages = messagesRef.current.map((msg) => {
+        if (msg._id === message._id) {
+            console.log(msg)
+          return { ...msg, seen: true };
+        }
+        return msg;
+      });
+  
+      setMessages(updatedMessages);
+    }
+  });
+  
+return ()=>{
+    socket.off('seen')
+    socket.off('message')}
 
 },[socket]);
 
@@ -64,13 +102,11 @@ return ()=>{socket.off('message')}
 useEffect(()=>{
  if(!current._id)return;
  axios.get(`${import.meta.env.VITE_API}/user/getcurrent/${current._id}/:${current.userId}`,{headers:{token}}).then(res=>{
-    console.log(res.data);
+    // console.log(res.data);
     setMessages(res.data);
  });
 
 },[current])
-
-
 
 
 

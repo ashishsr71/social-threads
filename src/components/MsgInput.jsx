@@ -20,7 +20,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 // component starts here
-function MsgInput({reciepentId,socket,setMessages}) {
+function MsgInput({reciepentId,setMessages}) {
     const inputRef=useRef();
     const [text,setText]=useState('')
     const {token,userId}=useSelector(state=>state.auth);
@@ -37,10 +37,11 @@ function MsgInput({reciepentId,socket,setMessages}) {
     const handleSendMessage=async(e)=>{
         e.preventDefault();
      const {data}= await axios.post(`${import.meta.env.VITE_API}/user/sendmessage`,{text,reciepentId},{headers:{token}});
+    //  console.log(data)
      setMessages(prev=>[...prev,data]);
      setText('');
         };
-    const messageText='asdfsf'
+    // const messageText='asdfsf'
     const imageRef=useRef();
     const handleImageChange=()=>{};
     const imgUrl=''
