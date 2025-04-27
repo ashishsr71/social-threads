@@ -15,26 +15,28 @@ import {
 	Text,
 	useDisclosure,
 } from "@chakra-ui/react";
-import Reply from './Reply';
 import { useDispatch, useSelector } from 'react-redux';
 import { likePostThunk } from '../Slices/postSlice';
 import { addComment } from '../Slices/commentSlice';
+import axios from 'axios';
+import useShowToast from '../hooks/useShowToast';
+
+
+
+
+
 // component starts  here
 function Actions({post}) {
 const dispatch=useDispatch();
 const {userId:auth,token}=useSelector(state=>state.auth);   
  const [reply,setReply]=useState('');
-
+const toast=useShowToast();
 const[isReplying,setIsReplying]=useState(false);
 const { isOpen, onOpen, onClose } = useDisclosure();
 const comment=useSelector(state=>state.comment);
 
-//const thisPost=posts.find(p=>p._id==post._id)
+
 const[liked,setLiked]=useState(post.likes.includes(auth));
-// console.log(thisPost)
-// const isTrue= post.likes.includes(auth)
-// const [liked,setliked]=useState(post.likes.includes(isTrue));
-// let liked= likesArray.includes(auth);
 
 useEffect(()=>{
  if(comment.newcomment&&!comment.error&&!comment.pending){
@@ -57,17 +59,24 @@ const handleReply=()=>{
 
 // this function handle like and unlike 
 const handleLikeAndUnLike=()=>{
-      // will dispatch a action that will like the post
-      //  console.log(token)
-    
-            // console.log(post.likes)
+      
             dispatch(likePostThunk({id:post._id,token}));
             setLiked(prev=>!prev);
           };
 
 
           
-const handlesvg=()=>{console.log('hi')}
+const handlesvg=async()=>{
+      try {
+            const {data}=await axios.post(`${import.meta.env.VITE_API}/user/repost/${post._id}`,{},{headers:{
+                  token
+            },withCredentials:true});
+            toast("success","reposted");
+      } catch (error) {
+            toast("repost error","Something went wrong");
+            console.log("something went wrong")
+      }
+}
 
   return (
       <Flex flexDirection='column'>
@@ -109,19 +118,11 @@ const handlesvg=()=>{console.log('hi')}
                   ></path>
             </svg>
 
-            <RepostSVG handlesvg={handlesvg}/>
-            <ShareSVG />
+            <RepostSVG handlesvg={handlesvg} />
+            <ShareSVG  />
       </Flex>
 
-      {/* <Flex gap={2} alignItems={"center"}>
-            <Text color={"gray.light"} fontSize='sm'>
-                  replies
-            </Text>
-            <Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"}></Box>
-            <Text color={"gray.light"} fontSize='sm'>
-                 200 likes
-            </Text>
-      </Flex> */}
+     
        
       <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />

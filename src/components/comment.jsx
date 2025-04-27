@@ -11,7 +11,6 @@ import axios from 'axios';
 
 function Comment({ post }) {
   const [comments, setComments] = useState([]);
-  const dispatch = useDispatch();
   const token = useSelector(state => state.auth.token);
   const comState = useSelector(state => state.comment);
   const postState = useSelector(state => state.post);
