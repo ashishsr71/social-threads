@@ -54,9 +54,9 @@ useEffect(()=>{
 useEffect(()=>{
 if(!socket)return;
 socket.on('message',(message)=>{
-    // console.log(message)
+     console.log(message,"from outside")
     if(current._id==message.conversesationId){
-    //   console.log(message)
+      console.log(message,"from inside")
         setMessages(prev=>[...prev,message])
         setTimeout(() => {
             sendSeenMessage(message._id);
