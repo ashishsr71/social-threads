@@ -25,7 +25,7 @@ function Chat() {
     const [searched,setSearched]=useState([]);
     const messagesRef = useRef(messages);
 // this will get all conversesations
-
+console.log(current)
 useEffect(()=>{
     messagesRef.current=messages
     },[messages])
