@@ -55,6 +55,7 @@ useEffect(()=>{
 if(!socket)return;
 socket.on('message',(message)=>{
      console.log(message,"from outside")
+   console.log(current,current._id==message.conversesationId)
     if(current._id==message.conversesationId){
       console.log(message,"from inside")
         setMessages(prev=>[...prev,message])
