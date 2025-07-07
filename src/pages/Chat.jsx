@@ -93,7 +93,7 @@ socket.on('sone', (message) => {
 return ()=>{
     socket.off('seen')
     socket.off('message')}
-
+     socket.off('sone'); 
 },[socket]);
 
 
