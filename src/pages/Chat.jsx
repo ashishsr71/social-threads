@@ -111,7 +111,9 @@ function Chat() {
   const handleConversationSearch = async () => {
     setSearchingUser(true);
     if (serchText.length === 0) return;
-    const { data } = await axios.get(`${import.meta.env.VITE_API}/search?username=${serchText}`);
+    const { data } = await axios.get(`${import.meta.env.VITE_API}/search?username=${serchText}`, {
+      headers: { token }
+    });
     setSearched([...data]);
     onOpen();
     setSearchingUser(false);
