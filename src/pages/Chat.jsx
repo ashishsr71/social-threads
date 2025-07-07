@@ -101,7 +101,7 @@ return ()=>{
 
 useEffect(()=>{
  if(!current._id)return;
- axios.get(`${import.meta.env.VITE_API}/user/getcurrent/${current._id}/:${current.userId}`,{headers:{token}}).then(res=>{
+ axios.get(`${import.meta.env.VITE_API}/user/getcurrent/${current._id}/${current.userId}`,{headers:{token}}).then(res=>{
     // console.log(res.data);
     setMessages(res.data);
  });
