@@ -42,7 +42,18 @@ try {
 
 };	
 
-
+const rePost=async(postId)=>{
+	try {
+	const response=await axios.post(`${import.meta.env.VITE_API}/user/repost/${postId}`,{},{withCredentials:true,headers:{
+		token
+	}});
+	navigate("..")
+	console.log(response.data);
+} catch (error) {
+	toast("error reposting","something went wrong");
+	console.log("error in deleting post" + error);
+}
+}
 
   return (<>{!postState.pending&&post &&<Flex gap={3} mb={4} py={5}>
 		<Flex flexDirection={"column"} alignItems={"center"}>
@@ -106,7 +117,7 @@ try {
 					deletePost(post._id)
 					}} >Delete</Button>}
 				{post.userId._id==userId&&<Button  maxW={100} alignSelf={"center"} m={2} >Update</Button>}
-				<Button  maxW={100} alignSelf={"center"} m={2} >Repost</Button>
+				<Button  maxW={100} alignSelf={"center"} m={2} onClick={()=>{rePost(post._id)}}>Repost</Button>
 				</Flex>}
 					<Image src={post?.media?.secure_url} w={"full"} />
 				</Box>

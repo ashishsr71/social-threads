@@ -17,7 +17,7 @@ function Feed() {
  
  const user= useSelector(state=>state.auth);
  const postState= useSelector(state=>state.post);
-	
+	// console.log(postState.posts)
 
   const dispatch= useDispatch();
 
@@ -42,12 +42,12 @@ if(postState.pending){
 
 	{user.userId&&<StoryFeed />}
 	{user.userId&&<ConferencePage/>}
-	{postState.posts.length&& postState.posts.map((post)=>{
+	{postState.posts?.length&& postState.posts.map((post)=>{
 			return<Link to={`/post/${post._id}`}>
 			<Flex gap={3} mb={4} py={5}>
 		
 			<Flex flexDirection={"column"} alignItems={"center"}>
-				<Avatar size='md' name={post.userId.username} src={post?.userId?.userImg} />
+				<Avatar size='md' name={post?.userId?.username} src={post?.userId?.userImg} />
 				<Box w='1px' h={"full"} bg='gray.light' my={2}></Box>
 				<Box position={"relative"} w={"full"} cursor={'pointer'
 

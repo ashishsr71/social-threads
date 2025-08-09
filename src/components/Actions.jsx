@@ -36,7 +36,7 @@ const { isOpen, onOpen, onClose } = useDisclosure();
 const comment=useSelector(state=>state.comment);
 
 
-const[liked,setLiked]=useState(post.likes.includes(auth));
+const[liked,setLiked]=useState(post?.likes?.includes(auth));
 
 useEffect(()=>{
  if(comment.newcomment&&!comment.error&&!comment.pending){

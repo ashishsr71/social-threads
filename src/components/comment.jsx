@@ -41,7 +41,7 @@ function Comment({ post }) {
         _hover={{ color: 'gray.300' }}
       >
         <Icon as={FaRegComment} boxSize={3.5} />
-        {comments.length > 0 && <Text>{comments.length}</Text>}
+        {comments?.length > 0 && <Text>{comments?.length}</Text>}
       </Flex>
 
       <Flex
@@ -60,7 +60,7 @@ function Comment({ post }) {
         _hover={{ color: 'gray.300' }}
       >
         <Icon as={FaHeart} boxSize={3.5} />
-        <Text>{po?.likes.length || 0}</Text>
+        <Text>{po?.likes?.length || 0}</Text>
       </Flex>
 
       <Flex

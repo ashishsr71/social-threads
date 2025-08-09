@@ -24,7 +24,7 @@ function ConferenceTile({item}) {
                      </>))}
                   </HStack>
                   <Text fontSize="sm" isTruncated>
-                    {item._id}
+                    {item.roomName}
                   </Text>
                   <ChevronRightIcon boxSize={5} />
                 </HStack></Link>
